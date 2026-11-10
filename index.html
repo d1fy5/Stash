@@ -1,0 +1,3199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,200..300,0,0&display=swap">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --primary: #0f172a;
+            --primary-fg: #ffffff;
+            --primary-hover: #1e293b;
+            --item-bg: #ffffff;
+            --item-hover: #f8fafc;
+            --item-border: #edf2f7;
+            --danger: #ef4444;
+            --danger-bg: #fef2f2;
+            --danger-border: #fee2e2;
+            --ring: rgba(15, 23, 42, 0.08);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+
+            /* Prioritas Colors */
+            --p-high-bg: #fef2f2;
+            --p-high-text: #dc2626;
+            --p-high-border: #fecaca;
+            --p-med-bg: #fefce8;
+            --p-med-text: #ca8a04;
+            --p-med-border: #fef08a;
+            --p-low-bg: #f8fafc;
+            --p-low-text: #64748b;
+            --p-low-border: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --bg: #09090b;
+            --card-bg: #121215;
+            --text-main: #fafafa;
+            --text-muted: #a1a1aa;
+            --border: #27272a;
+            --border-hover: #3f3f46;
+            --primary: #fafafa;
+            --primary-fg: #09090b;
+            --primary-hover: #e4e4e7;
+            --item-bg: #18181b;
+            --item-hover: #202024;
+            --item-border: #27272a;
+            --danger: #f87171;
+            --danger-bg: #271214;
+            --danger-border: #451a1d;
+            --ring: rgba(250, 250, 250, 0.12);
+            --shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.4);
+
+            /* Prioritas Dark Colors */
+            --p-high-bg: #2b1315;
+            --p-high-text: #f87171;
+            --p-high-border: #4c1d24;
+            --p-med-bg: #292209;
+            --p-med-text: #facc15;
+            --p-med-border: #4e3f10;
+            --p-low-bg: #1e1e24;
+            --p-low-text: #94a3b8;
+            --p-low-border: #2e2e38;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: inherit;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        button:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 48px 16px;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 28px 24px;
+            transition: all 0.25s ease;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .header-title-group h1 {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            line-height: 1;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--bg);
+        }
+
+        .theme-toggle svg {
+            display: block;
+        }
+
+        /* Form Tambah Tugas */
+        .task-form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .task-form-main {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .task-input-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .task-input {
+            width: 100%;
+            height: 42px;
+            padding: 0 14px;
+            font-size: 14px;
+            background: var(--bg);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .task-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--ring);
+            background: var(--card-bg);
+        }
+
+        .task-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: var(--primary-fg);
+            border: 1px solid transparent;
+            height: 42px;
+            padding: 0 18px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .btn-add:hover {
+            opacity: 0.92;
+            background: var(--primary-hover);
+        }
+
+        /* Opsi Tambahan Form (Prioritas & Deadline) */
+        .task-form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .priority-selector {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: var(--bg);
+            padding: 3px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            height: 32px;
+            box-sizing: border-box;
+        }
+
+        .priority-pill {
+            background: transparent;
+            border: 1px solid transparent;
+            height: 24px;
+            padding: 0 10px;
+            border-radius: var(--radius-xs);
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .priority-pill:hover {
+            color: var(--text-main);
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="dark"] .priority-pill:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .priority-pill.active[data-priority="high"] {
+            background: var(--p-high-bg);
+            color: var(--p-high-text);
+            font-weight: 700;
+            border: 1px solid var(--p-high-border);
+        }
+
+        .priority-pill.active[data-priority="medium"] {
+            background: var(--p-med-bg);
+            color: var(--p-med-text);
+            font-weight: 700;
+            border: 1px solid var(--p-med-border);
+        }
+
+        .priority-pill.active[data-priority="low"] {
+            background: var(--p-low-bg);
+            color: var(--p-low-text);
+            font-weight: 700;
+            border: 1px solid var(--p-low-border);
+        }
+
+        .due-input-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 0 10px;
+            height: 32px;
+            box-sizing: border-box;
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: border-color 0.15s ease;
+        }
+
+        .due-input-wrapper:focus-within {
+            border-color: var(--primary);
+        }
+
+        .due-input {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 11.5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Toolbar, Filter & View Switcher */
+        .tasks-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .tasks-toolbar .filter-tabs {
+            margin-bottom: 0;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg);
+            padding: 3px;
+            border-radius: var(--radius-md);
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+            height: 38px;
+            box-sizing: border-box;
+            align-items: center;
+        }
+
+        .filter-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            height: 30px;
+            padding: 0 10px;
+            border-radius: var(--radius-sm);
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .filter-btn:hover {
+            color: var(--text-main);
+        }
+
+        .filter-btn.active {
+            background: var(--card-bg);
+            color: var(--text-main);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+
+        .view-switcher {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: var(--bg);
+            padding: 3px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            height: 38px;
+            box-sizing: border-box;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            height: 30px;
+            padding: 0 10px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .view-btn svg {
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .view-btn:hover {
+            color: var(--text-main);
+        }
+
+        .view-btn.active {
+            background: var(--card-bg);
+            color: var(--text-main);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Task List */
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .task-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-md);
+            transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+        }
+
+        .task-item:hover {
+            background: var(--item-hover);
+            border-color: var(--border-hover);
+        }
+
+        .task-item.is-completed {
+            opacity: 0.55;
+        }
+
+        /* Drag & Drop Visuals */
+        .task-item.is-dragging {
+            opacity: 0.35;
+            background: var(--bg);
+            border: 1px dashed var(--border-hover);
+        }
+
+        .task-item.drag-over-top::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: 6px;
+            right: 6px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .task-item.drag-over-bottom::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 6px;
+            right: 6px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: var(--text-muted);
+            opacity: 0.35;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            border-radius: 4px;
+            touch-action: none;
+            flex-shrink: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: opacity 0.2s ease, color 0.2s ease;
+        }
+
+        .task-item:hover .drag-handle {
+            opacity: 0.8;
+        }
+
+        .drag-handle:hover {
+            color: var(--text-main);
+            opacity: 1;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .task-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+            cursor: pointer;
+        }
+
+        .task-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 0;
+            gap: 5px;
+        }
+
+        .task-meta-row,
+        .task-header-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* Priority Badges */
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            line-height: 1.2;
+            flex-shrink: 0;
+            letter-spacing: 0.2px;
+        }
+
+        .priority-dot {
+            width: 5.5px;
+            height: 5.5px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0;
+        }
+
+        .priority-high {
+            background: var(--p-high-bg);
+            color: var(--p-high-text);
+            border: 1px solid var(--p-high-border);
+        }
+
+        .priority-medium {
+            background: var(--p-med-bg);
+            color: var(--p-med-text);
+            border: 1px solid var(--p-med-border);
+        }
+
+        .priority-low {
+            background: var(--p-low-bg);
+            color: var(--p-low-text);
+            border: 1px solid var(--p-low-border);
+        }
+
+        /* Due Date Badge */
+        .task-due {
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
+            padding: 1px 6px;
+            border-radius: 4px;
+            background: var(--bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            font-weight: 500;
+        }
+
+        .task-due.is-overdue {
+            color: var(--danger);
+            background: var(--danger-bg);
+            border-color: var(--danger-border);
+            font-weight: 600;
+        }
+
+        .task-due.is-due-soon {
+            color: var(--p-med-text);
+            background: var(--p-med-bg);
+            border-color: var(--p-med-border);
+            font-weight: 600;
+        }
+
+        .is-completed .task-due {
+            color: var(--text-muted);
+            background: transparent;
+            border-color: var(--border);
+            font-weight: 400;
+        }
+
+        .task-date-icon {
+            opacity: 0.65;
+            flex-shrink: 0;
+        }
+
+        .task-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 19px;
+            height: 19px;
+            border: 1.5px solid var(--border-hover);
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            display: grid;
+            place-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            align-self: center;
+        }
+
+        .task-checkbox:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .task-checkbox:checked::after {
+            content: "";
+            width: 5px;
+            height: 9px;
+            border: solid var(--primary-fg);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) translate(-0.5px, -1px);
+        }
+
+        .task-text {
+            font-size: 14px;
+            line-height: 1.4;
+            color: var(--text-main);
+            word-break: break-word;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+
+        .is-completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .task-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            height: 28px;
+            width: 28px;
+            padding: 0;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .btn-action.btn-delete,
+        .btn-action.btn-edit {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+        }
+
+        .btn-action svg {
+            display: block;
+        }
+
+        .btn-action:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--card-bg);
+        }
+
+        .btn-action[data-action="edit"]:hover,
+        .btn-action[data-action="agenda-edit"]:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: var(--card-bg);
+        }
+
+        .btn-action[data-action="delete"]:hover,
+        .btn-action[data-action="agenda-delete"]:hover {
+            color: var(--danger);
+            border-color: var(--danger-border);
+            background: var(--danger-bg);
+        }
+
+        /* Tasks Table View */
+        .tasks-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            margin: 4px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tasks-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .tasks-table th {
+            background: var(--bg);
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .tasks-table th.th-status {
+            width: 44px;
+            text-align: center;
+        }
+
+        .tasks-table th.th-priority {
+            width: 90px;
+        }
+
+        .tasks-table th.th-due {
+            width: 140px;
+        }
+
+        .tasks-table th.th-actions {
+            width: 80px;
+            text-align: right;
+        }
+
+        .tasks-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--item-border);
+            color: var(--text-main);
+            vertical-align: middle;
+            transition: background 0.15s ease;
+        }
+
+        .tasks-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tasks-table tr:hover td {
+            background: var(--item-hover);
+        }
+
+        .tasks-table tr.is-completed td {
+            opacity: 0.55;
+        }
+
+        .tasks-table tr.is-completed .tasks-table-title {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .tasks-table td.td-status {
+            text-align: center;
+            width: 44px;
+        }
+
+        .tasks-table td.td-status .task-checkbox {
+            margin: 0 auto;
+        }
+
+        .tasks-table td.td-actions {
+            text-align: right;
+        }
+
+        .tasks-table td.td-actions .task-actions {
+            justify-content: flex-end;
+        }
+
+        .tasks-table-title {
+            cursor: pointer;
+            word-break: break-word;
+            font-size: 13.5px;
+            line-height: 1.4;
+            color: var(--text-main);
+            transition: color 0.15s ease;
+        }
+
+        .tasks-table-title:hover {
+            color: var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 36px 16px;
+            color: var(--text-muted);
+            font-size: 13.5px;
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-md);
+            margin: 4px 0;
+        }
+
+        /* Footer & Summary */
+        .footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .task-summary {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-footer {
+            background: transparent;
+            border: 1px solid var(--border);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            height: 30px;
+            padding: 0 12px;
+            border-radius: var(--radius-sm);
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .btn-footer:hover:not(:disabled) {
+            color: var(--text-main);
+            background: var(--bg);
+            border-color: var(--border-hover);
+        }
+
+        .btn-footer:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .btn-footer.danger:hover:not(:disabled) {
+            color: var(--danger);
+            border-color: var(--danger-border);
+            background: var(--danger-bg);
+        }
+
+        .storage-notice {
+            font-size: 11.5px;
+            color: var(--danger);
+            text-align: center;
+        }
+
+        /* Modal Dialog Edit */
+        .modal {
+            border: none;
+            padding: 0;
+            background: transparent;
+            border-radius: var(--radius-lg);
+            max-width: 460px;
+            width: calc(100% - 32px);
+            margin: auto;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+        }
+
+        .modal::backdrop {
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        @keyframes modalScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal[open] .modal-card {
+            animation: modalScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 0;
+            transition: all 0.15s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-main);
+            background: var(--bg);
+            border-color: var(--border);
+        }
+
+        .modal-close svg {
+            display: block;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .modal-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-char-counter {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .modal-field-error {
+            font-size: 11.5px;
+            color: var(--danger);
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        .task-input.is-invalid {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 2px var(--danger-bg);
+        }
+
+        .modal-due-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .modal-due-input {
+            flex: 1;
+            height: 38px;
+            padding: 0 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-main);
+            font-size: 13px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .btn-clear-due {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            height: 38px;
+            padding: 0 14px;
+            border-radius: var(--radius-sm);
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .btn-clear-due:hover {
+            color: var(--danger);
+            border-color: var(--danger-border);
+            background: var(--danger-bg);
+        }
+
+        .modal-due-presets {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .btn-preset {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            line-height: 1.4;
+        }
+
+        .btn-preset:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--card-bg);
+        }
+
+        .modal-field-checkbox {
+            padding-top: 4px;
+        }
+
+        .modal-checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 13px;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .modal-meta-info {
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 1px dashed var(--border);
+            padding-top: 10px;
+            margin-top: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .modal-actions-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-danger-text {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--danger);
+            height: 38px;
+            padding: 0 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-sizing: border-box;
+        }
+
+        .btn-danger-text:hover {
+            background: var(--danger-bg);
+            border-color: var(--danger-border);
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            height: 38px;
+            padding: 0 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .btn-secondary:hover {
+            background: var(--card-bg);
+            border-color: var(--border-hover);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-fg);
+            border: 1px solid transparent;
+            height: 38px;
+            padding: 0 18px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.92;
+            background: var(--primary-hover);
+        }
+
+        /* Layout Container */
+        .app-layout {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin: 0 auto;
+            transition: max-width 0.25s ease;
+        }
+
+        @media (min-width: 992px) {
+            body {
+                padding: 44px 28px;
+            }
+
+            .app-layout {
+                max-width: 1100px;
+                display: grid;
+                grid-template-columns: 1.15fr 0.85fr;
+                gap: 28px;
+                align-items: start;
+            }
+
+            .container {
+                max-width: none;
+            }
+        }
+
+        /* Calendar Card */
+        .calendar-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calendar-title-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .calendar-month-title {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: baseline;
+            gap: 8px;
+            line-height: 1;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .cal-month-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .cal-year-num {
+            font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            opacity: 0.85;
+        }
+
+        .calendar-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cal-nav-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+            padding: 0;
+            height: 30px;
+        }
+
+        .cal-nav-btn:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--card-bg);
+        }
+
+        .cal-nav-btn.icon-btn {
+            width: 30px;
+        }
+
+        .cal-nav-btn.icon-btn svg {
+            display: block;
+        }
+
+        .cal-nav-btn.text-btn {
+            padding: 0 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 8px 0 12px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+
+        .calendar-weekdays span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .calendar-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .cal-day-cell {
+            height: 42px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+            box-sizing: border-box;
+            font-family: inherit;
+            padding: 0;
+        }
+
+        .cal-day-cell span:first-child {
+            line-height: 1;
+            margin-bottom: 3px;
+        }
+
+        .cal-day-cell:hover:not(.is-selected) {
+            background: var(--bg);
+            border-color: var(--border);
+        }
+
+        .cal-day-cell.other-month {
+            opacity: 0.35;
+            color: var(--text-muted);
+        }
+
+        .cal-day-cell.other-month:hover:not(.is-selected) {
+            opacity: 0.75;
+            background: var(--bg);
+            border-color: var(--border);
+        }
+
+        .cal-day-cell.is-today {
+            border-color: var(--primary);
+            font-weight: 700;
+        }
+
+        .cal-day-cell.is-selected {
+            background: var(--primary);
+            color: var(--primary-fg);
+            border-color: var(--primary);
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Task Indicator Dots */
+        .cal-day-dots {
+            display: flex;
+            gap: 2.5px;
+            align-items: center;
+            justify-content: center;
+            height: 5px;
+        }
+
+        .cal-dot {
+            width: 4.5px;
+            height: 4.5px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .cal-dot.p-high {
+            background: var(--p-high-text);
+        }
+
+        .cal-dot.p-medium {
+            background: var(--p-med-text);
+        }
+
+        .cal-dot.p-low {
+            background: var(--p-low-text);
+        }
+
+        .cal-dot.all-done {
+            opacity: 0.4;
+            background: var(--text-muted);
+        }
+
+        .is-selected .cal-dot {
+            background: var(--primary-fg) !important;
+        }
+
+        /* Agenda / Task Viewer */
+        .calendar-agenda {
+            margin-top: 6px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .agenda-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .agenda-header h3 {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .agenda-count {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+        }
+
+        .agenda-task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .agenda-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            transition: all 0.15s ease;
+        }
+
+        .agenda-item:hover {
+            border-color: var(--border-hover);
+        }
+
+        .agenda-item.is-completed {
+            opacity: 0.55;
+        }
+
+        .agenda-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+            cursor: pointer;
+        }
+
+        .agenda-title {
+            color: var(--text-main);
+            word-break: break-word;
+            font-size: 13.5px;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+
+        .is-completed .agenda-title {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .agenda-item-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .agenda-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .agenda-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            margin-left: 2px;
+        }
+
+        .agenda-empty {
+            text-align: center;
+            padding: 16px 8px;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-sm);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <main class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-title-group">
+                <h1>Stash</h1>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle tema gelap/terang">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+        </header>
+
+        <!-- Form Tambah Tugas -->
+        <form id="task-form" class="task-form-container">
+            <div class="task-form-main">
+                <div class="task-input-wrapper">
+                    <input
+                        type="text"
+                        id="task-input"
+                        class="task-input"
+                        placeholder="Tambah tugas baru..."
+                        maxlength="100"
+                        required
+                        autocomplete="off"
+                    >
+                </div>
+                <button type="submit" class="btn-add">Tambah</button>
+            </div>
+
+            <!-- Opsi Tambahan: Prioritas & Deadline -->
+            <div class="task-form-options">
+                <div class="priority-selector" id="add-priority-group" aria-label="Pilih prioritas tugas">
+                    <button type="button" class="priority-pill" data-priority="low">Rendah</button>
+                    <button type="button" class="priority-pill active" data-priority="medium">Sedang</button>
+                    <button type="button" class="priority-pill" data-priority="high">Tinggi</button>
+                </div>
+
+                <div class="due-input-wrapper" title="Tenggat waktu selesai (opsional)">
+                    <span>📅</span>
+                    <input type="datetime-local" id="task-due-input" class="due-input">
+                </div>
+            </div>
+        </form>
+
+        <!-- Toolbar: Filter Tabs & View Switcher -->
+        <div class="tasks-toolbar">
+            <nav class="filter-tabs" aria-label="Filter status tugas">
+                <button type="button" class="filter-btn active" data-filter="all">Semua</button>
+                <button type="button" class="filter-btn" data-filter="active">Belum Selesai</button>
+                <button type="button" class="filter-btn" data-filter="completed">Selesai</button>
+            </nav>
+            <div class="view-switcher" role="group" aria-label="Pilih mode tampilan tugas">
+                <button type="button" class="view-btn active" data-view="list" title="Tampilan Daftar">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    <span>Daftar</span>
+                </button>
+                <button type="button" class="view-btn" data-view="table" title="Tampilan Tabel">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>
+                    <span>Tabel</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Select (Kompatibilitas DOM) -->
+        <label for="filter-select" class="visually-hidden">Filter tugas:</label>
+        <select id="filter-select" class="visually-hidden">
+            <option value="all">Semua Tugas</option>
+            <option value="active">Belum Selesai</option>
+            <option value="completed">Sudah Selesai</option>
+        </select>
+
+        <!-- Daftar Tugas (List View) -->
+        <ul id="task-list" class="task-list" aria-label="Daftar tugas"></ul>
+
+        <!-- Tabel Tugas (Table View) -->
+        <div id="tasks-table-wrapper" class="tasks-table-wrapper" hidden>
+            <table class="tasks-table" aria-label="Tabel tugas">
+                <thead>
+                    <tr>
+                        <th class="th-status" scope="col">Status</th>
+                        <th class="th-title" scope="col">Nama Tugas</th>
+                        <th class="th-priority" scope="col">Prioritas</th>
+                        <th class="th-due" scope="col">Tenggat</th>
+                        <th class="th-actions" scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tasks-table-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Pesan ketika kosong -->
+        <p id="empty-state" class="empty-state">
+            Belum ada tugas.
+        </p>
+
+        <!-- Footer & Ringkasan -->
+        <footer class="footer">
+            <div class="footer-row">
+                <p id="task-summary" class="task-summary" aria-live="polite"></p>
+                <div class="footer-actions">
+                    <button id="clear-completed" class="btn-footer" type="button">
+                        Hapus Selesai
+                    </button>
+                    <button id="clear-all" class="btn-footer danger" type="button">
+                        Hapus Semua
+                    </button>
+                </div>
+            </div>
+            <p id="storage-notice" class="storage-notice" aria-live="polite"></p>
+        </footer>
+    </main>
+
+        <!-- Kalender Tugas Terpisah di Bawah -->
+        <section class="container calendar-card" id="calendar-section">
+            <header class="calendar-header">
+                <div class="calendar-title-group">
+                    <h2 class="calendar-month-title" id="calendar-month-year">
+                        <span class="cal-month-name">NOVEMBER</span>
+                        <span class="cal-year-num">2026</span>
+                    </h2>
+                </div>
+                <div class="calendar-nav-group">
+                    <button type="button" id="cal-today-btn" class="cal-nav-btn text-btn" title="Kembali ke hari ini">Hari Ini</button>
+                    <button type="button" id="cal-prev-btn" class="cal-nav-btn icon-btn" aria-label="Bulan sebelumnya" title="Bulan sebelumnya">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <button type="button" id="cal-next-btn" class="cal-nav-btn icon-btn" aria-label="Bulan berikutnya" title="Bulan berikutnya">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Hari dalam Seminggu -->
+            <div class="calendar-weekdays">
+                <span>Sen</span>
+                <span>Sel</span>
+                <span>Rab</span>
+                <span>Kam</span>
+                <span>Jum</span>
+                <span>Sab</span>
+                <span>Min</span>
+            </div>
+
+            <!-- Grid Hari -->
+            <div class="calendar-days-grid" id="calendar-days-grid"></div>
+
+            <!-- Daftar Tugas untuk Tanggal Terpilih -->
+            <div class="calendar-agenda">
+                <div class="agenda-header">
+                    <h3 id="agenda-date-title">Tugas untuk Tanggal Terpilih</h3>
+                    <span id="agenda-count-badge" class="agenda-count">0 tugas</span>
+                </div>
+                <ul id="agenda-task-list" class="agenda-task-list"></ul>
+                <p id="agenda-empty-state" class="agenda-empty">Tidak ada tugas pada tanggal ini.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Dialog Edit Tugas -->
+    <dialog id="edit-modal" class="modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Edit Tugas</h2>
+                <button type="button" id="modal-close-btn" class="modal-close" aria-label="Tutup" title="Tutup">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <form id="edit-form" class="modal-body">
+                <input type="hidden" id="edit-task-id">
+
+                <div class="modal-field">
+                    <div class="modal-label-row">
+                        <label for="edit-task-title" class="modal-label">Nama Tugas</label>
+                        <span id="edit-char-counter" class="modal-char-counter">0/100</span>
+                    </div>
+                    <input type="text" id="edit-task-title" class="task-input" required maxlength="100" autocomplete="off">
+                    <span id="edit-title-error" class="modal-field-error" hidden>Nama tugas tidak boleh kosong</span>
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Prioritas</label>
+                    <div class="priority-selector" id="edit-priority-group" aria-label="Pilih prioritas tugas">
+                        <button type="button" class="priority-pill" data-priority="low">Rendah</button>
+                        <button type="button" class="priority-pill" data-priority="medium">Sedang</button>
+                        <button type="button" class="priority-pill" data-priority="high">Tinggi</button>
+                    </div>
+                </div>
+
+                <div class="modal-field">
+                    <label for="edit-task-due" class="modal-label">Tenggat Waktu Selesai</label>
+                    <div class="modal-due-row">
+                        <input type="datetime-local" id="edit-task-due" class="due-input modal-due-input">
+                        <button type="button" id="edit-clear-due-btn" class="btn-clear-due">Hapus</button>
+                    </div>
+                    <div class="modal-due-presets">
+                        <button type="button" class="btn-preset" data-preset="today">Hari Ini</button>
+                        <button type="button" class="btn-preset" data-preset="tomorrow">Besok</button>
+                        <button type="button" class="btn-preset" data-preset="next-week">Minggu Depan</button>
+                    </div>
+                </div>
+
+                <div class="modal-field modal-field-checkbox">
+                    <label class="modal-checkbox-label">
+                        <input type="checkbox" id="edit-task-completed" class="task-checkbox">
+                        <span class="modal-checkbox-text">Tandai tugas ini telah selesai</span>
+                    </label>
+                </div>
+
+                <div class="modal-meta-info" id="edit-meta-info"></div>
+
+                <div class="modal-actions">
+                    <button type="button" id="modal-delete-btn" class="btn-danger-text" title="Hapus tugas ini">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                        <span>Hapus</span>
+                    </button>
+                    <div class="modal-actions-right">
+                        <button type="button" id="modal-cancel-btn" class="btn-secondary">Batal</button>
+                        <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <script>
+        // =====================================
+        // 1. PENGATURAN AWAL & THEME
+        // =====================================
+        const STORAGE_KEY = "todo-list-v1";
+        const THEME_KEY = "todo-list-theme";
+        const VIEW_KEY = "todo-list-view";
+
+        const taskForm = document.getElementById("task-form");
+        const taskInput = document.getElementById("task-input");
+        const taskDueInput = document.getElementById("task-due-input");
+        const taskList = document.getElementById("task-list");
+        const tasksTableWrapper = document.getElementById("tasks-table-wrapper");
+        const tasksTableBody = document.getElementById("tasks-table-body");
+        const taskSummary = document.getElementById("task-summary");
+        const filterSelect = document.getElementById("filter-select");
+        const emptyState = document.getElementById("empty-state");
+        const clearCompletedButton = document.getElementById("clear-completed");
+        const clearAllButton = document.getElementById("clear-all");
+        const storageNotice = document.getElementById("storage-notice");
+        const themeToggle = document.getElementById("theme-toggle");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const viewButtons = document.querySelectorAll(".view-btn");
+
+        let currentView = localStorage.getItem(VIEW_KEY) || "list";
+
+        // Modal Edit Elemen
+        const editModal = document.getElementById("edit-modal");
+        const editForm = document.getElementById("edit-form");
+        const editTaskId = document.getElementById("edit-task-id");
+        const editTaskTitle = document.getElementById("edit-task-title");
+        const editTaskDue = document.getElementById("edit-task-due");
+        const editClearDueBtn = document.getElementById("edit-clear-due-btn");
+        const modalCancelBtn = document.getElementById("modal-cancel-btn");
+        const modalCloseBtn = document.getElementById("modal-close-btn");
+        const modalDeleteBtn = document.getElementById("modal-delete-btn");
+        const editCharCounter = document.getElementById("edit-char-counter");
+        const editTitleError = document.getElementById("edit-title-error");
+        const editTaskCompleted = document.getElementById("edit-task-completed");
+        const editMetaInfo = document.getElementById("edit-meta-info");
+        const editPresetButtons = document.querySelectorAll(".modal-due-presets .btn-preset");
+
+        // Kalender Elemen
+        const calendarMonthYear = document.getElementById("calendar-month-year");
+        const calendarDaysGrid = document.getElementById("calendar-days-grid");
+        const calTodayBtn = document.getElementById("cal-today-btn");
+        const calPrevBtn = document.getElementById("cal-prev-btn");
+        const calNextBtn = document.getElementById("cal-next-btn");
+        const agendaDateTitle = document.getElementById("agenda-date-title");
+        const agendaCountBadge = document.getElementById("agenda-count-badge");
+        const agendaTaskList = document.getElementById("agenda-task-list");
+        const agendaEmptyState = document.getElementById("agenda-empty-state");
+
+        // Kalender State
+        let calCurrentYear = new Date().getFullYear();
+        let calCurrentMonth = new Date().getMonth();
+        let calSelectedDateKey = null; // diinisialisasi setelah helper getDateKey siap
+
+        // Prioritas State
+        let addSelectedPriority = "medium";
+        let editSelectedPriority = "medium";
+
+        // Handle Switch Mode Tampilan (Daftar / Tabel)
+        viewButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const view = btn.dataset.view;
+                if (view === currentView) return;
+                currentView = view;
+                localStorage.setItem(VIEW_KEY, currentView);
+                viewButtons.forEach(b => b.classList.toggle("active", b.dataset.view === currentView));
+                renderTasks();
+            });
+        });
+        viewButtons.forEach(b => b.classList.toggle("active", b.dataset.view === currentView));
+
+        // Handle Klik Prioritas pada Form Tambah
+        const addPriorityButtons = document.querySelectorAll("#add-priority-group .priority-pill");
+        addPriorityButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                addPriorityButtons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                addSelectedPriority = btn.dataset.priority;
+            });
+        });
+
+        // Handle Klik Prioritas pada Modal Edit
+        const editPriorityButtons = document.querySelectorAll("#edit-priority-group .priority-pill");
+        editPriorityButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                editPriorityButtons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                editSelectedPriority = btn.dataset.priority;
+            });
+        });
+
+        // Inisialisasi tema
+        function initTheme() {
+            const savedTheme = localStorage.getItem(THEME_KEY);
+            const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const isDark = savedTheme ? savedTheme === "dark" : systemPrefersDark;
+            applyTheme(isDark);
+        }
+
+        const SUN_SVG = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+        const MOON_SVG = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+
+        function applyTheme(isDark) {
+            if (isDark) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                themeToggle.innerHTML = SUN_SVG;
+                themeToggle.setAttribute("title", "Ganti ke mode terang");
+            } else {
+                document.documentElement.removeAttribute("data-theme");
+                themeToggle.innerHTML = MOON_SVG;
+                themeToggle.setAttribute("title", "Ganti ke mode gelap");
+            }
+        }
+
+        themeToggle.addEventListener("click", () => {
+            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+            const nextTheme = !isDark;
+            applyTheme(nextTheme);
+            localStorage.setItem(THEME_KEY, nextTheme ? "dark" : "light");
+        });
+
+        initTheme();
+
+        // =====================================
+        // 2. DATA TUGAS
+        // =====================================
+        let tasks = [];
+
+        // =====================================
+        // 3. MEMBUAT ID UNIK
+        // =====================================
+        function createId() {
+            if (window.crypto && typeof window.crypto.randomUUID === "function") {
+                return window.crypto.randomUUID();
+            }
+            return Date.now() + "-" + Math.random().toString(16).slice(2);
+        }
+
+        // Format tanggal & jam dibuat
+        function formatCreatedAt(isoString) {
+            if (!isoString) return "";
+            try {
+                const date = new Date(isoString);
+                if (isNaN(date.getTime())) return "";
+
+                const now = new Date();
+                const isToday = date.toDateString() === now.toDateString();
+
+                const yesterday = new Date();
+                yesterday.setDate(now.getDate() - 1);
+                const isYesterday = date.toDateString() === yesterday.toDateString();
+
+                const timeStr = date.toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+
+                if (isToday) return `Dibuat: Hari ini · ${timeStr}`;
+                if (isYesterday) return `Dibuat: Kemarin · ${timeStr}`;
+
+                const dateStr = date.toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "short"
+                });
+
+                return `Dibuat: ${dateStr} · ${timeStr}`;
+            } catch (_) {
+                return "";
+            }
+        }
+
+        // Format tenggat waktu (due date)
+        function formatDueDate(isoString) {
+            if (!isoString) return null;
+            try {
+                const date = new Date(isoString);
+                if (isNaN(date.getTime())) return null;
+
+                const now = new Date();
+                const diffMs = date.getTime() - now.getTime();
+                const isOverdue = diffMs < 0;
+
+                const isToday = date.toDateString() === now.toDateString();
+
+                const tomorrow = new Date();
+                tomorrow.setDate(now.getDate() + 1);
+                const isTomorrow = date.toDateString() === tomorrow.toDateString();
+
+                const timeStr = date.toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+
+                let label = "";
+                if (isToday) {
+                    label = `Hari ini · ${timeStr}`;
+                } else if (isTomorrow) {
+                    label = `Besok · ${timeStr}`;
+                } else {
+                    const dateStr = date.toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "short"
+                    });
+                    label = `${dateStr} · ${timeStr}`;
+                }
+
+                const isDueSoon = !isOverdue && diffMs <= (24 * 60 * 60 * 1000);
+
+                return {
+                    label: isOverdue ? `Terlambat · ${label}` : `Tenggat: ${label}`,
+                    isOverdue,
+                    isDueSoon
+                };
+            } catch (_) {
+                return null;
+            }
+        }
+
+        // Konversi Date ke input datetime-local value (YYYY-MM-DDTHH:mm)
+        function toDatetimeLocalString(isoString) {
+            if (!isoString) return "";
+            try {
+                const date = new Date(isoString);
+                if (isNaN(date.getTime())) return "";
+                const offset = date.getTimezoneOffset() * 60000;
+                const localDate = new Date(date.getTime() - offset);
+                return localDate.toISOString().slice(0, 16);
+            } catch (_) {
+                return "";
+            }
+        }
+
+        // Dapatkan string datetime-local untuk preset cepat
+        function getPresetDatetime(preset) {
+            const d = new Date();
+            if (preset === "today") {
+                if (d.getHours() >= 18) {
+                    d.setHours(23, 59, 0, 0);
+                } else {
+                    d.setHours(18, 0, 0, 0);
+                }
+            } else if (preset === "tomorrow") {
+                d.setDate(d.getDate() + 1);
+                d.setHours(18, 0, 0, 0);
+            } else if (preset === "next-week") {
+                d.setDate(d.getDate() + 7);
+                d.setHours(18, 0, 0, 0);
+            }
+            return toDatetimeLocalString(d.toISOString());
+        }
+
+        // Ambil string format YYYY-MM-DD lokal
+        function getDateKey(d) {
+            if (!d) return null;
+            try {
+                const date = new Date(d);
+                if (isNaN(date.getTime())) return null;
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const day = String(date.getDate()).padStart(2, "0");
+                return `${year}-${month}-${day}`;
+            } catch (_) {
+                return null;
+            }
+        }
+
+        // Set tanggal terpilih kalender awal ke hari ini
+        calSelectedDateKey = getDateKey(new Date());
+
+        // Ambil daftar tugas untuk tanggal tertentu
+        function getTasksForDate(dateKey) {
+            if (!dateKey) return [];
+            return tasks.filter(t => {
+                if (t.dueDate) {
+                    return getDateKey(t.dueDate) === dateKey;
+                }
+                return getDateKey(t.createdAt) === dateKey;
+            });
+        }
+
+        // =====================================
+        // 4. MENGAMBIL DATA DARI SERVER / STORAGE
+        // =====================================
+        async function loadTasks() {
+            try {
+                const response = await fetch('/api/tasks');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (Array.isArray(data)) {
+                        // Migrasi dari localStorage jika server masih kosong
+                        if (data.length === 0) {
+                            const saved = localStorage.getItem(STORAGE_KEY);
+                            const localTasks = saved ? JSON.parse(saved) : [];
+                            if (Array.isArray(localTasks) && localTasks.length > 0) {
+                                tasks = localTasks.map(normalizeTask);
+                                await saveTasks();
+                                renderTasks();
+                                return;
+                            }
+                        }
+
+                        tasks = data.map(normalizeTask);
+                        renderTasks();
+                        return;
+                    }
+                }
+            } catch (_) {
+                // Backend tidak aktif atau dibuka via file://
+            }
+
+            // Fallback ke localStorage
+            try {
+                const savedTasks = localStorage.getItem(STORAGE_KEY);
+                const parsedTasks = savedTasks ? JSON.parse(savedTasks) : [];
+                tasks = (Array.isArray(parsedTasks) ? parsedTasks : []).map(normalizeTask);
+            } catch (error) {
+                console.error("Gagal memuat tugas:", error);
+                tasks = [];
+            }
+            renderTasks();
+        }
+
+        function normalizeTask(task) {
+            return {
+                id: String(task.id || createId()),
+                title: String(task.title || ""),
+                completed: Boolean(task.completed),
+                createdAt: task.createdAt || new Date().toISOString(),
+                updatedAt: task.updatedAt || null,
+                priority: ["high", "medium", "low"].includes(task.priority) ? task.priority : "medium",
+                dueDate: task.dueDate || null
+            };
+        }
+
+        // =====================================
+        // 5. MENYIMPAN DATA KE SERVER & BACKUP
+        // =====================================
+        async function saveTasks() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+            } catch (_) {}
+
+            try {
+                const res = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(tasks)
+                });
+                if (res.ok) {
+                    storageNotice.textContent = "";
+                    return;
+                }
+            } catch (_) {
+                storageNotice.textContent = "Data tersimpan di browser (offline / server belum dinyalakan)";
+                setTimeout(() => {
+                    if (storageNotice.textContent.includes("browser")) {
+                        storageNotice.textContent = "";
+                    }
+                }, 3000);
+            }
+        }
+
+        // =====================================
+        // 6. MENAMBAHKAN TUGAS
+        // =====================================
+        taskForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const title = taskInput.value.trim();
+
+            if (title === "") {
+                return;
+            }
+
+            let dueDateIso = null;
+            if (taskDueInput.value) {
+                const parsedDate = new Date(taskDueInput.value);
+                if (!isNaN(parsedDate.getTime())) {
+                    dueDateIso = parsedDate.toISOString();
+                }
+            }
+
+            const newTask = {
+                id: String(createId()),
+                title: title,
+                completed: false,
+                createdAt: new Date().toISOString(),
+                priority: addSelectedPriority,
+                dueDate: dueDateIso
+            };
+
+            tasks.unshift(newTask);
+            saveTasks();
+            renderTasks();
+
+            taskInput.value = "";
+            taskDueInput.value = "";
+            taskInput.focus();
+        });
+
+        // =====================================
+        // 7. DRAG AND DROP HANDLERS
+        // =====================================
+        let draggedId = null;
+
+        function cleanDragStyles() {
+            taskList.querySelectorAll(".task-item").forEach(item => {
+                item.classList.remove("drag-over-top", "drag-over-bottom", "is-dragging");
+            });
+        }
+
+        function reorderTask(fromId, toId, placeBefore) {
+            if (!fromId || !toId || fromId === toId) return;
+
+            const fromIndex = tasks.findIndex(t => t.id === fromId);
+            if (fromIndex === -1) return;
+
+            const [movedTask] = tasks.splice(fromIndex, 1);
+            let toIndex = tasks.findIndex(t => t.id === toId);
+
+            if (toIndex === -1) {
+                tasks.push(movedTask);
+            } else {
+                if (!placeBefore) {
+                    toIndex += 1;
+                }
+                tasks.splice(toIndex, 0, movedTask);
+            }
+
+            saveTasks();
+            renderTasks();
+        }
+
+        // Desktop Drag Over
+        taskList.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+
+            const targetItem = e.target.closest(".task-item");
+            if (!targetItem || targetItem.dataset.id === draggedId) {
+                return;
+            }
+
+            const rect = targetItem.getBoundingClientRect();
+            const isAbove = e.clientY < (rect.top + rect.height / 2);
+
+            taskList.querySelectorAll(".task-item").forEach(item => {
+                if (item !== targetItem) {
+                    item.classList.remove("drag-over-top", "drag-over-bottom");
+                }
+            });
+
+            targetItem.classList.toggle("drag-over-top", isAbove);
+            targetItem.classList.toggle("drag-over-bottom", !isAbove);
+        });
+
+        taskList.addEventListener("dragleave", function(e) {
+            const targetItem = e.target.closest(".task-item");
+            if (targetItem && !targetItem.contains(e.relatedTarget)) {
+                targetItem.classList.remove("drag-over-top", "drag-over-bottom");
+            }
+        });
+
+        taskList.addEventListener("drop", function(e) {
+            e.preventDefault();
+            const targetItem = e.target.closest(".task-item");
+            if (!targetItem || !draggedId || targetItem.dataset.id === draggedId) {
+                cleanDragStyles();
+                return;
+            }
+
+            const targetId = targetItem.dataset.id;
+            const rect = targetItem.getBoundingClientRect();
+            const isAbove = e.clientY < (rect.top + rect.height / 2);
+
+            reorderTask(draggedId, targetId, isAbove);
+            cleanDragStyles();
+            draggedId = null;
+        });
+
+        // Touch Drag & Drop for Mobile
+        let touchDraggedId = null;
+        let touchCurrentTarget = null;
+        let touchPlaceBefore = true;
+
+        taskList.addEventListener("touchstart", function(e) {
+            const handle = e.target.closest(".drag-handle");
+            if (!handle) return;
+
+            const item = handle.closest(".task-item");
+            if (!item) return;
+
+            touchDraggedId = item.dataset.id;
+            item.classList.add("is-dragging");
+        }, { passive: true });
+
+        taskList.addEventListener("touchmove", function(e) {
+            if (!touchDraggedId) return;
+
+            const touch = e.touches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            const targetItem = element ? element.closest(".task-item") : null;
+
+            taskList.querySelectorAll(".task-item").forEach(item => {
+                item.classList.remove("drag-over-top", "drag-over-bottom");
+            });
+
+            if (targetItem && targetItem.dataset.id !== touchDraggedId) {
+                const rect = targetItem.getBoundingClientRect();
+                touchPlaceBefore = touch.clientY < (rect.top + rect.height / 2);
+                targetItem.classList.add(touchPlaceBefore ? "drag-over-top" : "drag-over-bottom");
+                touchCurrentTarget = targetItem;
+                if (e.cancelable) e.preventDefault();
+            } else {
+                touchCurrentTarget = null;
+            }
+        }, { passive: false });
+
+        taskList.addEventListener("touchend", function() {
+            if (touchDraggedId && touchCurrentTarget) {
+                const toId = touchCurrentTarget.dataset.id;
+                reorderTask(touchDraggedId, toId, touchPlaceBefore);
+            }
+            cleanDragStyles();
+            touchDraggedId = null;
+            touchCurrentTarget = null;
+        });
+
+        taskList.addEventListener("touchcancel", function() {
+            cleanDragStyles();
+            touchDraggedId = null;
+            touchCurrentTarget = null;
+        });
+
+        // =====================================
+        // 8. MENAMPILKAN DAFTAR TUGAS
+        // =====================================
+        function renderTasks() {
+            taskList.replaceChildren();
+            tasksTableBody.replaceChildren();
+            const filter = filterSelect.value;
+
+            const filteredTasks = tasks.filter(task => {
+                if (filter === "active") return !task.completed;
+                if (filter === "completed") return task.completed;
+                return true;
+            });
+
+            const hasTasks = tasks.length > 0;
+            const hasFiltered = filteredTasks.length > 0;
+
+            emptyState.hidden = hasFiltered;
+
+            if (!hasTasks) {
+                emptyState.textContent = "Belum ada tugas. Tulis sesuatu di atas!";
+            } else if (!hasFiltered) {
+                emptyState.textContent = "Tidak ada tugas dalam kategori ini.";
+            }
+
+            if (currentView === "table") {
+                taskList.hidden = true;
+                tasksTableWrapper.hidden = !hasFiltered;
+
+                filteredTasks.forEach(task => {
+                    const row = document.createElement("tr");
+                    row.className = task.completed ? "is-completed" : "";
+                    row.dataset.id = task.id;
+
+                    // Checkbox Status
+                    const tdStatus = document.createElement("td");
+                    tdStatus.className = "td-status";
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.className = "task-checkbox";
+                    checkbox.checked = task.completed;
+                    checkbox.dataset.action = "toggle";
+                    checkbox.dataset.id = task.id;
+                    checkbox.setAttribute("aria-label", "Tandai tugas " + task.title);
+                    tdStatus.appendChild(checkbox);
+
+                    // Judul Tugas
+                    const tdTitle = document.createElement("td");
+                    tdTitle.className = "td-title";
+                    const titleSpan = document.createElement("span");
+                    titleSpan.className = "tasks-table-title";
+                    titleSpan.textContent = task.title;
+                    titleSpan.title = "Klik dua kali untuk edit tugas";
+                    titleSpan.addEventListener("dblclick", function(e) {
+                        e.preventDefault();
+                        openEditModal(task.id);
+                    });
+                    tdTitle.appendChild(titleSpan);
+
+                    // Prioritas
+                    const tdPriority = document.createElement("td");
+                    tdPriority.className = "td-priority";
+                    const priorityBadge = document.createElement("span");
+                    const priority = task.priority || "medium";
+                    priorityBadge.className = `priority-badge priority-${priority}`;
+                    const priorityLabels = { high: "Tinggi", medium: "Sedang", low: "Rendah" };
+                    priorityBadge.innerHTML = `<span class="priority-dot"></span><span>${priorityLabels[priority] || "Sedang"}</span>`;
+                    tdPriority.appendChild(priorityBadge);
+
+                    // Tenggat Waktu
+                    const tdDue = document.createElement("td");
+                    tdDue.className = "td-due";
+                    const dueInfo = formatDueDate(task.dueDate);
+                    if (dueInfo) {
+                        const dueSpan = document.createElement("span");
+                        const isOverdueNotCompleted = dueInfo.isOverdue && !task.completed;
+                        const isDueSoonNotCompleted = dueInfo.isDueSoon && !task.completed;
+                        dueSpan.className = "task-due" +
+                            (isOverdueNotCompleted ? " is-overdue" : "") +
+                            (isDueSoonNotCompleted ? " is-due-soon" : "");
+                        dueSpan.innerHTML = `
+                            <svg class="task-date-icon" width="11" height="11" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                            </svg>
+                            <span>${dueInfo.label}</span>
+                        `;
+                        tdDue.appendChild(dueSpan);
+                    } else {
+                        const emptyDue = document.createElement("span");
+                        emptyDue.style.color = "var(--text-muted)";
+                        emptyDue.textContent = "—";
+                        tdDue.appendChild(emptyDue);
+                    }
+
+                    // Aksi
+                    const tdActions = document.createElement("td");
+                    tdActions.className = "td-actions";
+                    const actionsWrapper = document.createElement("div");
+                    actionsWrapper.className = "task-actions";
+
+                    const editButton = document.createElement("button");
+                    editButton.className = "btn-action btn-edit";
+                    editButton.type = "button";
+                    editButton.dataset.action = "edit";
+                    editButton.dataset.id = task.id;
+                    editButton.setAttribute("aria-label", "Edit tugas");
+                    editButton.setAttribute("title", "Edit tugas (atau klik 2x judul)");
+                    editButton.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+
+                    const deleteButton = document.createElement("button");
+                    deleteButton.className = "btn-action btn-delete";
+                    deleteButton.type = "button";
+                    deleteButton.dataset.action = "delete";
+                    deleteButton.dataset.id = task.id;
+                    deleteButton.setAttribute("aria-label", "Hapus tugas");
+                    deleteButton.setAttribute("title", "Hapus tugas");
+                    deleteButton.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`;
+
+                    actionsWrapper.append(editButton, deleteButton);
+                    tdActions.appendChild(actionsWrapper);
+
+                    row.append(tdStatus, tdTitle, tdPriority, tdDue, tdActions);
+                    tasksTableBody.appendChild(row);
+                });
+            } else {
+                taskList.hidden = !hasFiltered;
+                tasksTableWrapper.hidden = true;
+
+                filteredTasks.forEach(task => {
+                const listItem = document.createElement("li");
+                listItem.className = "task-item" + (task.completed ? " is-completed" : "");
+                listItem.setAttribute("draggable", "true");
+                listItem.dataset.id = task.id;
+
+                // Drag handle icon
+                const dragHandle = document.createElement("span");
+                dragHandle.className = "drag-handle";
+                dragHandle.setAttribute("aria-label", "Geser untuk memindahkan posisi");
+                dragHandle.setAttribute("title", "Tahan dan geser untuk memindahkan posisi tugas");
+                dragHandle.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                        <circle cx="5" cy="3" r="1.5" />
+                        <circle cx="11" cy="3" r="1.5" />
+                        <circle cx="5" cy="8" r="1.5" />
+                        <circle cx="11" cy="8" r="1.5" />
+                        <circle cx="5" cy="13" r="1.5" />
+                        <circle cx="11" cy="13" r="1.5" />
+                    </svg>
+                `;
+
+                // Checkbox
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "task-checkbox";
+                checkbox.checked = task.completed;
+                checkbox.dataset.action = "toggle";
+                checkbox.dataset.id = task.id;
+                checkbox.setAttribute("aria-label", "Tandai tugas " + task.title);
+
+                // Label, Teks, Prioritas & Tanggal
+                const taskLabel = document.createElement("label");
+                taskLabel.className = "task-label";
+
+                const taskContent = document.createElement("div");
+                taskContent.className = "task-content";
+
+                // Teks tugas
+                const taskText = document.createElement("span");
+                taskText.className = "task-text";
+                taskText.textContent = task.title;
+
+                // Meta row (Prioritas + Due Date)
+                const taskMetaRow = document.createElement("div");
+                taskMetaRow.className = "task-header-row";
+
+                // Priority Badge
+                const priorityBadge = document.createElement("span");
+                const priority = task.priority || "medium";
+                priorityBadge.className = `priority-badge priority-${priority}`;
+
+                const priorityLabels = {
+                    high: "Tinggi",
+                    medium: "Sedang",
+                    low: "Rendah"
+                };
+
+                priorityBadge.innerHTML = `
+                    <span class="priority-dot"></span>
+                    <span>${priorityLabels[priority] || "Sedang"}</span>
+                `;
+
+                taskMetaRow.appendChild(priorityBadge);
+
+                // Render Due Date jika ada
+                const dueInfo = formatDueDate(task.dueDate);
+                if (dueInfo) {
+                    const dueSpan = document.createElement("span");
+                    const isOverdueNotCompleted = dueInfo.isOverdue && !task.completed;
+                    const isDueSoonNotCompleted = dueInfo.isDueSoon && !task.completed;
+
+                    dueSpan.className = "task-due" +
+                        (isOverdueNotCompleted ? " is-overdue" : "") +
+                        (isDueSoonNotCompleted ? " is-due-soon" : "");
+
+                    dueSpan.innerHTML = `
+                        <svg class="task-date-icon" width="11" height="11" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                        <span>${dueInfo.label}</span>
+                    `;
+                    taskMetaRow.appendChild(dueSpan);
+                }
+
+                // Klik dua kali judul untuk edit cepat
+                taskText.title = "Klik dua kali untuk edit tugas";
+                taskText.addEventListener("dblclick", function(e) {
+                    e.preventDefault();
+                    openEditModal(task.id);
+                });
+
+                taskContent.append(taskText, taskMetaRow);
+                taskLabel.append(checkbox, taskContent);
+
+                // Tombol aksi
+                const actionsWrapper = document.createElement("div");
+                actionsWrapper.className = "task-actions";
+
+                const editButton = document.createElement("button");
+                editButton.className = "btn-action btn-edit";
+                editButton.type = "button";
+                editButton.dataset.action = "edit";
+                editButton.dataset.id = task.id;
+                editButton.setAttribute("aria-label", "Edit tugas");
+                editButton.setAttribute("title", "Edit tugas (atau klik 2x judul)");
+                editButton.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "btn-action btn-delete";
+                deleteButton.type = "button";
+                deleteButton.dataset.action = "delete";
+                deleteButton.dataset.id = task.id;
+                deleteButton.setAttribute("aria-label", "Hapus tugas");
+                deleteButton.setAttribute("title", "Hapus tugas");
+                deleteButton.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`;
+
+                actionsWrapper.append(editButton, deleteButton);
+                listItem.append(dragHandle, taskLabel, actionsWrapper);
+
+                // Desktop Drag Event Listeners
+                listItem.addEventListener("dragstart", function(e) {
+                    if (e.target.closest("button") || e.target.closest("input")) {
+                        e.preventDefault();
+                        return;
+                    }
+                    draggedId = task.id;
+                    e.dataTransfer.effectAllowed = "move";
+                    e.dataTransfer.setData("text/plain", task.id);
+                    setTimeout(() => {
+                        listItem.classList.add("is-dragging");
+                    }, 0);
+                });
+
+                listItem.addEventListener("dragend", function() {
+                    cleanDragStyles();
+                    draggedId = null;
+                });
+
+                taskList.appendChild(listItem);
+            });
+            }
+
+            updateSummary();
+            renderCalendar();
+        }
+
+        // =====================================
+        // 9. MEMPERBARUI JUMLAH TUGAS
+        // =====================================
+        function updateSummary() {
+            const totalTasks = tasks.length;
+            const completedTasks = tasks.filter(task => task.completed).length;
+            const activeTasks = totalTasks - completedTasks;
+
+            taskSummary.textContent = `${activeTasks} tugas tersisa · ${completedTasks} selesai`;
+
+            clearCompletedButton.disabled = completedTasks === 0;
+            clearAllButton.disabled = totalTasks === 0;
+        }
+
+        // =====================================
+        // 10. MENANDAI TUGAS SELESAI
+        // =====================================
+        function handleTaskToggle(event) {
+            const checkbox = event.target;
+            if (
+                !(checkbox instanceof HTMLInputElement) ||
+                checkbox.dataset.action !== "toggle"
+            ) {
+                return;
+            }
+
+            const task = tasks.find(item => item.id === checkbox.dataset.id);
+            if (!task) return;
+
+            task.completed = checkbox.checked;
+            saveTasks();
+            renderTasks();
+        }
+
+        taskList.addEventListener("change", handleTaskToggle);
+        tasksTableBody.addEventListener("change", handleTaskToggle);
+
+        // =====================================
+        // 11. BUKA MODAL EDIT TUGAS & HAPUS
+        // =====================================
+        function openEditModal(taskId) {
+            const task = tasks.find(item => item.id === taskId);
+            if (!task) return;
+
+            editTaskId.value = task.id;
+            editTaskTitle.value = task.title;
+            if (editCharCounter) {
+                editCharCounter.textContent = `${task.title.length}/100`;
+            }
+            editTaskTitle.classList.remove("is-invalid");
+            if (editTitleError) {
+                editTitleError.hidden = true;
+            }
+
+            editTaskDue.value = toDatetimeLocalString(task.dueDate);
+            if (editTaskCompleted) {
+                editTaskCompleted.checked = Boolean(task.completed);
+            }
+
+            // Set pilihan prioritas di modal
+            editSelectedPriority = task.priority || "medium";
+            editPriorityButtons.forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.priority === editSelectedPriority);
+            });
+
+            // Format tanggal info riwayat
+            if (editMetaInfo) {
+                const createdDate = task.createdAt ? new Date(task.createdAt) : null;
+                const updatedDate = task.updatedAt ? new Date(task.updatedAt) : null;
+                let metaHtml = "";
+                if (createdDate && !isNaN(createdDate.getTime())) {
+                    metaHtml += `<span>📅 Dibuat: ${createdDate.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>`;
+                }
+                if (updatedDate && !isNaN(updatedDate.getTime())) {
+                    metaHtml += `<span>✏️ Terakhir diubah: ${updatedDate.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>`;
+                }
+                editMetaInfo.innerHTML = metaHtml;
+                editMetaInfo.style.display = metaHtml ? "flex" : "none";
+            }
+
+            editModal.showModal();
+            setTimeout(() => {
+                editTaskTitle.focus();
+                editTaskTitle.select();
+            }, 30);
+        }
+
+        // Live input character counter & validation reset
+        editTaskTitle.addEventListener("input", () => {
+            if (editCharCounter) {
+                editCharCounter.textContent = `${editTaskTitle.value.length}/100`;
+            }
+            if (editTaskTitle.value.trim().length > 0) {
+                editTaskTitle.classList.remove("is-invalid");
+                if (editTitleError) editTitleError.hidden = true;
+            }
+        });
+
+        // Quick date presets
+        editPresetButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const preset = btn.dataset.preset;
+                editTaskDue.value = getPresetDatetime(preset);
+            });
+        });
+
+        // Event listener klik tombol list & tabel (Edit / Hapus)
+        function handleTaskActionClick(event) {
+            if (!(event.target instanceof Element)) return;
+
+            const button = event.target.closest("button[data-action]");
+            if (!button) return;
+
+            const taskId = button.dataset.id;
+            const action = button.dataset.action;
+
+            if (action === "edit") {
+                openEditModal(taskId);
+            } else if (action === "delete") {
+                const task = tasks.find(item => item.id === taskId);
+                const title = task ? `"${task.title}"` : "tugas ini";
+                if (confirm(`Apakah kamu yakin ingin menghapus ${title}?`)) {
+                    tasks = tasks.filter(item => item.id !== taskId);
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+        }
+
+        taskList.addEventListener("click", handleTaskActionClick);
+        tasksTableBody.addEventListener("click", handleTaskActionClick);
+
+        // Simpan Perubahan dari Modal Edit
+        editForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const taskId = editTaskId.value;
+            const trimmedTitle = editTaskTitle.value.trim();
+
+            if (!trimmedTitle) {
+                editTaskTitle.classList.add("is-invalid");
+                if (editTitleError) editTitleError.hidden = false;
+                editTaskTitle.focus();
+                return;
+            }
+
+            const task = tasks.find(item => item.id === taskId);
+            if (!task) return;
+
+            let dueDateIso = null;
+            if (editTaskDue.value) {
+                const parsedDate = new Date(editTaskDue.value);
+                if (!isNaN(parsedDate.getTime())) {
+                    dueDateIso = parsedDate.toISOString();
+                }
+            }
+
+            task.title = trimmedTitle;
+            task.priority = editSelectedPriority;
+            task.dueDate = dueDateIso;
+            if (editTaskCompleted) {
+                task.completed = editTaskCompleted.checked;
+            }
+            task.updatedAt = new Date().toISOString();
+
+            saveTasks();
+            renderTasks();
+            editModal.close();
+        });
+
+        // Keyboard Shortcut: Ctrl + Enter / Cmd + Enter untuk simpan langsung
+        editForm.addEventListener("keydown", function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                e.preventDefault();
+                editForm.requestSubmit();
+            }
+        });
+
+        // Tombol Hapus Tugas dari dalam Modal Edit
+        if (modalDeleteBtn) {
+            modalDeleteBtn.addEventListener("click", () => {
+                const taskId = editTaskId.value;
+                const task = tasks.find(item => item.id === taskId);
+                if (!task) return;
+
+                const confirmation = confirm(`Apakah kamu yakin ingin menghapus tugas "${task.title}"?`);
+                if (!confirmation) return;
+
+                tasks = tasks.filter(item => item.id !== taskId);
+                saveTasks();
+                renderTasks();
+                editModal.close();
+            });
+        }
+
+        // Tombol Hapus Tenggat di Modal Edit
+        editClearDueBtn.addEventListener("click", () => {
+            editTaskDue.value = "";
+        });
+
+        // Tombol Tutup / Batal Modal Edit
+        modalCancelBtn.addEventListener("click", () => editModal.close());
+        modalCloseBtn.addEventListener("click", () => editModal.close());
+
+        // Tutup modal secara aman saat klik backdrop (tanpa menutup jika drag/seleksi teks dari dalam form)
+        let editModalMouseDownOnBackdrop = false;
+        editModal.addEventListener("mousedown", (e) => {
+            editModalMouseDownOnBackdrop = (e.target === editModal);
+        });
+
+        editModal.addEventListener("click", (e) => {
+            if (e.target === editModal && editModalMouseDownOnBackdrop) {
+                editModal.close();
+            }
+            editModalMouseDownOnBackdrop = false;
+        });
+
+        // =====================================
+        // 12. FILTER TUGAS (TABS & SELECT)
+        // =====================================
+        filterButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                filterButtons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                filterSelect.value = btn.dataset.filter;
+                renderTasks();
+            });
+        });
+
+        filterSelect.addEventListener("change", function() {
+            filterButtons.forEach(b => {
+                b.classList.toggle("active", b.dataset.filter === filterSelect.value);
+            });
+            renderTasks();
+        });
+
+        // =====================================
+        // 13. HAPUS TUGAS YANG SELESAI
+        // =====================================
+        clearCompletedButton.addEventListener("click", function() {
+            tasks = tasks.filter(task => !task.completed);
+            saveTasks();
+            renderTasks();
+        });
+
+        // =====================================
+        // 14. HAPUS SEMUA TUGAS
+        // =====================================
+        clearAllButton.addEventListener("click", function() {
+            const confirmation = confirm("Apakah kamu yakin ingin menghapus semua tugas?");
+            if (!confirmation) return;
+
+            tasks = [];
+            saveTasks();
+            renderTasks();
+        });
+
+        // =====================================
+        // 15. LOGIKA KALENDER & AGENDA
+        // =====================================
+        function renderCalendar() {
+            if (!calendarDaysGrid || !calendarMonthYear) return;
+
+            const monthNames = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+
+            calendarMonthYear.innerHTML = `<span class="cal-month-name">${monthNames[calCurrentMonth]}</span><span class="cal-year-num">${calCurrentYear}</span>`;
+            calendarDaysGrid.replaceChildren();
+
+            const today = new Date();
+            const todayKey = getDateKey(today);
+
+            // Hari pertama bulan ini (0 = Senin, 6 = Minggu)
+            const firstDayIndex = (new Date(calCurrentYear, calCurrentMonth, 1).getDay() + 6) % 7;
+            const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
+            const daysInPrevMonth = new Date(calCurrentYear, calCurrentMonth, 0).getDate();
+
+            // 1. Hari-hari bulan sebelumnya (interaktif)
+            for (let i = firstDayIndex - 1; i >= 0; i--) {
+                const prevDay = daysInPrevMonth - i;
+                const cell = document.createElement("button");
+                cell.type = "button";
+                cell.className = "cal-day-cell other-month";
+                const prevDate = new Date(calCurrentYear, calCurrentMonth - 1, prevDay);
+                const prevKey = getDateKey(prevDate);
+                cell.dataset.date = prevKey;
+                cell.setAttribute("title", `Pindah ke ${prevDay} bulan sebelumnya`);
+                cell.innerHTML = `<span>${prevDay}</span>`;
+
+                cell.addEventListener("click", () => {
+                    calCurrentMonth--;
+                    if (calCurrentMonth < 0) {
+                        calCurrentMonth = 11;
+                        calCurrentYear--;
+                    }
+                    calSelectedDateKey = prevKey;
+                    renderCalendar();
+                });
+
+                calendarDaysGrid.appendChild(cell);
+            }
+
+            // 2. Hari-hari bulan berjalan
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cellDate = new Date(calCurrentYear, calCurrentMonth, day);
+                const dateKey = getDateKey(cellDate);
+                const dayTasks = getTasksForDate(dateKey);
+
+                const cell = document.createElement("button");
+                cell.type = "button";
+                cell.className = "cal-day-cell";
+                cell.dataset.date = dateKey;
+
+                if (dateKey === todayKey) {
+                    cell.classList.add("is-today");
+                }
+                if (dateKey === calSelectedDateKey) {
+                    cell.classList.add("is-selected");
+                }
+
+                const dayNum = document.createElement("span");
+                dayNum.textContent = day;
+                cell.appendChild(dayNum);
+
+                // Indikator tugas
+                const dotsContainer = document.createElement("div");
+                dotsContainer.className = "cal-day-dots";
+
+                if (dayTasks.length > 0) {
+                    const uncompleted = dayTasks.filter(t => !t.completed);
+                    const dot = document.createElement("span");
+                    dot.className = "cal-dot";
+
+                    if (uncompleted.length === 0) {
+                        dot.classList.add("all-done");
+                    } else if (uncompleted.some(t => t.priority === "high")) {
+                        dot.classList.add("p-high");
+                    } else if (uncompleted.some(t => t.priority === "medium")) {
+                        dot.classList.add("p-medium");
+                    } else {
+                        dot.classList.add("p-low");
+                    }
+                    dotsContainer.appendChild(dot);
+                }
+
+                cell.appendChild(dotsContainer);
+
+                cell.addEventListener("click", () => {
+                    calSelectedDateKey = dateKey;
+                    renderCalendar();
+                });
+
+                calendarDaysGrid.appendChild(cell);
+            }
+
+            // 3. Hari-hari bulan berikutnya penutup grid (interaktif)
+            const totalCellsSoFar = firstDayIndex + daysInMonth;
+            const nextDaysNeeded = (7 - (totalCellsSoFar % 7)) % 7;
+            for (let nextDay = 1; nextDay <= nextDaysNeeded; nextDay++) {
+                const cell = document.createElement("button");
+                cell.type = "button";
+                cell.className = "cal-day-cell other-month";
+                const nextDate = new Date(calCurrentYear, calCurrentMonth + 1, nextDay);
+                const nextKey = getDateKey(nextDate);
+                cell.dataset.date = nextKey;
+                cell.setAttribute("title", `Pindah ke ${nextDay} bulan berikutnya`);
+                cell.innerHTML = `<span>${nextDay}</span>`;
+
+                cell.addEventListener("click", () => {
+                    calCurrentMonth++;
+                    if (calCurrentMonth > 11) {
+                        calCurrentMonth = 0;
+                        calCurrentYear++;
+                    }
+                    calSelectedDateKey = nextKey;
+                    renderCalendar();
+                });
+
+                calendarDaysGrid.appendChild(cell);
+            }
+
+            // 4. Render Agenda
+            renderAgenda();
+        }
+
+        function renderAgenda() {
+            if (!agendaTaskList || !agendaDateTitle || !agendaCountBadge) return;
+
+            agendaTaskList.replaceChildren();
+
+            const dateParts = calSelectedDateKey.split("-");
+            const dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+            const dateStr = dateObj.toLocaleDateString("id-ID", {
+                weekday: "long",
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            });
+
+            agendaDateTitle.textContent = dateStr;
+
+            const selectedTasks = getTasksForDate(calSelectedDateKey);
+            agendaCountBadge.textContent = `${selectedTasks.length} tugas`;
+            agendaEmptyState.hidden = selectedTasks.length > 0;
+
+            selectedTasks.forEach(task => {
+                const li = document.createElement("li");
+                li.className = "agenda-item" + (task.completed ? " is-completed" : "");
+                li.dataset.id = task.id;
+
+                // Checkbox & Judul
+                const leftDiv = document.createElement("label");
+                leftDiv.className = "agenda-item-left";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "task-checkbox";
+                checkbox.checked = task.completed;
+                checkbox.dataset.action = "agenda-toggle";
+                checkbox.dataset.id = task.id;
+                checkbox.setAttribute("aria-label", "Tandai tugas " + task.title);
+
+                const titleSpan = document.createElement("span");
+                titleSpan.className = "agenda-title";
+                titleSpan.textContent = task.title;
+                titleSpan.title = "Klik dua kali untuk edit tugas";
+                titleSpan.addEventListener("dblclick", (e) => {
+                    e.preventDefault();
+                    openEditModal(task.id);
+                });
+
+                leftDiv.append(checkbox, titleSpan);
+
+                // Prioritas & Waktu
+                const rightDiv = document.createElement("div");
+                rightDiv.className = "agenda-item-right";
+
+                const priorityBadge = document.createElement("span");
+                priorityBadge.className = `priority-badge priority-${task.priority || "medium"}`;
+                const priorityLabels = { high: "Tinggi", medium: "Sedang", low: "Rendah" };
+                priorityBadge.innerHTML = `<span class="priority-dot"></span><span>${priorityLabels[task.priority] || "Sedang"}</span>`;
+                rightDiv.appendChild(priorityBadge);
+
+                if (task.dueDate) {
+                    const dueObj = new Date(task.dueDate);
+                    if (!isNaN(dueObj.getTime())) {
+                        const timeStr = dueObj.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+                        const timeSpan = document.createElement("span");
+                        timeSpan.className = "agenda-time";
+                        timeSpan.innerHTML = `
+                            <svg class="task-date-icon" width="11" height="11" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                            </svg>
+                            <span>${timeStr}</span>
+                        `;
+                        rightDiv.appendChild(timeSpan);
+                    }
+                }
+
+                // Tombol Aksi di Agenda (Edit & Hapus)
+                const actionsWrapper = document.createElement("div");
+                actionsWrapper.className = "agenda-actions";
+
+                const editButton = document.createElement("button");
+                editButton.className = "btn-action btn-edit";
+                editButton.type = "button";
+                editButton.dataset.action = "agenda-edit";
+                editButton.dataset.id = task.id;
+                editButton.setAttribute("aria-label", "Edit tugas");
+                editButton.setAttribute("title", "Edit tugas (atau klik 2x judul)");
+                editButton.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "btn-action btn-delete";
+                deleteButton.type = "button";
+                deleteButton.dataset.action = "agenda-delete";
+                deleteButton.dataset.id = task.id;
+                deleteButton.setAttribute("aria-label", "Hapus tugas");
+                deleteButton.setAttribute("title", "Hapus tugas");
+                deleteButton.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`;
+
+                actionsWrapper.append(editButton, deleteButton);
+                rightDiv.appendChild(actionsWrapper);
+
+                li.append(leftDiv, rightDiv);
+                agendaTaskList.appendChild(li);
+            });
+        }
+
+        // Navigasi Kalender
+        calPrevBtn.addEventListener("click", () => {
+            calCurrentMonth--;
+            if (calCurrentMonth < 0) {
+                calCurrentMonth = 11;
+                calCurrentYear--;
+            }
+            renderCalendar();
+        });
+
+        calNextBtn.addEventListener("click", () => {
+            calCurrentMonth++;
+            if (calCurrentMonth > 11) {
+                calCurrentMonth = 0;
+                calCurrentYear++;
+            }
+            renderCalendar();
+        });
+
+        calTodayBtn.addEventListener("click", () => {
+            const now = new Date();
+            calCurrentYear = now.getFullYear();
+            calCurrentMonth = now.getMonth();
+            calSelectedDateKey = getDateKey(now);
+            renderCalendar();
+        });
+
+        // Toggle selesai tugas dari kalender agenda
+        agendaTaskList.addEventListener("change", (e) => {
+            const checkbox = e.target;
+            if (!(checkbox instanceof HTMLInputElement) || checkbox.dataset.action !== "agenda-toggle") return;
+            const task = tasks.find(t => t.id === checkbox.dataset.id);
+            if (!task) return;
+            task.completed = checkbox.checked;
+            saveTasks();
+            renderTasks();
+        });
+
+        // Klik tombol aksi (Edit / Hapus) di Agenda Kalender
+        agendaTaskList.addEventListener("click", (e) => {
+            if (!(e.target instanceof Element)) return;
+            const button = e.target.closest("button[data-action]");
+            if (!button) return;
+
+            const taskId = button.dataset.id;
+            const action = button.dataset.action;
+
+            if (action === "agenda-edit") {
+                openEditModal(taskId);
+            } else if (action === "agenda-delete") {
+                const task = tasks.find(item => item.id === taskId);
+                const title = task ? `"${task.title}"` : "tugas ini";
+                if (confirm(`Apakah kamu yakin ingin menghapus ${title}?`)) {
+                    tasks = tasks.filter(item => item.id !== taskId);
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+        });
+
+        // =====================================
+        // 16. MENJALANKAN APLIKASI
+        // =====================================
+        loadTasks();
+    </script>
+</body>
+</html>

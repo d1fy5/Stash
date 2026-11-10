@@ -1,0 +1,12 @@
+{
+  "name": "stash",
+  "version": "1.0.0",
+  "description": "Stash - Simple Minimalist Task Manager with Local Node.js Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
