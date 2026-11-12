@@ -3,6 +3,12 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
+
+// =========================================================================
+// [GARIS PEMBERITAHU: KONEKSI DATABASE / STORAGE FLAT-FILE]
+// Lokasi: tasks.json digunakan sebagai database lokal berbasis file JSON.
+// Di sini server mengecek apakah database sudah ada; jika belum, otomatis dibuat.
+// =========================================================================
 const DATA_FILE = path.join(__dirname, 'tasks.json');
 const HTML_FILE = path.join(__dirname, 'index.html');
 
@@ -11,6 +17,11 @@ if (!fs.existsSync(DATA_FILE)) {
     fs.writeFileSync(DATA_FILE, JSON.stringify([], null, 2), 'utf8');
 }
 
+// =========================================================================
+// [GARIS PEMBERITAHU: SERVER HTTP NATIVE & PENANGANAN CORS]
+// Server dibuat murni menggunakan modul bawaan 'http' Node.js tanpa framework Express.
+// Mengatur CORS manual agar API bisa diakses lintas origin/port & menangani OPTIONS preflight.
+// =========================================================================
 const server = http.createServer((req, res) => {
     // Header CORS agar fleksibel jika diakses dari port lain
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,7 +37,10 @@ const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
 
-    // 1. Endpoint GET /api/tasks -> Ambil daftar tugas
+    // =====================================================================
+    // [GARIS PEMBERITAHU: ENDPOINT GET /api/tasks (BACA DARI DATABASE)]
+    // Membaca file database tasks.json dan mengirimkannya sebagai format JSON ke client.
+    // =====================================================================
     if (pathname === '/api/tasks' && req.method === 'GET') {
         fs.readFile(DATA_FILE, 'utf8', (err, data) => {
             if (err) {
@@ -40,7 +54,11 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // 2. Endpoint POST /api/tasks -> Simpan daftar tugas
+    // =====================================================================
+    // [GARIS PEMBERITAHU: ENDPOINT POST /api/tasks (SIMPAN/UPDATE DATABASE)]
+    // Menerima data stream JSON dari frontend, memvalidasi array, lalu menulis ulang
+    // isi file tasks.json sebagai persistensi data.
+    // =====================================================================
     if (pathname === '/api/tasks' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => {
@@ -73,7 +91,10 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // 3. Serve file HTML utama (index.html)
+    // =====================================================================
+    // [GARIS PEMBERITAHU: ROUTING STATIC FILE (index.html)]
+    // Menyajikan file HTML frontend utama secara langsung ke browser.
+    // =====================================================================
     if (pathname === '/' || pathname === '/index.html') {
         fs.readFile(HTML_FILE, 'utf8', (err, data) => {
             if (err) {
@@ -92,6 +113,10 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify({ error: 'Not found' }));
 });
 
+// =========================================================================
+// [GARIS PEMBERITAHU: MENJALANKAN SERVER]
+// Server mulai mendengarkan request pada port yang ditentukan (default: 3000).
+// =========================================================================
 server.listen(PORT, () => {
     console.log(`\n========================================`);
     console.log(`🚀 Stash Server berhasil dijalankan!`);

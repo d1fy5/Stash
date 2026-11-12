@@ -262,6 +262,15 @@
             box-sizing: border-box;
         }
 
+        /* Priority selector di dalam modal: full-width & filled */
+        .modal-body .priority-selector {
+            display: flex;
+            width: 100%;
+            height: 38px;
+            padding: 3px;
+            gap: 4px;
+        }
+
         .priority-pill {
             background: transparent;
             border: 1px solid transparent;
@@ -278,6 +287,14 @@
             justify-content: center;
             box-sizing: border-box;
             line-height: 1;
+        }
+
+        /* Priority pill di dalam modal: equal width & taller */
+        .modal-body .priority-pill {
+            flex: 1;
+            height: 30px;
+            font-size: 13px;
+            border-radius: 6px;
         }
 
         .priority-pill:hover {
@@ -1163,8 +1180,7 @@
 
         .modal-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             gap: 8px;
             margin-top: 8px;
             padding-top: 14px;
@@ -1175,13 +1191,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            width: 100%;
         }
 
         .btn-danger-text {
             background: transparent;
-            border: 1px solid transparent;
+            border: 1px solid var(--danger-border, rgba(239,68,68,0.25));
             color: var(--danger);
-            height: 38px;
+            height: 40px;
             padding: 0 14px;
             border-radius: var(--radius-sm);
             font-size: 13px;
@@ -1190,20 +1207,22 @@
             transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             box-sizing: border-box;
+            width: 100%;
         }
 
         .btn-danger-text:hover {
             background: var(--danger-bg);
-            border-color: var(--danger-border);
+            border-color: var(--danger);
         }
 
         .btn-secondary {
             background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text-main);
-            height: 38px;
+            height: 40px;
             padding: 0 16px;
             border-radius: var(--radius-sm);
             font-size: 13px;
@@ -1215,6 +1234,7 @@
             justify-content: center;
             box-sizing: border-box;
             line-height: 1;
+            flex: 1;
         }
 
         .btn-secondary:hover {
@@ -1226,7 +1246,7 @@
             background: var(--primary);
             color: var(--primary-fg);
             border: 1px solid transparent;
-            height: 38px;
+            height: 40px;
             padding: 0 18px;
             border-radius: var(--radius-sm);
             font-size: 13px;
@@ -1238,11 +1258,18 @@
             justify-content: center;
             box-sizing: border-box;
             line-height: 1;
+            flex: 2;
         }
 
         .btn-primary:hover {
             opacity: 0.92;
             background: var(--primary-hover);
+        }
+
+        .btn-danger-text .material-symbols-outlined,
+        .btn-primary .material-symbols-outlined,
+        .btn-secondary .material-symbols-outlined {
+            font-size: 16px;
         }
 
         /* Layout Container */
@@ -1598,6 +1625,48 @@
             border: 1px dashed var(--border);
             border-radius: var(--radius-sm);
         }
+
+        /* Drag-to-calendar: agenda item dragging state */
+        .agenda-item[draggable="true"] {
+            cursor: grab;
+        }
+        .agenda-item[draggable="true"]:active {
+            cursor: grabbing;
+        }
+        .agenda-item.is-dragging {
+            opacity: 0.4;
+        }
+        .agenda-item .agenda-drag-handle {
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            cursor: grab;
+            opacity: 0.45;
+            transition: opacity 0.15s ease;
+        }
+        .agenda-item:hover .agenda-drag-handle {
+            opacity: 0.85;
+        }
+        .agenda-drag-handle .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* Drag-to-calendar: calendar cell drop target */
+        .cal-day-cell.drag-over {
+            background: var(--primary);
+            color: var(--primary-fg);
+            box-shadow: 0 0 0 2px var(--primary);
+            transform: scale(1.12);
+            z-index: 2;
+            transition: all 0.12s ease;
+        }
+        .cal-day-cell.drag-over span:first-child {
+            color: var(--primary-fg);
+        }
+        .cal-day-cell.drag-over .cal-dot {
+            background: var(--primary-fg);
+        }
     </style>
 </head>
 
@@ -1641,7 +1710,7 @@
                 </div>
 
                 <div class="due-input-wrapper" title="Tenggat waktu selesai (opsional)">
-                    <span>📅</span>
+                    <span class="material-symbols-outlined" style="font-size:18px;color:var(--text-muted)">calendar_month</span>
                     <input type="datetime-local" id="task-due-input" class="due-input">
                 </div>
             </div>
@@ -1814,14 +1883,20 @@
                 <div class="modal-meta-info" id="edit-meta-info"></div>
 
                 <div class="modal-actions">
-                    <button type="button" id="modal-delete-btn" class="btn-danger-text" title="Hapus tugas ini">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                        <span>Hapus</span>
-                    </button>
                     <div class="modal-actions-right">
-                        <button type="button" id="modal-cancel-btn" class="btn-secondary">Batal</button>
-                        <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                        <button type="button" id="modal-cancel-btn" class="btn-secondary">
+                            <span class="material-symbols-outlined">close</span>
+                            Batal
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <span class="material-symbols-outlined">save</span>
+                            Simpan Perubahan
+                        </button>
                     </div>
+                    <button type="button" id="modal-delete-btn" class="btn-danger-text" title="Hapus tugas ini">
+                        <span class="material-symbols-outlined">delete</span>
+                        <span>Hapus Tugas</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -1959,6 +2034,11 @@
         // =====================================
         let tasks = [];
 
+        // =====================================
+        // [GARIS PEMBERITAHU: GENERATOR ID UNIK & LOGIKA TENGGAT WAKTU (DUE DATE)]
+        // createId: Membuat ID unik berbasis timestamp base36 + random entropy tanpa dependensi UUID eksternal.
+        // formatDueDate: Menghitung status deadline secara real-time (Terlambat, Hari ini, Besok, sisa hari)
+        // dengan kode warna dan format relatif waktu.
         // =====================================
         // 3. MEMBUAT ID UNIK
         // =====================================
@@ -2112,6 +2192,11 @@
         }
 
         // =====================================
+        // [GARIS PEMBERITAHU: KONEKSI DATABASE & PENGAMBILAN DATA (GET /api/tasks)]
+        // Di sinilah website tersambung ke backend & database (tasks.json).
+        // Dilengkapi fallback cerdas: jika server offline/dibuka langsung via file,
+        // otomatis beralih ke localStorage browser dan melakukan auto-migrasi saat server aktif.
+        // =====================================
         // 4. MENGAMBIL DATA DARI SERVER / STORAGE
         // =====================================
         async function loadTasks() {
@@ -2165,6 +2250,13 @@
             };
         }
 
+        // =====================================
+        // [GARIS PEMBERITAHU: SINKRONISASI DATABASE (POST /api/tasks)]
+        // Di sinilah perubahan data tugas dikirim dan disimpan permanen ke database server.
+        // Menggunakan strategi Dual-Layer Storage:
+        // 1. Backup instan ke localStorage browser
+        // 2. Kirim POST request JSON ke server untuk ditulis ke file tasks.json
+        // 3. Jika server offline, tampilkan notifikasi penyimpanan offline
         // =====================================
         // 5. MENYIMPAN DATA KE SERVER & BACKUP
         // =====================================
@@ -2230,6 +2322,11 @@
             taskInput.focus();
         });
 
+        // =====================================
+        // [GARIS PEMBERITAHU: ENGINE DRAG-AND-DROP (DESKTOP + MOBILE TOUCH)]
+        // Fitur interaksi canggih untuk menyusun ulang urutan tugas (reordering):
+        // 1. Desktop: Native HTML5 Drag and Drop API
+        // 2. Mobile: Touch events (touchstart, touchmove via elementFromPoint, touchend)
         // =====================================
         // 7. DRAG AND DROP HANDLERS
         // =====================================
@@ -2364,6 +2461,11 @@
             touchCurrentTarget = null;
         });
 
+        // =====================================
+        // [GARIS PEMBERITAHU: RENDERER DAFTAR TUGAS (DUAL-VIEW: CARD LIST & TABLE VIEW)]
+        // Merender tugas dalam 2 mode yang bisa diganti pengguna:
+        // - View "list": Tampilan kartu responsif dengan drag handle & tombol aksi
+        // - View "table": Tampilan tabel data lengkap dengan kolom judul, prioritas, tenggat, & aksi
         // =====================================
         // 8. MENAMPILKAN DAFTAR TUGAS
         // =====================================
@@ -2710,10 +2812,10 @@
                 const updatedDate = task.updatedAt ? new Date(task.updatedAt) : null;
                 let metaHtml = "";
                 if (createdDate && !isNaN(createdDate.getTime())) {
-                    metaHtml += `<span>📅 Dibuat: ${createdDate.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>`;
+                    metaHtml += `<span><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px">calendar_month</span> Dibuat: ${createdDate.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>`;
                 }
                 if (updatedDate && !isNaN(updatedDate.getTime())) {
-                    metaHtml += `<span>✏️ Terakhir diubah: ${updatedDate.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>`;
+                    metaHtml += `<span><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px">edit</span> Terakhir diubah: ${updatedDate.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>`;
                 }
                 editMetaInfo.innerHTML = metaHtml;
                 editMetaInfo.style.display = metaHtml ? "flex" : "none";
@@ -2896,8 +2998,53 @@
         });
 
         // =====================================
+        // [GARIS PEMBERITAHU: ENGINE KALENDER & AGENDA HARIAN (VANILLA JS)]
+        // Implementasi kalender penuh murni tanpa library pihak ketiga (seperti FullCalendar / Moment.js):
+        // - Perhitungan matriks tanggal, hari libur/bulan lalu & berikutnya
+        // - Indikator dot titik tugas aktif pada masing-masing tanggal
+        // - Fitur klik tanggal interaktif untuk membuka daftar agenda tugas pada hari tersebut
+        // =====================================
         // 15. LOGIKA KALENDER & AGENDA
         // =====================================
+
+        // Helper: attach drag-drop target handlers to a calendar day cell
+        function attachCalendarCellDropHandlers(cell) {
+            cell.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = "move";
+                cell.classList.add("drag-over");
+            });
+            cell.addEventListener("dragleave", () => {
+                cell.classList.remove("drag-over");
+            });
+            cell.addEventListener("drop", (e) => {
+                e.preventDefault();
+                cell.classList.remove("drag-over");
+                const taskId = e.dataTransfer.getData("text/plain");
+                const targetDateKey = cell.dataset.date;
+                if (!taskId || !targetDateKey) return;
+                const task = tasks.find(t => t.id === taskId);
+                if (!task) return;
+
+                // Build new dueDate at the same time-of-day, on the dropped date
+                const parts = targetDateKey.split("-");
+                const y = parseInt(parts[0]), m = parseInt(parts[1]) - 1, d = parseInt(parts[2]);
+                if (task.dueDate) {
+                    const oldDue = new Date(task.dueDate);
+                    const newDue = new Date(y, m, d, oldDue.getHours(), oldDue.getMinutes(), oldDue.getSeconds());
+                    task.dueDate = newDue.toISOString();
+                } else {
+                    // Task had no dueDate — assign one (noon on the target date)
+                    const newDue = new Date(y, m, d, 12, 0, 0);
+                    task.dueDate = newDue.toISOString();
+                }
+                task.updatedAt = new Date().toISOString();
+                calSelectedDateKey = targetDateKey;
+                saveTasks();
+                renderTasks();
+            });
+        }
+
         function renderCalendar() {
             if (!calendarDaysGrid || !calendarMonthYear) return;
 
@@ -2939,6 +3086,7 @@
                     renderCalendar();
                 });
 
+                attachCalendarCellDropHandlers(cell);
                 calendarDaysGrid.appendChild(cell);
             }
 
@@ -2992,6 +3140,7 @@
                     renderCalendar();
                 });
 
+                attachCalendarCellDropHandlers(cell);
                 calendarDaysGrid.appendChild(cell);
             }
 
@@ -3018,6 +3167,7 @@
                     renderCalendar();
                 });
 
+                attachCalendarCellDropHandlers(cell);
                 calendarDaysGrid.appendChild(cell);
             }
 
@@ -3049,6 +3199,25 @@
                 const li = document.createElement("li");
                 li.className = "agenda-item" + (task.completed ? " is-completed" : "");
                 li.dataset.id = task.id;
+
+                // Make agenda items draggable to calendar dates
+                li.draggable = true;
+                li.addEventListener("dragstart", (e) => {
+                    e.dataTransfer.setData("text/plain", task.id);
+                    e.dataTransfer.effectAllowed = "move";
+                    li.classList.add("is-dragging");
+                });
+                li.addEventListener("dragend", () => {
+                    li.classList.remove("is-dragging");
+                    // Clean up any leftover drag-over highlights
+                    document.querySelectorAll(".cal-day-cell.drag-over").forEach(c => c.classList.remove("drag-over"));
+                });
+
+                // Drag handle icon
+                const dragHandle = document.createElement("span");
+                dragHandle.className = "agenda-drag-handle";
+                dragHandle.innerHTML = `<span class="material-symbols-outlined">drag_indicator</span>`;
+                dragHandle.setAttribute("title", "Seret ke tanggal lain di kalender");
 
                 // Checkbox & Judul
                 const leftDiv = document.createElement("label");
@@ -3125,7 +3294,7 @@
                 actionsWrapper.append(editButton, deleteButton);
                 rightDiv.appendChild(actionsWrapper);
 
-                li.append(leftDiv, rightDiv);
+                li.append(dragHandle, leftDiv, rightDiv);
                 agendaTaskList.appendChild(li);
             });
         }
