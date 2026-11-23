@@ -38,10 +38,21 @@
             --primary-hover: #292e34;
             --ring: rgba(17, 20, 24, 0.12);
 
-            /* Priority Colors (Monochrome Dots) */
-            --p-high: #111418;
-            --p-med: #687684;
-            --p-low: #b0bac5;
+            /* Priority Colors (Low: Soft Blue, Med: Orange, High: Red) */
+            --p-high: #ef4444;
+            --p-high-bg: rgba(239, 68, 68, 0.12);
+            --p-high-text: #dc2626;
+            --p-high-border: rgba(239, 68, 68, 0.25);
+
+            --p-med: #f97316;
+            --p-med-bg: rgba(249, 115, 22, 0.12);
+            --p-med-text: #ea580c;
+            --p-med-border: rgba(249, 115, 22, 0.25);
+
+            --p-low: #38bdf8;
+            --p-low-bg: rgba(56, 189, 248, 0.12);
+            --p-low-text: #0284c7;
+            --p-low-border: rgba(56, 189, 248, 0.25);
 
             /* Radii & Shadows */
             --radius-xs: 5px;
@@ -83,10 +94,21 @@
             --primary-hover: #e2e6eb;
             --ring: rgba(245, 247, 249, 0.15);
 
-            /* Priority Colors Dark */
-            --p-high: #ffffff;
-            --p-med: #9aa6b2;
-            --p-low: #545e6a;
+            /* Priority Colors Dark (Low: Soft Blue, Med: Orange, High: Red) */
+            --p-high: #f87171;
+            --p-high-bg: rgba(248, 113, 113, 0.16);
+            --p-high-text: #fca5a5;
+            --p-high-border: rgba(248, 113, 113, 0.3);
+
+            --p-med: #fb923c;
+            --p-med-bg: rgba(251, 146, 60, 0.16);
+            --p-med-text: #fdba74;
+            --p-med-border: rgba(251, 146, 60, 0.3);
+
+            --p-low: #38bdf8;
+            --p-low-bg: rgba(56, 189, 248, 0.16);
+            --p-low-text: #7dd3fc;
+            --p-low-border: rgba(56, 189, 248, 0.3);
 
             /* Shadows Dark */
             --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.04);
@@ -365,6 +387,7 @@
             font-weight: 600;
             color: var(--text-muted);
             background: transparent;
+            border: 1px solid transparent;
             transition: all var(--transition-fast);
         }
 
@@ -372,9 +395,42 @@
             color: var(--text-main);
         }
 
+        .mini-pill[data-priority="low"]:hover:not(.active) {
+            color: var(--p-low-text);
+            background: var(--p-low-bg);
+        }
+
+        .mini-pill[data-priority="medium"]:hover:not(.active) {
+            color: var(--p-med-text);
+            background: var(--p-med-bg);
+        }
+
+        .mini-pill[data-priority="high"]:hover:not(.active) {
+            color: var(--p-high-text);
+            background: var(--p-high-bg);
+        }
+
         .mini-pill.active {
             background: var(--primary);
             color: var(--primary-fg);
+        }
+
+        .mini-pill.active[data-priority="low"] {
+            background: var(--p-low-bg);
+            color: var(--p-low-text);
+            border-color: var(--p-low-border);
+        }
+
+        .mini-pill.active[data-priority="medium"] {
+            background: var(--p-med-bg);
+            color: var(--p-med-text);
+            border-color: var(--p-med-border);
+        }
+
+        .mini-pill.active[data-priority="high"] {
+            background: var(--p-high-bg);
+            color: var(--p-high-text);
+            border-color: var(--p-high-border);
         }
 
         /* Compact Inline Due Date Button */
@@ -692,20 +748,63 @@
 
         /* Subtle Priority Dot */
         .priority-dot-indicator {
-            width: 6px;
-            height: 6px;
+            width: 7.5px;
+            height: 7.5px;
             border-radius: 50%;
             background: var(--p-med);
             flex-shrink: 0;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
         }
 
         .priority-dot-indicator.p-high {
             background: var(--p-high);
-            box-shadow: 0 0 0 1px var(--ring);
+            box-shadow: 0 0 0 2px var(--p-high-bg);
+        }
+
+        .priority-dot-indicator.p-medium,
+        .priority-dot-indicator.p-med {
+            background: var(--p-med);
+            box-shadow: 0 0 0 2px var(--p-med-bg);
         }
 
         .priority-dot-indicator.p-low {
             background: var(--p-low);
+            box-shadow: 0 0 0 2px var(--p-low-bg);
+        }
+
+        .priority-dot-indicator:hover {
+            transform: scale(1.25);
+        }
+
+        /* Priority Pill Badge (for Table View & Labels) */
+        .priority-pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 999px;
+            line-height: 1.3;
+        }
+
+        .priority-pill-badge.p-high {
+            background: var(--p-high-bg);
+            color: var(--p-high-text);
+            border: 1px solid var(--p-high-border);
+        }
+
+        .priority-pill-badge.p-medium,
+        .priority-pill-badge.p-med {
+            background: var(--p-med-bg);
+            color: var(--p-med-text);
+            border: 1px solid var(--p-med-border);
+        }
+
+        .priority-pill-badge.p-low {
+            background: var(--p-low-bg);
+            color: var(--p-low-text);
+            border: 1px solid var(--p-low-border);
         }
 
         /* Due Date Label */
@@ -977,18 +1076,28 @@
         }
 
         .cal-dot {
-            width: 4px;
-            height: 4px;
+            width: 4.5px;
+            height: 4.5px;
             border-radius: 50%;
-            background: var(--text-muted);
+            background: var(--p-med);
+            transition: all var(--transition-fast);
         }
 
         .cal-day-cell.is-selected .cal-dot {
-            background: var(--primary-fg);
+            box-shadow: 0 0 0 1px var(--card-bg);
         }
 
         .cal-dot.p-high {
-            background: var(--text-main);
+            background: var(--p-high);
+        }
+
+        .cal-dot.p-medium,
+        .cal-dot.p-med {
+            background: var(--p-med);
+        }
+
+        .cal-dot.p-low {
+            background: var(--p-low);
         }
 
         /* Agenda Section */
@@ -2083,9 +2192,10 @@
                     const tdPriority = document.createElement("td");
                     const p = task.priority || "medium";
                     const pLabels = { high: "Tinggi", medium: "Sedang", low: "Rendah" };
-                    tdPriority.textContent = pLabels[p];
-                    tdPriority.style.fontSize = "11.5px";
-                    tdPriority.style.color = p === "high" ? "var(--text-main)" : "var(--text-muted)";
+                    const pBadge = document.createElement("span");
+                    pBadge.className = `priority-pill-badge p-${p}`;
+                    pBadge.innerHTML = `<span class="priority-dot-indicator p-${p}"></span><span>${pLabels[p]}</span>`;
+                    tdPriority.appendChild(pBadge);
 
                     // Due Date
                     const tdDue = document.createElement("td");
@@ -2706,11 +2816,16 @@
                 cb.dataset.action = "agenda-toggle";
                 cb.dataset.id = task.id;
 
+                const p = task.priority || "medium";
+                const pDot = document.createElement("span");
+                pDot.className = `priority-dot-indicator p-${p}`;
+                pDot.title = `Prioritas ${p === 'high' ? 'Tinggi' : p === 'low' ? 'Rendah' : 'Sedang'}`;
+
                 const title = document.createElement("span");
                 title.className = "agenda-title";
                 title.textContent = task.title;
 
-                left.append(cb, title);
+                left.append(cb, pDot, title);
 
                 const right = document.createElement("div");
                 right.className = "agenda-item-right";
