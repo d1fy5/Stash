@@ -149,8 +149,8 @@
         }
 
         button:focus-visible, input:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 1px;
+            outline: none;
+            box-shadow: 0 0 0 2px var(--ring);
         }
 
         button:active:not(:disabled) {
@@ -372,8 +372,8 @@
             display: inline-flex;
             align-items: center;
             gap: 2px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: var(--bg-subtle);
+            border: none;
             border-radius: var(--radius-xs);
             padding: 2px;
             height: 26px;
@@ -387,7 +387,7 @@
             font-weight: 600;
             color: var(--text-muted);
             background: transparent;
-            border: 1px solid transparent;
+            border: none;
             transition: all var(--transition-fast);
         }
 
@@ -413,24 +413,25 @@
         .mini-pill.active {
             background: var(--primary);
             color: var(--primary-fg);
+            border: none;
         }
 
         .mini-pill.active[data-priority="low"] {
             background: var(--p-low-bg);
             color: var(--p-low-text);
-            border-color: var(--p-low-border);
+            border: none;
         }
 
         .mini-pill.active[data-priority="medium"] {
             background: var(--p-med-bg);
             color: var(--p-med-text);
-            border-color: var(--p-med-border);
+            border: none;
         }
 
         .mini-pill.active[data-priority="high"] {
             background: var(--p-high-bg);
             color: var(--p-high-text);
-            border-color: var(--p-high-border);
+            border: none;
         }
 
         /* Compact Inline Due Date Button */
@@ -442,8 +443,8 @@
             width: 26px;
             height: 26px;
             border-radius: var(--radius-xs);
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: transparent;
+            border: none;
             color: var(--text-muted);
             cursor: pointer;
             transition: all var(--transition-fast);
@@ -451,7 +452,7 @@
 
         .due-mini-label:hover {
             color: var(--text-main);
-            border-color: var(--border-hover);
+            background: var(--bg-subtle);
         }
 
         .due-mini-input {
@@ -748,32 +749,37 @@
 
         /* Subtle Priority Dot */
         .priority-dot-indicator {
-            width: 7.5px;
-            height: 7.5px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: var(--p-med);
             flex-shrink: 0;
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+            border: none;
+            box-shadow: none;
+            transition: transform var(--transition-fast);
         }
 
         .priority-dot-indicator.p-high {
             background: var(--p-high);
-            box-shadow: 0 0 0 2px var(--p-high-bg);
+            border: none;
+            box-shadow: none;
         }
 
         .priority-dot-indicator.p-medium,
         .priority-dot-indicator.p-med {
             background: var(--p-med);
-            box-shadow: 0 0 0 2px var(--p-med-bg);
+            border: none;
+            box-shadow: none;
         }
 
         .priority-dot-indicator.p-low {
             background: var(--p-low);
-            box-shadow: 0 0 0 2px var(--p-low-bg);
+            border: none;
+            box-shadow: none;
         }
 
         .priority-dot-indicator:hover {
-            transform: scale(1.25);
+            transform: scale(1.3);
         }
 
         /* Priority Pill Badge (for Table View & Labels) */
@@ -786,25 +792,26 @@
             padding: 2px 8px;
             border-radius: 999px;
             line-height: 1.3;
+            border: none;
         }
 
         .priority-pill-badge.p-high {
             background: var(--p-high-bg);
             color: var(--p-high-text);
-            border: 1px solid var(--p-high-border);
+            border: none;
         }
 
         .priority-pill-badge.p-medium,
         .priority-pill-badge.p-med {
             background: var(--p-med-bg);
             color: var(--p-med-text);
-            border: 1px solid var(--p-med-border);
+            border: none;
         }
 
         .priority-pill-badge.p-low {
             background: var(--p-low-bg);
             color: var(--p-low-text);
-            border: 1px solid var(--p-low-border);
+            border: none;
         }
 
         /* Due Date Label */
@@ -952,23 +959,21 @@
             font-size: 11.5px;
             font-weight: 500;
             color: var(--text-secondary);
-            background: var(--bg);
-            border: 1px solid var(--border);
-            padding: 4px 9px;
+            background: var(--bg-subtle);
+            border: none;
+            padding: 4px 10px;
             border-radius: var(--radius-xs);
             transition: all var(--transition-fast);
         }
 
         .btn-footer:hover:not(:disabled) {
             color: var(--text-main);
-            border-color: var(--border-hover);
             background: var(--item-hover);
         }
 
         .btn-footer.danger:hover:not(:disabled) {
             color: #e53e3e;
-            border-color: rgba(229, 62, 62, 0.25);
-            background: rgba(229, 62, 62, 0.05);
+            background: rgba(229, 62, 62, 0.08);
         }
 
         .storage-notice {
@@ -1076,15 +1081,18 @@
         }
 
         .cal-dot {
-            width: 4.5px;
-            height: 4.5px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             background: var(--p-med);
+            border: none;
+            box-shadow: none;
             transition: all var(--transition-fast);
         }
 
         .cal-day-cell.is-selected .cal-dot {
-            box-shadow: 0 0 0 1px var(--card-bg);
+            background: var(--primary-fg);
+            box-shadow: none;
         }
 
         .cal-dot.p-high {
@@ -1124,10 +1132,10 @@
         .agenda-count {
             font-size: 11px;
             font-weight: 600;
-            padding: 2px 7px;
+            padding: 2px 8px;
             border-radius: 999px;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            background: var(--bg-subtle);
+            border: none;
             color: var(--text-secondary);
         }
 
@@ -1281,14 +1289,14 @@
             align-items: center;
             justify-content: center;
             color: var(--text-muted);
-            background: var(--bg);
-            border: 1px solid var(--border);
+            background: transparent;
+            border: none;
             cursor: pointer;
         }
 
         .modal-close:hover {
             color: var(--text-main);
-            border-color: var(--border-hover);
+            background: var(--bg-subtle);
         }
 
         .modal-body {
@@ -1355,12 +1363,16 @@
 
         .btn-clear-due {
             padding: 0 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            background: var(--bg-subtle);
+            border: none;
             border-radius: var(--radius-sm);
             font-size: 12px;
             font-weight: 500;
             color: var(--text-secondary);
+        }
+
+        .btn-clear-due:hover {
+            color: var(--text-main);
         }
 
         .modal-due-presets {
@@ -1371,9 +1383,9 @@
 
         .btn-preset {
             flex: 1;
-            padding: 4px 6px;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            padding: 5px 6px;
+            background: var(--bg-subtle);
+            border: none;
             border-radius: var(--radius-xs);
             font-size: 11px;
             font-weight: 500;
@@ -1383,7 +1395,7 @@
 
         .btn-preset:hover {
             color: var(--text-main);
-            border-color: var(--border-hover);
+            background: var(--item-hover);
         }
 
         .modal-checkbox-label {
@@ -1398,10 +1410,10 @@
         .modal-meta-info {
             font-size: 11px;
             color: var(--text-muted);
-            padding: 7px 9px;
-            background: var(--bg);
+            padding: 7px 10px;
+            background: var(--bg-subtle);
             border-radius: var(--radius-xs);
-            border: 1px solid var(--border);
+            border: none;
         }
 
         .modal-actions {
@@ -1421,12 +1433,17 @@
         .btn-secondary {
             height: 34px;
             padding: 0 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            background: var(--bg-subtle);
+            border: none;
             border-radius: var(--radius-sm);
             font-size: 12.5px;
             font-weight: 500;
             color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            color: var(--text-main);
+            background: var(--item-hover);
         }
 
         .btn-primary {
@@ -1434,7 +1451,7 @@
             padding: 0 16px;
             background: var(--primary);
             color: var(--primary-fg);
-            border: 1px solid transparent;
+            border: none;
             border-radius: var(--radius-sm);
             font-size: 12.5px;
             font-weight: 600;
