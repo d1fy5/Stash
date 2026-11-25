@@ -2038,7 +2038,7 @@
             <div class="auth-card-top">
                 <div class="auth-brand-badge">STASH</div>
                 <h3 class="auth-modal-title" id="auth-modal-title">Masuk ke Akun Anda</h3>
-                <p class="auth-modal-subtitle" id="auth-modal-subtitle">Kelola agenda dan daftar tugas harian Anda secara terorganisir.</p>
+                <p class="auth-modal-subtitle" id="auth-modal-subtitle">Profil dan tugas tersimpan hanya di browser ini pada perangkat Anda.</p>
             </div>
 
             <div class="auth-tabs" role="tablist">
@@ -2093,30 +2093,43 @@
     </dialog>
 
     
-    <script>
+    <script type="module">
+        import { openStashDB, dbRequest, saveUserTasks } from "./database.js";
         /**
          * Logika JavaScript Frontend:
-         * Mengelola state aplikasi, sinkronisasi API/localStorage, interaksi tema,
+         * Mengelola state aplikasi, penyimpanan IndexedDB, interaksi tema,
          * render daftar tugas, kalender interaktif, drag & drop, serta shortcut keyboard.
          */
         
-        // Kunci penyimpanan lokal (localStorage) & elemen-elemen DOM
-        const STORAGE_KEY = "todo-list-v1";
-        const THEME_KEY = "todo-list-theme";
-        const VIEW_KEY = "todo-list-view";
-        const AUTH_TOKEN_KEY = "stash-auth-token";
-        const AUTH_USER_KEY = "stash-auth-user";
+        // Kunci sesi lokal dan elemen-elemen DOM.
+        const AUTH_SESSION_KEY = "stash-local-user-id";
 
-        // State autentikasi pengguna
-        let authToken = localStorage.getItem(AUTH_TOKEN_KEY) || "";
+        // Session hanya menyimpan ID profil lokal, tidak menyimpan kredensial.
+        let authToken = localStorage.getItem(AUTH_SESSION_KEY) || "";
         let currentUser = null;
-        try {
-            const rawUser = localStorage.getItem(AUTH_USER_KEY);
-            if (rawUser) currentUser = JSON.parse(rawUser);
-        } catch (_) {}
 
-        function getUserStorageKey() {
-            return currentUser ? `stash-tasks-${currentUser.id}` : `stash-tasks-guest`;
+        let cachedPreferences = {};
+        function savePreference(key, value) {
+            cachedPreferences[key] = value;
+            const id = currentUser ? currentUser.id : "device-default";
+            dbRequest("settings", "readwrite", store => store.put({
+                id, userId: currentUser ? currentUser.id : null,
+                preferences: { ...cachedPreferences }, updatedAt: new Date().toISOString()
+            })).catch(error => console.error("Gagal menyimpan pengaturan lokal:", error));
+        }
+
+        async function loadPreferences() {
+            const id = currentUser ? currentUser.id : "device-default";
+            const record = await dbRequest("settings", "readonly", store => store.get(id));
+            if (!record || !record.preferences) return;
+            const prefs = record.preferences;
+            cachedPreferences = { ...prefs };
+            if (prefs.theme) applyTheme(prefs.theme === "dark", false);
+            if (prefs.view) {
+                currentView = prefs.view;
+                viewButtons.forEach(button => button.classList.toggle("active", button.dataset.view === currentView));
+                renderTasks();
+            }
         }
 
         const userProfileBadge = document.getElementById("user-profile-badge");
@@ -2200,7 +2213,7 @@
         
         // State utama aplikasi
         let tasks = [];
-        let currentView = localStorage.getItem(VIEW_KEY) || "list";
+        let currentView = "list";
         let addSelectedPriority = "medium";
         let editSelectedPriority = "medium";
         let searchQuery = "";
@@ -2219,17 +2232,15 @@
 
         // Inisialisasi tema (terang/gelap) saat halaman pertama kali dimuat
         function initTheme() {
-            const savedTheme = localStorage.getItem(THEME_KEY);
             const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            const isDark = savedTheme ? savedTheme === "dark" : systemPrefersDark;
-            applyTheme(isDark);
+            applyTheme(systemPrefersDark);
         }
 
         // Mengubah atribut data-theme dan ikon tombol tema
-        function applyTheme(isDark) {
+        function applyTheme(isDark, persist = true) {
             document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
             themeToggle.innerHTML = isDark ? SUN_SVG : MOON_SVG;
-            localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+            if (persist) savePreference("theme", isDark ? "dark" : "light");
         }
 
         themeToggle.addEventListener("click", () => {
@@ -2335,80 +2346,38 @@
             };
         }
 
-        // Memuat data tugas dari server API (atau localStorage per akun pengguna)
+        // Semua tugas tersimpan di IndexedDB dan dipisahkan berdasarkan userId.
         async function loadTasks() {
-            if (!authToken) {
+            if (!currentUser) {
                 tasks = [];
                 renderTasks();
                 return;
             }
-
-            try {
-                const response = await fetch('/api/tasks', {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-                if (response.status === 401) {
-                    handleAuthExpired();
-                    return;
-                }
-                if (response.ok) {
-                    const data = await response.json();
-                    if (Array.isArray(data)) {
-                        tasks = data.map(normalizeTask);
-                        try {
-                            localStorage.setItem(getUserStorageKey(), JSON.stringify(tasks));
-                        } catch (_) {}
-                        renderTasks();
-                        return;
-                    }
-                }
-            } catch (_) {}
-
-            try {
-                const saved = localStorage.getItem(getUserStorageKey());
-                const parsed = saved ? JSON.parse(saved) : [];
-                tasks = (Array.isArray(parsed) ? parsed : []).map(normalizeTask);
-            } catch (err) {
-                tasks = [];
-            }
+            const db = await openStashDB();
+            tasks = await new Promise((resolve, reject) => {
+                const request = db.transaction("tasks", "readonly").objectStore("tasks")
+                    .index("userId").getAll(IDBKeyRange.only(currentUser.id));
+                request.onsuccess = () => resolve(request.result.map(normalizeTask));
+                request.onerror = () => reject(request.error);
+            });
             renderTasks();
         }
 
-        // Menyimpan data tugas terbaru ke server API dan localStorage
         async function saveTasks() {
+            if (!currentUser) return;
+            tasks.forEach(task => {
+                task.userId = currentUser.id;
+                task.updatedAt = new Date().toISOString();
+            });
             try {
-                localStorage.setItem(getUserStorageKey(), JSON.stringify(tasks));
-            } catch (_) {}
-
-            if (!authToken) {
-                storageNotice.textContent = "Masuk untuk menyimpan ke server";
-                return;
-            }
-
-            try {
-                const res = await fetch('/api/tasks', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
-                    },
-                    body: JSON.stringify(tasks)
-                });
-                if (res.status === 401) {
-                    handleAuthExpired();
-                    return;
-                }
-                if (res.ok) {
-                    storageNotice.textContent = "";
-                    return;
-                }
-            } catch (_) {
-                storageNotice.textContent = "Data tersimpan di browser";
-                setTimeout(() => { storageNotice.textContent = ""; }, 3000);
+                await saveUserTasks(currentUser.id, tasks);
+                storageNotice.textContent = "";
+            } catch (error) {
+                console.error("Gagal menyimpan tugas lokal:", error);
+                storageNotice.textContent = "Gagal menyimpan data lokal";
             }
         }
 
-        
         // Menampilkan pesan notifikasi pop-up (toast) dengan tombol urungkan (undo)
         function showToast(message, allowUndo = false) {
             toastContainer.replaceChildren();
@@ -3026,7 +2995,7 @@
                 const view = btn.dataset.view;
                 if (view === currentView) return;
                 currentView = view;
-                localStorage.setItem(VIEW_KEY, currentView);
+                savePreference("view", currentView);
                 viewButtons.forEach(b => b.classList.toggle("active", b.dataset.view === currentView));
                 renderTasks();
             });
@@ -3365,7 +3334,7 @@
                 authConfirmGroup.style.display = "none";
                 authConfirmPassword.removeAttribute("required");
                 if (authModalTitle) authModalTitle.textContent = "Masuk ke Akun Anda";
-                if (authModalSubtitle) authModalSubtitle.textContent = "Kelola agenda dan daftar tugas harian Anda secara terorganisir.";
+                if (authModalSubtitle) authModalSubtitle.textContent = "Profil dan tugas tersimpan hanya di browser ini pada perangkat Anda.";
                 authBtnText.textContent = "Masuk";
                 if (authSwitchPrompt) authSwitchPrompt.textContent = "Belum punya akun?";
                 if (authSwitchLink) authSwitchLink.textContent = "Daftar sekarang";
@@ -3376,7 +3345,7 @@
                 authConfirmGroup.style.display = "flex";
                 authConfirmPassword.setAttribute("required", "required");
                 if (authModalTitle) authModalTitle.textContent = "Buat Akun Baru";
-                if (authModalSubtitle) authModalSubtitle.textContent = "Mulai atur tugas harian & agenda Anda dengan rapi.";
+                if (authModalSubtitle) authModalSubtitle.textContent = "Profil lokal untuk penggunaan pribadi di browser dan perangkat ini.";
                 authBtnText.textContent = "Daftar Akun Baru";
                 if (authSwitchPrompt) authSwitchPrompt.textContent = "Sudah memiliki akun?";
                 if (authSwitchLink) authSwitchLink.textContent = "Masuk di sini";
@@ -3400,44 +3369,37 @@
             }
         }
 
-        function handleAuthExpired() {
-            authToken = "";
-            currentUser = null;
-            localStorage.removeItem(AUTH_TOKEN_KEY);
-            localStorage.removeItem(AUTH_USER_KEY);
-            updateAuthUI();
-            tasks = [];
-            renderTasks();
-            showToast("Sesi telah berakhir, silakan masuk kembali.");
-            openAuthModal("login", true);
-        }
-
         async function checkAuthSession() {
+            try {
+                await openStashDB();
+            } catch (error) {
+                console.error("IndexedDB tidak tersedia:", error);
+                updateAuthUI();
+                openAuthModal("login", true);
+                setAuthError("Penyimpanan lokal tidak tersedia. Aktifkan IndexedDB di browser Anda.");
+                return;
+            }
             if (!authToken) {
                 updateAuthUI();
+                await loadPreferences();
                 openAuthModal("login", true);
                 return;
             }
             try {
-                const res = await fetch("/api/auth/me", {
-                    headers: { "Authorization": `Bearer ${authToken}` }
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    currentUser = data.user;
-                    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(currentUser));
-                    updateAuthUI();
-                    await loadTasks();
-                } else {
-                    handleAuthExpired();
-                }
+                currentUser = await dbRequest("users", "readonly", store => store.get(authToken));
+                if (!currentUser) throw new Error("Profil lokal tidak ditemukan");
+                currentUser = { id: currentUser.id, username: currentUser.username, createdAt: currentUser.createdAt };
+                updateAuthUI();
+                await loadPreferences();
+                await loadTasks();
             } catch (_) {
-                if (currentUser) {
-                    updateAuthUI();
-                    await loadTasks();
-                } else {
-                    handleAuthExpired();
-                }
+                authToken = "";
+                currentUser = null;
+                localStorage.removeItem(AUTH_SESSION_KEY);
+                updateAuthUI();
+                tasks = [];
+                renderTasks();
+                openAuthModal("login", true);
             }
         }
 
@@ -3466,19 +3428,10 @@
             }
         });
 
-        btnLogout.addEventListener("click", async () => {
-            try {
-                if (authToken) {
-                    await fetch("/api/auth/logout", {
-                        method: "POST",
-                        headers: { "Authorization": `Bearer ${authToken}` }
-                    });
-                }
-            } catch (_) {}
+        btnLogout.addEventListener("click", () => {
             authToken = "";
             currentUser = null;
-            localStorage.removeItem(AUTH_TOKEN_KEY);
-            localStorage.removeItem(AUTH_USER_KEY);
+            localStorage.removeItem(AUTH_SESSION_KEY);
             tasks = [];
             renderTasks();
             updateAuthUI();
@@ -3486,61 +3439,64 @@
             openAuthModal("login", true);
         });
 
+        async function hashPassword(password, salt) {
+            const encoder = new TextEncoder();
+            const key = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
+            const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations: 310000, hash: "SHA-256" }, key, 256);
+            return Array.from(new Uint8Array(bits), byte => byte.toString(16).padStart(2, "0")).join("");
+        }
+
+        function bytesToHex(bytes) {
+            return Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+        }
+
         authForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             setAuthError("");
-
             const username = authUsername.value.trim();
             const password = authPassword.value;
             const confirmPassword = authConfirmPassword.value;
-
-            if (authMode === "register") {
-                if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) {
-                    setAuthError("Nama pengguna harus 3-30 karakter (hanya huruf, angka, _).");
-                    return;
-                }
-                if (password.length < 6) {
-                    setAuthError("Kata sandi minimal 6 karakter.");
-                    return;
-                }
-                if (password !== confirmPassword) {
-                    setAuthError("Konfirmasi kata sandi tidak cocok.");
-                    return;
-                }
+            if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) {
+                setAuthError("Nama pengguna harus 3-30 karakter (hanya huruf, angka, _)."); return;
             }
-
+            if (password.length < 6) {
+                setAuthError("Kata sandi minimal 6 karakter."); return;
+            }
+            if (authMode === "register" && password !== confirmPassword) {
+                setAuthError("Konfirmasi kata sandi tidak cocok."); return;
+            }
             authSubmitBtn.disabled = true;
             const originalBtnText = authBtnText.textContent;
             authBtnText.textContent = "Memproses...";
-
-            const endpoint = authMode === "login" ? "/api/auth/login" : "/api/auth/register";
-
             try {
-                const res = await fetch(endpoint, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, password })
-                });
-                const data = await res.json();
-
-                if (!res.ok) {
-                    setAuthError(data.error || "Terjadi kesalahan saat memproses permintaan.");
-                    authSubmitBtn.disabled = false;
-                    authBtnText.textContent = originalBtnText;
-                    return;
+                await openStashDB();
+                const users = await dbRequest("users", "readonly", store => store.getAll());
+                const existing = users.find(user => user.username.toLowerCase() === username.toLowerCase());
+                if (authMode === "register") {
+                    if (existing) { setAuthError("Nama pengguna sudah digunakan."); return; }
+                    const salt = crypto.getRandomValues(new Uint8Array(16));
+                    const user = {
+                        id: createId(), username, passwordHash: await hashPassword(password, salt),
+                        salt: bytesToHex(salt), createdAt: new Date().toISOString()
+                    };
+                    await dbRequest("users", "readwrite", store => store.add(user));
+                    currentUser = { id: user.id, username: user.username, createdAt: user.createdAt };
+                } else {
+                    if (!existing) { setAuthError("Profil lokal tidak ditemukan. Silakan daftar terlebih dahulu."); return; }
+                    const expected = await hashPassword(password, Uint8Array.from(existing.salt.match(/../g), byte => parseInt(byte, 16)));
+                    if (expected !== existing.passwordHash) { setAuthError("Kata sandi salah."); return; }
+                    currentUser = { id: existing.id, username: existing.username, createdAt: existing.createdAt };
                 }
-
-                authToken = data.token;
-                currentUser = data.user;
-                localStorage.setItem(AUTH_TOKEN_KEY, authToken);
-                localStorage.setItem(AUTH_USER_KEY, JSON.stringify(currentUser));
-
+                authToken = currentUser.id;
+                localStorage.setItem(AUTH_SESSION_KEY, authToken);
                 updateAuthUI();
                 authModal.close();
-                showToast(`Selamat datang, ${currentUser.username}!`);
+                await loadPreferences();
                 await loadTasks();
-            } catch (err) {
-                setAuthError("Tidak dapat terhubung ke server.");
+                showToast(`Selamat datang, ${currentUser.username}!`);
+            } catch (error) {
+                console.error("Autentikasi lokal gagal:", error);
+                setAuthError("Tidak dapat membuka penyimpanan lokal. Coba gunakan browser modern dengan IndexedDB aktif.");
             } finally {
                 authSubmitBtn.disabled = false;
                 authBtnText.textContent = originalBtnText;

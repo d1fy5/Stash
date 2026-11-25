@@ -1,12 +1,17 @@
 {
   "name": "stash",
   "version": "1.0.0",
-  "description": "Stash - Simple Minimalist Task Manager with Local Node.js Backend",
-  "main": "server.js",
+  "type": "module",
+  "description": "Stash - Local-first task manager using IndexedDB",
   "scripts": {
-    "start": "node server.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^8.3.8"
+  }
 }
