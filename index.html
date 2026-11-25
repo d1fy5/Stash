@@ -349,12 +349,13 @@
         }
 
         /* =========================================================================
-           5. TASK INPUT FORM
+           5. TASK INPUT FORM & MORPHING PLUS BUTTON
            ========================================================================= */
         .task-form-minimal {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
         }
 
         .input-bar-wrapper {
@@ -365,7 +366,17 @@
             border-radius: var(--radius-sm);
             padding: 3px 5px 3px 12px;
             gap: 6px;
-            transition: all var(--transition-fast);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast), padding-right 0.28s var(--ease);
+            position: relative;
+            height: 38px;
+            min-height: 38px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .task-form-minimal.is-expanded .input-bar-wrapper {
+            padding-right: 38px;
+            cursor: default;
         }
 
         .input-bar-wrapper:focus-within {
@@ -386,6 +397,14 @@
             font-weight: 500;
             color: var(--text-main);
             padding: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s var(--ease);
+        }
+
+        .task-form-minimal.is-expanded .task-input-clean {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .task-input-clean::placeholder {
@@ -398,6 +417,14 @@
             align-items: center;
             gap: 4px;
             flex-shrink: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s var(--ease);
+        }
+
+        .task-form-minimal.is-expanded .input-inline-tools {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .priority-mini-group {
@@ -505,24 +532,69 @@
             pointer-events: none;
         }
 
+        /* Morphing Plus Button */
         .btn-add-clean {
-            width: 28px;
-            height: 28px;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: calc(100% - 8px);
+            height: calc(100% - 8px);
             border-radius: var(--radius-xs);
             background: var(--primary);
             color: var(--primary-fg);
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
             cursor: pointer;
-            transition: all var(--transition-fast);
-            flex-shrink: 0;
+            z-index: 5;
             border: none;
+            padding: 0 12px;
+            transition: width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        top 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        right 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-radius 0.25s var(--ease),
+                        background-color 0.15s ease,
+                        transform 0.15s ease;
         }
 
         .btn-add-clean:hover {
             background: var(--primary-hover);
+        }
+
+        .btn-add-icon {
+            flex-shrink: 0;
+            transition: transform 0.25s var(--ease);
+        }
+
+        .btn-add-text {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            opacity: 1;
+            transition: opacity 0.15s ease;
+            pointer-events: none;
+        }
+
+        /* When Expanded: Morph into small button on the right */
+        .task-form-minimal.is-expanded .btn-add-clean {
+            top: 5px;
+            right: 5px;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            border-radius: var(--radius-xs);
+        }
+
+        .task-form-minimal.is-expanded .btn-add-clean:hover {
             transform: scale(1.05);
+        }
+
+        .task-form-minimal.is-expanded .btn-add-text {
+            opacity: 0;
+            display: none;
         }
 
         /* =========================================================================
@@ -1746,7 +1818,6 @@
                         autocomplete="off"
                     >
                     <div class="input-inline-tools">
-                        
                         <div class="priority-mini-group" id="add-priority-group" aria-label="Pilih prioritas">
                             <button type="button" class="mini-pill" data-priority="low" title="Prioritas Rendah">R</button>
                             <button type="button" class="mini-pill active" data-priority="medium" title="Prioritas Sedang">S</button>
@@ -1757,11 +1828,12 @@
                             <span class="material-symbols-outlined due-mini-icon">calendar_month</span>
                             <input type="datetime-local" id="task-due-input" class="due-mini-input">
                         </label>
-                        
-                        <button type="submit" class="btn-add-clean" title="Tambah Tugas (Enter)">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        </button>
                     </div>
+
+                    <button type="button" id="btn-add-task" class="btn-add-clean" title="Tambah Tugas (Enter)" aria-label="Tambah Tugas">
+                        <svg class="btn-add-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span class="btn-add-text">Tambah tugas baru</span>
+                    </button>
                 </div>
             </form>
 
@@ -1990,6 +2062,44 @@
 
         const taskForm = document.getElementById("task-form");
         const taskInput = document.getElementById("task-input");
+        const btnAddTask = document.getElementById("btn-add-task");
+
+        function expandTaskForm() {
+            if (taskForm.classList.contains("is-expanded")) return;
+            taskForm.classList.add("is-expanded");
+            btnAddTask.type = "submit";
+            setTimeout(() => {
+                taskInput.focus();
+            }, 60);
+        }
+
+        function collapseTaskForm(force = false) {
+            if (!force && taskInput.value.trim() !== "") return;
+            taskForm.classList.remove("is-expanded");
+            btnAddTask.type = "button";
+            taskInput.blur();
+        }
+
+        btnAddTask.addEventListener("click", (e) => {
+            if (!taskForm.classList.contains("is-expanded")) {
+                e.preventDefault();
+                e.stopPropagation();
+                expandTaskForm();
+            }
+        });
+
+        const inputBarWrapper = taskForm.querySelector(".input-bar-wrapper");
+        inputBarWrapper.addEventListener("click", (e) => {
+            if (!taskForm.classList.contains("is-expanded")) {
+                expandTaskForm();
+            }
+        });
+
+        document.addEventListener("click", (e) => {
+            if (taskForm.classList.contains("is-expanded") && !taskForm.contains(e.target)) {
+                collapseTaskForm();
+            }
+        });
         const taskDueInput = document.getElementById("task-due-input");
         const taskList = document.getElementById("task-list");
         const tasksTableWrapper = document.getElementById("tasks-table-wrapper");
@@ -2573,7 +2683,9 @@
 
             taskInput.value = "";
             taskDueInput.value = "";
-            taskInput.focus();
+            addSelectedPriority = "medium";
+            addPriorityButtons.forEach(b => b.classList.toggle("active", b.dataset.priority === "medium"));
+            collapseTaskForm(true);
             showToast(`Tugas ditambahkan`);
         });
 
@@ -3094,8 +3206,9 @@
                         renderTasks();
                     }
                     taskSearchInput.blur();
-                } else if (document.activeElement === taskInput) {
-                    taskInput.blur();
+                } else if (document.activeElement === taskInput || taskForm.classList.contains("is-expanded")) {
+                    taskInput.value = "";
+                    collapseTaskForm(true);
                 }
             }
         });
