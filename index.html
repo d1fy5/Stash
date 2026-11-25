@@ -1389,39 +1389,43 @@
         }
 
         /* =========================================================================
-           KOMPONEN AUTENTIKASI (USER BADGE, TOMBOL & MODAL SIGN IN / SIGN UP)
+           KOMPONEN AUTENTIKASI (USER BADGE, HEADER TRIGGER & MODAL SIGN IN/UP)
            ========================================================================= */
         .user-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             height: 29px;
             padding: 0 4px 0 8px;
-            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
             font-weight: 600;
             color: var(--text-main);
             transition: all var(--transition-fast);
         }
 
+        .user-badge:hover {
+            border-color: var(--border-hover);
+        }
+
         .user-badge-icon {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-secondary);
         }
 
         .user-badge-name {
-            max-width: 100px;
+            max-width: 105px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .btn-logout-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 4px;
+            width: 21px;
+            height: 21px;
+            border-radius: 3px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -1430,6 +1434,7 @@
             border: none;
             cursor: pointer;
             transition: all var(--transition-fast);
+            padding: 0;
         }
 
         .btn-logout-icon:hover {
@@ -1438,43 +1443,104 @@
         }
 
         .btn-auth-trigger {
-            height: 29px;
-            padding: 0 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
             border-radius: var(--radius-xs);
-            background: var(--primary);
-            color: var(--primary-fg);
-            border: none;
+            height: 29px;
+            padding: 0 9px;
+            font-size: 11.5px;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            font-size: 11.5px;
-            font-weight: 600;
             cursor: pointer;
             transition: all var(--transition-fast);
         }
 
         .btn-auth-trigger:hover {
-            background: var(--primary-hover);
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--item-hover);
+        }
+
+        /* Modal Autentikasi Modern & Terpadu */
+        .auth-modal-card {
+            max-width: 390px;
+            position: relative;
+            padding: 26px 24px 22px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .auth-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+        }
+
+        .auth-card-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 4px;
+        }
+
+        .auth-brand-badge {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            background: var(--bg-subtle);
+            padding: 3px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            margin-bottom: 2px;
+        }
+
+        .auth-modal-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .auth-modal-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin: 0;
+            max-width: 290px;
         }
 
         .auth-tabs {
             display: flex;
-            align-items: center;
-            background: var(--bg-subtle);
+            background: var(--bg);
+            border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 3px;
-            gap: 4px;
+            gap: 3px;
         }
 
         .auth-tab {
-            padding: 5px 14px;
+            flex: 1;
+            height: 31px;
             border-radius: var(--radius-xs);
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-muted);
             background: transparent;
             border: none;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all var(--transition-fast);
         }
 
@@ -1488,7 +1554,16 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
 
+        .auth-form-body {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
         .auth-alert-error {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             padding: 9px 12px;
             border-radius: var(--radius-sm);
             font-size: 12px;
@@ -1498,46 +1573,130 @@
             line-height: 1.4;
         }
 
-        .auth-field-hint {
-            font-size: 11px;
-            color: var(--text-muted);
-            line-height: 1.3;
-        }
-
-        .auth-password-wrapper {
+        .auth-input-box {
             position: relative;
             display: flex;
             align-items: center;
+            width: 100%;
         }
 
-        .auth-password-wrapper input {
+        .auth-input-icon {
+            position: absolute;
+            left: 11px;
+            font-size: 16px;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: color var(--transition-fast);
+        }
+
+        .auth-input {
+            width: 100%;
+            height: 38px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 0 12px 0 35px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-main);
+            outline: none;
+            transition: all var(--transition-fast);
+        }
+
+        .auth-input.has-toggle {
             padding-right: 36px;
+        }
+
+        .auth-input:focus {
+            border-color: var(--border-focus);
+            background: var(--card-bg);
+            box-shadow: 0 0 0 2px var(--ring);
+        }
+
+        .auth-input-box:focus-within .auth-input-icon {
+            color: var(--text-main);
         }
 
         .btn-toggle-pwd {
             position: absolute;
-            right: 8px;
-            width: 24px;
-            height: 24px;
+            right: 6px;
+            width: 26px;
+            height: 26px;
             background: transparent;
             border: none;
+            border-radius: var(--radius-xs);
             color: var(--text-muted);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all var(--transition-fast);
+            padding: 0;
         }
 
         .btn-toggle-pwd:hover {
             color: var(--text-main);
+            background: var(--bg-subtle);
         }
 
-        .auth-submit-button {
+        .btn-toggle-pwd span {
+            font-size: 16px;
+        }
+
+        .auth-field-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.3;
+            padding-left: 2px;
+        }
+
+        .auth-submit-btn {
             width: 100%;
             height: 38px;
+            border-radius: var(--radius-sm);
+            background: var(--primary);
+            color: var(--primary-fg);
+            border: none;
             font-size: 13px;
-            margin-top: 4px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all var(--transition-fast);
+            margin-top: 2px;
+        }
+
+        .auth-submit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .auth-bottom-switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .auth-switch-link {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 0;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color var(--transition-fast);
+        }
+
+        .auth-switch-link:hover {
+            color: var(--text-secondary);
         }
 
         
@@ -1871,45 +2030,63 @@
 
     <!-- Modal Dialog: Autentikasi Pengguna (Sign In & Sign Up) -->
     <dialog id="auth-modal" class="modal">
-        <div class="modal-card" style="max-width: 380px;">
-            <div class="modal-header">
-                <div class="auth-tabs" role="tablist">
-                    <button type="button" class="auth-tab active" id="tab-login">Masuk</button>
-                    <button type="button" class="auth-tab" id="tab-register">Daftar</button>
-                </div>
-                <button type="button" id="auth-modal-close" class="modal-close" aria-label="Tutup" title="Tutup">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
+        <div class="modal-card auth-modal-card">
+            <button type="button" id="auth-modal-close" class="modal-close auth-modal-close" aria-label="Tutup" title="Tutup">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <div class="auth-card-top">
+                <div class="auth-brand-badge">STASH</div>
+                <h3 class="auth-modal-title" id="auth-modal-title">Masuk ke Akun Anda</h3>
+                <p class="auth-modal-subtitle" id="auth-modal-subtitle">Kelola agenda dan daftar tugas harian Anda secara terorganisir.</p>
             </div>
 
-            <form id="auth-form" class="modal-body" style="padding-top: 14px;">
-                <div id="auth-error-alert" class="auth-alert-error" hidden></div>
+            <div class="auth-tabs" role="tablist">
+                <button type="button" class="auth-tab active" id="tab-login" role="tab">Masuk</button>
+                <button type="button" class="auth-tab" id="tab-register" role="tab">Daftar Baru</button>
+            </div>
+
+            <form id="auth-form" class="auth-form-body">
+                <div id="auth-error-alert" class="auth-alert-error" hidden>
+                    <span class="material-symbols-outlined" style="font-size: 16px; flex-shrink: 0;">error</span>
+                    <span id="auth-error-text"></span>
+                </div>
 
                 <div class="modal-field">
                     <label for="auth-username" class="modal-label">Nama Pengguna</label>
-                    <input type="text" id="auth-username" class="modal-input" placeholder="contoh: budi_santoso" required autocomplete="username" maxlength="30">
-                    <span class="auth-field-hint" id="auth-username-hint">3-30 karakter, huruf, angka, atau garis bawah (_)</span>
+                    <div class="auth-input-box">
+                        <span class="material-symbols-outlined auth-input-icon">person</span>
+                        <input type="text" id="auth-username" class="modal-input auth-input" placeholder="contoh: budi_santoso" required autocomplete="username" maxlength="30">
+                    </div>
+                    <span class="auth-field-hint" id="auth-username-hint">3–30 karakter (huruf, angka, atau garis bawah)</span>
                 </div>
 
                 <div class="modal-field">
                     <label for="auth-password" class="modal-label">Kata Sandi</label>
-                    <div class="auth-password-wrapper">
-                        <input type="password" id="auth-password" class="modal-input" placeholder="Minimal 6 karakter" required autocomplete="current-password">
+                    <div class="auth-input-box">
+                        <span class="material-symbols-outlined auth-input-icon">lock</span>
+                        <input type="password" id="auth-password" class="modal-input auth-input has-toggle" placeholder="Minimal 6 karakter" required autocomplete="current-password">
                         <button type="button" class="btn-toggle-pwd" id="btn-toggle-pwd" title="Tampilkan/sembunyikan kata sandi">
-                            <span class="material-symbols-outlined" id="toggle-pwd-icon" style="font-size: 16px;">visibility</span>
+                            <span class="material-symbols-outlined" id="toggle-pwd-icon">visibility</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="modal-field" id="auth-confirm-group" style="display: none;">
                     <label for="auth-confirm-password" class="modal-label">Konfirmasi Kata Sandi</label>
-                    <input type="password" id="auth-confirm-password" class="modal-input" placeholder="Ulangi kata sandi" autocomplete="new-password">
+                    <div class="auth-input-box">
+                        <span class="material-symbols-outlined auth-input-icon">verified_user</span>
+                        <input type="password" id="auth-confirm-password" class="modal-input auth-input has-toggle" placeholder="Ulangi kata sandi" autocomplete="new-password">
+                    </div>
                 </div>
 
-                <div style="margin-top: 6px;">
-                    <button type="submit" id="auth-submit-btn" class="btn-primary auth-submit-button">
-                        <span id="auth-btn-text">Masuk</span>
-                    </button>
+                <button type="submit" id="auth-submit-btn" class="auth-submit-btn">
+                    <span id="auth-btn-text">Masuk</span>
+                </button>
+
+                <div class="auth-bottom-switch">
+                    <span id="auth-switch-prompt">Belum punya akun?</span>
+                    <button type="button" id="auth-switch-link" class="auth-switch-link">Daftar sekarang</button>
                 </div>
             </form>
         </div>
@@ -1948,6 +2125,8 @@
         const btnOpenAuth = document.getElementById("btn-open-auth");
         const authModal = document.getElementById("auth-modal");
         const authModalClose = document.getElementById("auth-modal-close");
+        const authModalTitle = document.getElementById("auth-modal-title");
+        const authModalSubtitle = document.getElementById("auth-modal-subtitle");
         const tabLogin = document.getElementById("tab-login");
         const tabRegister = document.getElementById("tab-register");
         const authForm = document.getElementById("auth-form");
@@ -1956,8 +2135,11 @@
         const authConfirmPassword = document.getElementById("auth-confirm-password");
         const authConfirmGroup = document.getElementById("auth-confirm-group");
         const authErrorAlert = document.getElementById("auth-error-alert");
+        const authErrorText = document.getElementById("auth-error-text");
         const authSubmitBtn = document.getElementById("auth-submit-btn");
         const authBtnText = document.getElementById("auth-btn-text");
+        const authSwitchPrompt = document.getElementById("auth-switch-prompt");
+        const authSwitchLink = document.getElementById("auth-switch-link");
         const btnTogglePwd = document.getElementById("btn-toggle-pwd");
         const togglePwdIcon = document.getElementById("toggle-pwd-icon");
 
@@ -3164,23 +3346,40 @@
             }
         }
 
+        function setAuthError(msg) {
+            if (msg) {
+                if (authErrorText) authErrorText.textContent = msg;
+                authErrorAlert.hidden = false;
+            } else {
+                if (authErrorText) authErrorText.textContent = "";
+                authErrorAlert.hidden = true;
+            }
+        }
+
         function setAuthMode(mode) {
             authMode = mode;
-            authErrorAlert.hidden = true;
-            authErrorAlert.textContent = "";
+            setAuthError("");
             if (mode === "login") {
                 tabLogin.classList.add("active");
                 tabRegister.classList.remove("active");
                 authConfirmGroup.style.display = "none";
                 authConfirmPassword.removeAttribute("required");
+                if (authModalTitle) authModalTitle.textContent = "Masuk ke Akun Anda";
+                if (authModalSubtitle) authModalSubtitle.textContent = "Kelola agenda dan daftar tugas harian Anda secara terorganisir.";
                 authBtnText.textContent = "Masuk";
+                if (authSwitchPrompt) authSwitchPrompt.textContent = "Belum punya akun?";
+                if (authSwitchLink) authSwitchLink.textContent = "Daftar sekarang";
                 authPassword.setAttribute("autocomplete", "current-password");
             } else {
                 tabRegister.classList.add("active");
                 tabLogin.classList.remove("active");
                 authConfirmGroup.style.display = "flex";
                 authConfirmPassword.setAttribute("required", "required");
+                if (authModalTitle) authModalTitle.textContent = "Buat Akun Baru";
+                if (authModalSubtitle) authModalSubtitle.textContent = "Mulai atur tugas harian & agenda Anda dengan rapi.";
                 authBtnText.textContent = "Daftar Akun Baru";
+                if (authSwitchPrompt) authSwitchPrompt.textContent = "Sudah memiliki akun?";
+                if (authSwitchLink) authSwitchLink.textContent = "Masuk di sini";
                 authPassword.setAttribute("autocomplete", "new-password");
             }
         }
@@ -3190,7 +3389,7 @@
             authUsername.value = "";
             authPassword.value = "";
             authConfirmPassword.value = "";
-            authErrorAlert.hidden = true;
+            setAuthError("");
             if (isForced) {
                 authModalClose.style.display = currentUser ? "flex" : "none";
             } else {
@@ -3245,6 +3444,12 @@
         tabLogin.addEventListener("click", () => setAuthMode("login"));
         tabRegister.addEventListener("click", () => setAuthMode("register"));
 
+        if (authSwitchLink) {
+            authSwitchLink.addEventListener("click", () => {
+                setAuthMode(authMode === "login" ? "register" : "login");
+            });
+        }
+
         btnTogglePwd.addEventListener("click", () => {
             const isPassword = authPassword.type === "password";
             authPassword.type = isPassword ? "text" : "password";
@@ -3283,8 +3488,7 @@
 
         authForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            authErrorAlert.hidden = true;
-            authErrorAlert.textContent = "";
+            setAuthError("");
 
             const username = authUsername.value.trim();
             const password = authPassword.value;
@@ -3292,18 +3496,15 @@
 
             if (authMode === "register") {
                 if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) {
-                    authErrorAlert.textContent = "Nama pengguna harus 3-30 karakter (hanya huruf, angka, _).";
-                    authErrorAlert.hidden = false;
+                    setAuthError("Nama pengguna harus 3-30 karakter (hanya huruf, angka, _).");
                     return;
                 }
                 if (password.length < 6) {
-                    authErrorAlert.textContent = "Kata sandi minimal 6 karakter.";
-                    authErrorAlert.hidden = false;
+                    setAuthError("Kata sandi minimal 6 karakter.");
                     return;
                 }
                 if (password !== confirmPassword) {
-                    authErrorAlert.textContent = "Konfirmasi kata sandi tidak cocok.";
-                    authErrorAlert.hidden = false;
+                    setAuthError("Konfirmasi kata sandi tidak cocok.");
                     return;
                 }
             }
@@ -3323,8 +3524,7 @@
                 const data = await res.json();
 
                 if (!res.ok) {
-                    authErrorAlert.textContent = data.error || "Terjadi kesalahan saat memproses permintaan.";
-                    authErrorAlert.hidden = false;
+                    setAuthError(data.error || "Terjadi kesalahan saat memproses permintaan.");
                     authSubmitBtn.disabled = false;
                     authBtnText.textContent = originalBtnText;
                     return;
@@ -3340,8 +3540,7 @@
                 showToast(`Selamat datang, ${currentUser.username}!`);
                 await loadTasks();
             } catch (err) {
-                authErrorAlert.textContent = "Tidak dapat terhubung ke server.";
-                authErrorAlert.hidden = false;
+                setAuthError("Tidak dapat terhubung ke server.");
             } finally {
                 authSubmitBtn.disabled = false;
                 authBtnText.textContent = originalBtnText;
