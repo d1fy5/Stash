@@ -13,139 +13,204 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,200..300,0,0&display=swap">
     <style>
-        
         /* =========================================================================
-           TOKEN WARNA & SISTEM DESAIN (TEMA TERANG / LIGHT MODE)
-           Ganti kode HEX di bawah untuk mengubah warna tampilan antarmuka
+           TOKEN WARNA & SISTEM DESAIN (MINIMALIST MONOCHROME)
            ========================================================================= */
         :root {
             /* Warna Latar Belakang & Permukaan Kartu */
-            --bg: #f8f9fa;             /* Background utama halaman */
-            --bg-subtle: #f1f3f5;      /* Background sekunder / elemen subtle */
-            --card-bg: #ffffff;        /* Background kartu container utama */
-            --item-bg: #ffffff;        /* Background baris item tugas */
-            --item-hover: #f8f9fa;     /* Background item saat di-hover */
-            --item-border: #eaedf0;    /* Garis pemisah antar tugas */
+            --bg: #f8f9fa;
+            --bg-subtle: #f1f3f5;
+            --card-bg: #ffffff;
+            --item-bg: #ffffff;
+            --item-hover: #f8f9fa;
+            --item-border: #eaedf0;
 
-            /* Warna Tipografi / Teks */
-            --text-main: #111418;      /* Teks judul & nama tugas utama */
-            --text-secondary: #5c6874; /* Teks deskripsi & tanggal sekunder */
-            --text-muted: #8b98a5;     /* Teks keterangan abu-abu redup */
-            --text-subtle: #b0bac5;    /* Teks placeholder / garis batas redup */
+            /* Tipografi / Teks */
+            --text-main: #111418;
+            --text-secondary: #5c6874;
+            --text-muted: #8b98a5;
+            --text-subtle: #b0bac5;
 
-            /* Warna Garis Border */
-            --border: #e6eaed;         /* Border standar elemen input & kartu */
-            --border-hover: #cbd3da;   /* Border saat kursor di atas elemen */
-            --border-focus: #111418;   /* Border saat input sedang aktif */
+            /* Garis Border */
+            --border: #e6eaed;
+            --border-hover: #cbd3da;
+            --border-focus: #111418;
 
-            /* Warna Tombol Aksi Utama (Brand) */
-            --primary: #111418;        /* Tombol utama hitam/gelap */
-            --primary-fg: #ffffff;     /* Warna ikon & teks dalam tombol utama */
-            --primary-hover: #292e34;  /* Warna tombol utama saat di-hover */
-            --ring: rgba(17, 20, 24, 0.12); /* Efek outline fokus */
+            /* Aksi Utama */
+            --primary: #111418;
+            --primary-fg: #ffffff;
+            --primary-hover: #292e34;
+            --ring: rgba(17, 20, 24, 0.10);
 
-            /* Indikator Warna Prioritas (Tinggi: Merah, Sedang: Kuning, Rendah: Biru) */
-            --p-high: #ef4444;         /* Warna dot/teks prioritas tinggi (merah) */
-            --p-high-bg: rgba(239, 68, 68, 0.12); /* Background badge prioritas tinggi */
-            --p-high-text: #dc2626;    /* Teks label prioritas tinggi */
-            --p-high-border: rgba(239, 68, 68, 0.25); /* Border badge prioritas tinggi */
+            /* Indikator Prioritas Fungsional */
+            --p-high: #ef4444;
+            --p-high-bg: rgba(239, 68, 68, 0.12);
+            --p-high-text: #dc2626;
+            --p-high-border: rgba(239, 68, 68, 0.25);
 
-            --p-med: #eab308;          /* Warna dot/teks prioritas sedang (kuning) */
-            --p-med-bg: rgba(234, 179, 8, 0.14); /* Background badge prioritas sedang */
-            --p-med-text: #a16207;     /* Teks label prioritas sedang */
-            --p-med-border: rgba(234, 179, 8, 0.3); /* Border badge prioritas sedang */
+            --p-med: #eab308;
+            --p-med-bg: rgba(234, 179, 8, 0.14);
+            --p-med-text: #a16207;
+            --p-med-border: rgba(234, 179, 8, 0.30);
 
-            --p-low: #38bdf8;          /* Warna dot/teks prioritas rendah (biru) */
-            --p-low-bg: rgba(56, 189, 248, 0.12); /* Background badge prioritas rendah */
-            --p-low-text: #0284c7;     /* Teks label prioritas rendah */
-            --p-low-border: rgba(56, 189, 248, 0.25); /* Border badge prioritas rendah */
+            --p-low: #38bdf8;
+            --p-low-bg: rgba(56, 189, 248, 0.12);
+            --p-low-text: #0284c7;
+            --p-low-border: rgba(56, 189, 248, 0.25);
 
-            /* Ukuran Sudut Membulat (Radius) & Efek Bayangan (Shadow) */
+            /* Radius & Shadows */
             --radius-xs: 5px;
             --radius-sm: 8px;
             --radius-md: 12px;
-            --radius-lg: 18px;
+            --radius-lg: 14px;
             --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.03);
-            --shadow-card: 0 3px 18px -2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-            --shadow-modal: 0 20px 50px -10px rgba(0, 0, 0, 0.16);
+            --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            --shadow-modal: 0 16px 40px rgba(0, 0, 0, 0.12);
 
-            /* Timing Transisi & Animasi */
+            /* Transisi Halus */
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
             --transition-fast: 0.14s var(--ease);
         }
 
-        /* =========================================================================
-           TOKEN WARNA TEMA GELAP (DARK MODE / OLED VELVET)
-           Aktif saat tombol ganti tema diklik (data-theme="dark")
-           ========================================================================= */
         [data-theme="dark"] {
-            /* Warna Latar Belakang & Permukaan Kartu Dark Mode */
-            --bg: #0b0c0e;             /* Background utama hitam OLED */
-            --bg-subtle: #131518;      /* Background sekunder gelap */
-            --card-bg: #14161a;        /* Background kartu container gelap */
-            --item-bg: #17191e;        /* Background baris item tugas gelap */
-            --item-hover: #1e2128;     /* Background item saat di-hover */
-            --item-border: #23272f;    /* Garis pemisah antar tugas tema gelap */
+            --bg: #0b0c0e;
+            --bg-subtle: #131518;
+            --card-bg: #14161a;
+            --item-bg: #17191e;
+            --item-hover: #1e2128;
+            --item-border: #23272f;
 
-            /* Warna Teks Dark Mode */
-            --text-main: #f5f7f9;      /* Teks utama putih terang */
-            --text-secondary: #9aa6b2; /* Teks sekunder abu-abu */
-            --text-muted: #65717e;     /* Teks keterangan redup */
-            --text-subtle: #454e58;    /* Garis & teks sangat redup */
+            --text-main: #f5f7f9;
+            --text-secondary: #9aa6b2;
+            --text-muted: #65717e;
+            --text-subtle: #454e58;
 
-            /* Warna Border Dark Mode */
-            --border: #23272f;         /* Border elemen gelap */
-            --border-hover: #373d49;   /* Border hover */
-            --border-focus: #f5f7f9;   /* Border fokus */
+            --border: #23272f;
+            --border-hover: #373d49;
+            --border-focus: #f5f7f9;
 
-            /* Warna Tombol & Aksen Utama Dark Mode */
-            --primary: #f5f7f9;        /* Tombol utama putih terang */
-            --primary-fg: #0b0c0e;     /* Teks tombol utama hitam */
-            --primary-hover: #e2e6eb;  /* Tombol hover */
+            --primary: #f5f7f9;
+            --primary-fg: #0b0c0e;
+            --primary-hover: #e2e6eb;
             --ring: rgba(245, 247, 249, 0.15);
 
-            /* Indikator Warna Prioritas Dark Mode */
-            --p-high: #f87171;         /* Prioritas tinggi (merah terang) */
+            --p-high: #f87171;
             --p-high-bg: rgba(248, 113, 113, 0.16);
             --p-high-text: #fca5a5;
-            --p-high-border: rgba(248, 113, 113, 0.3);
+            --p-high-border: rgba(248, 113, 113, 0.30);
 
-            --p-med: #fde047;          /* Prioritas sedang (kuning cerah) */
+            --p-med: #fde047;
             --p-med-bg: rgba(253, 224, 71, 0.16);
             --p-med-text: #fef08a;
-            --p-med-border: rgba(253, 224, 71, 0.3);
+            --p-med-border: rgba(253, 224, 71, 0.30);
 
-            --p-low: #38bdf8;          /* Prioritas rendah (biru muda) */
+            --p-low: #38bdf8;
             --p-low-bg: rgba(56, 189, 248, 0.16);
             --p-low-text: #7dd3fc;
-            --p-low-border: rgba(56, 189, 248, 0.3);
+            --p-low-border: rgba(56, 189, 248, 0.30);
 
-            /* Efek Bayangan Dark Mode */
-            --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.04);
-            --shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.75);
+            --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.60);
         }
 
-        
-        /* Wadah Kartu Utama (Dashboard & Kalender) */
+        /* =========================================================================
+           GLOBAL RESETS
+           ========================================================================= */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-width: 320px;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 13.5px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        button, input, select {
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* =========================================================================
+           LAYOUT SYSTEM (SIDE BY SIDE 2-COLUMN DESKTOP & TABLET)
+           ========================================================================= */
+        .app-layout {
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 18px;
+            align-items: start;
+        }
+
         .container {
             width: 100%;
+            min-width: 0;
             background: var(--card-bg);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-md);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-card);
-            padding: 22px;
+            padding: 20px 18px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             position: relative;
-            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+            transition: border-color var(--transition-fast);
         }
 
         .container:hover {
             border-color: var(--border-hover);
         }
 
-        
+        .calendar-card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        @media (min-width: 721px) {
+            .calendar-card {
+                position: sticky;
+                top: 24px;
+            }
+        }
+
+        /* =========================================================================
+           CARD HEADERS & ALIGNMENT
+           ========================================================================= */
         .section-header, .calendar-header {
             display: flex;
             justify-content: space-between;
@@ -153,6 +218,7 @@
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border);
             position: relative;
+            min-height: 32px;
         }
 
         .header-title-group, .calendar-title-group {
@@ -163,7 +229,7 @@
 
         .section-title, .calendar-month-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             letter-spacing: -0.01em;
             color: var(--text-main);
@@ -171,19 +237,20 @@
             align-items: baseline;
             gap: 6px;
             margin: 0;
+            line-height: 1.2;
         }
 
         .cal-month-name, .brand-name {
             font-family: 'Outfit', sans-serif;
             text-transform: uppercase;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             letter-spacing: 0.06em;
             color: var(--text-main);
         }
 
         .cal-year-num, .brand-count {
-            font-size: 12.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
             letter-spacing: 0.02em;
@@ -192,10 +259,9 @@
         .header-nav-group, .calendar-nav-group {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
-        
         .header-progress-line {
             position: absolute;
             bottom: -1px;
@@ -213,13 +279,12 @@
             transition: width 0.35s var(--ease);
         }
 
-        
         .cal-nav-btn, .theme-toggle {
             background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text-secondary);
             border-radius: var(--radius-xs);
-            height: 29px;
+            height: 27px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -228,13 +293,13 @@
         }
 
         .cal-nav-btn.text-btn {
-            padding: 0 9px;
-            font-size: 11.5px;
+            padding: 0 8px;
+            font-size: 11px;
             font-weight: 600;
         }
 
         .cal-nav-btn.icon-btn, .theme-toggle {
-            width: 29px;
+            width: 27px;
         }
 
         .cal-nav-btn:hover, .theme-toggle:hover {
@@ -243,8 +308,9 @@
             background: var(--item-hover);
         }
 
-        
-        /* Form Input Tambah Tugas Baru */
+        /* =========================================================================
+           FORM INPUT TAMBAH TUGAS
+           ========================================================================= */
         .task-form-minimal {
             display: flex;
             flex-direction: column;
@@ -257,7 +323,7 @@
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 3px 5px 3px 12px;
+            padding: 3px 4px 3px 10px;
             gap: 6px;
             transition: all var(--transition-fast);
         }
@@ -271,11 +337,11 @@
         .task-input-clean {
             flex: 1;
             min-width: 0;
-            height: 32px;
+            height: 30px;
             border: none;
             outline: none;
             background: transparent;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 500;
             color: var(--text-main);
         }
@@ -292,7 +358,6 @@
             flex-shrink: 0;
         }
 
-        
         .priority-mini-group {
             display: inline-flex;
             align-items: center;
@@ -301,14 +366,14 @@
             border: none;
             border-radius: var(--radius-xs);
             padding: 2px;
-            height: 26px;
+            height: 24px;
         }
 
         .mini-pill {
             height: 20px;
-            padding: 0 7px;
+            padding: 0 6px;
             border-radius: 3px;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 600;
             color: var(--text-muted);
             background: transparent;
@@ -359,14 +424,13 @@
             border: none;
         }
 
-        
         .due-mini-label {
             position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: var(--radius-xs);
             background: transparent;
             border: none;
@@ -395,10 +459,9 @@
             pointer-events: none;
         }
 
-        
         .btn-add-clean {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: var(--radius-xs);
             background: var(--primary);
             color: var(--primary-fg);
@@ -408,21 +471,22 @@
             cursor: pointer;
             transition: all var(--transition-fast);
             flex-shrink: 0;
+            border: none;
         }
 
         .btn-add-clean:hover {
             background: var(--primary-hover);
-            transform: scale(1.05);
+            transform: scale(1.04);
         }
 
-        
-        /* Toolbar Filter Status, Pencarian & Pilihan Tampilan */
+        /* =========================================================================
+           TOOLBAR: FILTER, SEARCH, VIEW
+           ========================================================================= */
         .tasks-compact-toolbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .filter-tabs-clean {
@@ -433,19 +497,21 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             padding: 2px;
+            flex-shrink: 0;
         }
 
         .filter-btn {
             background: transparent;
             border: none;
-            height: 24px;
-            padding: 0 9px;
+            height: 23px;
+            padding: 0 8px;
             border-radius: 4px;
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 500;
             color: var(--text-muted);
             cursor: pointer;
             transition: all var(--transition-fast);
+            white-space: nowrap;
         }
 
         .filter-btn:hover {
@@ -462,7 +528,8 @@
         .toolbar-right-tools {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            flex-shrink: 0;
         }
 
         .search-mini-wrap {
@@ -472,10 +539,10 @@
         }
 
         .search-mini-input {
-            width: 140px;
-            height: 26px;
-            padding: 0 20px 0 24px;
-            font-size: 11.5px;
+            width: 105px;
+            height: 25px;
+            padding: 0 18px 0 22px;
+            font-size: 11px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-xs);
@@ -485,7 +552,7 @@
         }
 
         .search-mini-input:focus {
-            width: 170px;
+            width: 130px;
             border-color: var(--border-focus);
             background: var(--card-bg);
         }
@@ -493,7 +560,7 @@
         .search-mini-icon {
             position: absolute;
             left: 6px;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
             pointer-events: none;
         }
@@ -501,11 +568,13 @@
         .search-clear-mini {
             position: absolute;
             right: 5px;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
             cursor: pointer;
             line-height: 1;
             background: transparent;
+            border: none;
+            padding: 0;
         }
 
         .view-switcher-clean {
@@ -516,19 +585,22 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             padding: 2px;
+            flex-shrink: 0;
         }
 
         .view-btn {
-            width: 24px;
-            height: 22px;
-            border-radius: 4px;
+            width: 22px;
+            height: 21px;
+            border-radius: 3px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             color: var(--text-muted);
             background: transparent;
+            border: none;
             cursor: pointer;
             transition: all var(--transition-fast);
+            padding: 0;
         }
 
         .view-btn:hover {
@@ -541,25 +613,32 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
-        
-        /* Daftar Baris Tugas (List View) */
+        /* =========================================================================
+           TASK LIST, ROWS & TABLE
+           ========================================================================= */
         .task-list {
             list-style: none;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 6px;
+            max-height: min(420px, calc(100vh - 280px));
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 2px;
         }
 
         .task-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 9px 12px;
+            padding: 8px 10px;
             background: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-sm);
-            font-size: 12.8px;
-            gap: 10px;
+            font-size: 12.5px;
+            gap: 8px;
             transition: all var(--transition-fast);
             position: relative;
             user-select: none;
@@ -595,7 +674,7 @@
         .task-left {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 8px;
             flex: 1;
             min-width: 0;
         }
@@ -620,14 +699,13 @@
             cursor: grabbing;
         }
 
-        
         .task-checkbox {
             appearance: none;
             -webkit-appearance: none;
-            width: 17px;
-            height: 17px;
+            width: 16px;
+            height: 16px;
             border: 1.5px solid var(--border-hover);
-            border-radius: 5px;
+            border-radius: 4px;
             background: var(--card-bg);
             cursor: pointer;
             display: grid;
@@ -648,7 +726,7 @@
         .task-checkbox:checked::before {
             content: "";
             width: 4px;
-            height: 8px;
+            height: 7px;
             border: solid var(--primary-fg);
             border-width: 0 1.6px 1.6px 0;
             transform: rotate(45deg) translate(-0.5px, -1px);
@@ -666,11 +744,10 @@
         .task-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             flex-shrink: 0;
         }
 
-        
         .priority-dot-indicator {
             width: 7px;
             height: 7px;
@@ -682,37 +759,17 @@
             transition: transform var(--transition-fast);
         }
 
-        .priority-dot-indicator.p-high {
-            background: var(--p-high);
-            border: none;
-            box-shadow: none;
-        }
+        .priority-dot-indicator.p-high { background: var(--p-high); }
+        .priority-dot-indicator.p-medium, .priority-dot-indicator.p-med { background: var(--p-med); }
+        .priority-dot-indicator.p-low { background: var(--p-low); }
 
-        .priority-dot-indicator.p-medium,
-        .priority-dot-indicator.p-med {
-            background: var(--p-med);
-            border: none;
-            box-shadow: none;
-        }
-
-        .priority-dot-indicator.p-low {
-            background: var(--p-low);
-            border: none;
-            box-shadow: none;
-        }
-
-        .priority-dot-indicator:hover {
-            transform: scale(1.3);
-        }
-
-        
         .priority-pill-badge {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            font-size: 11px;
+            gap: 4px;
+            font-size: 10.5px;
             font-weight: 600;
-            padding: 2px 8px;
+            padding: 1px 7px;
             border-radius: 999px;
             line-height: 1.3;
             border: none;
@@ -721,23 +778,18 @@
         .priority-pill-badge.p-high {
             background: var(--p-high-bg);
             color: var(--p-high-text);
-            border: none;
         }
 
-        .priority-pill-badge.p-medium,
-        .priority-pill-badge.p-med {
+        .priority-pill-badge.p-medium, .priority-pill-badge.p-med {
             background: var(--p-med-bg);
             color: var(--p-med-text);
-            border: none;
         }
 
         .priority-pill-badge.p-low {
             background: var(--p-low-bg);
             color: var(--p-low-text);
-            border: none;
         }
 
-        
         .task-due-text {
             font-size: 11px;
             color: var(--text-muted);
@@ -754,7 +806,6 @@
             font-weight: 600;
         }
 
-        
         .task-actions {
             display: flex;
             align-items: center;
@@ -769,15 +820,18 @@
         }
 
         .btn-action {
-            width: 25px;
-            height: 25px;
+            width: 24px;
+            height: 24px;
             border-radius: var(--radius-xs);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             color: var(--text-muted);
             background: transparent;
+            border: none;
+            cursor: pointer;
             transition: all var(--transition-fast);
+            padding: 0;
         }
 
         .btn-action:hover {
@@ -790,10 +844,10 @@
             background: rgba(229, 62, 62, 0.08);
         }
 
-        
-        /* Wadah Tabel Tugas (Table View) */
         .tasks-table-wrapper {
             width: 100%;
+            max-height: min(420px, calc(100vh - 280px));
+            overflow-y: auto;
             overflow-x: auto;
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
@@ -802,14 +856,14 @@
         .tasks-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12.5px;
+            font-size: 12px;
             text-align: left;
         }
 
         .tasks-table th {
             background: var(--bg);
-            padding: 9px 12px;
-            font-size: 11px;
+            padding: 8px 10px;
+            font-size: 10.5px;
             font-weight: 600;
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border);
@@ -818,7 +872,7 @@
         }
 
         .tasks-table td {
-            padding: 10px 12px;
+            padding: 8px 10px;
             border-bottom: 1px solid var(--border);
             color: var(--text-main);
             vertical-align: middle;
@@ -846,28 +900,29 @@
             cursor: pointer;
         }
 
-        
         .empty-state {
-            padding: 28px 12px;
+            padding: 24px 12px;
             text-align: center;
             color: var(--text-muted);
-            font-size: 12.5px;
+            font-size: 12px;
+            margin: 0;
         }
 
         .footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 12px;
+            padding-top: 10px;
             border-top: 1px solid var(--border);
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
 
         .task-summary {
-            font-size: 12px;
+            font-size: 11.5px;
             color: var(--text-muted);
             font-weight: 500;
+            margin: 0;
         }
 
         .footer-actions {
@@ -876,13 +931,14 @@
         }
 
         .btn-footer {
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 500;
             color: var(--text-secondary);
             background: var(--bg-subtle);
             border: none;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: var(--radius-xs);
+            cursor: pointer;
             transition: all var(--transition-fast);
         }
 
@@ -897,21 +953,17 @@
         }
 
         .storage-notice {
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-muted);
             width: 100%;
             text-align: right;
             min-height: 14px;
+            margin: 0;
         }
 
-        
-        /* Kartu Kalender Bulanan & Agenda Harian */
-        .calendar-card {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
+        /* =========================================================================
+           COMPACT CALENDAR & AGENDA
+           ========================================================================= */
         .calendar-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -928,24 +980,31 @@
         .calendar-days-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            gap: 4px;
         }
 
         .cal-day-cell {
-            aspect-ratio: 1;
-            min-height: 40px;
+            height: 32px;
+            min-height: 28px;
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-xs);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 500;
+            color: var(--text-main);
             cursor: pointer;
             position: relative;
+            padding: 0;
+            line-height: 1;
             transition: all var(--transition-fast);
+        }
+
+        .cal-day-cell > span {
+            line-height: 1;
         }
 
         .cal-day-cell:hover:not(.is-selected) {
@@ -954,7 +1013,7 @@
         }
 
         .cal-day-cell.other-month {
-            opacity: 0.3;
+            opacity: 0.28;
             color: var(--text-muted);
         }
 
@@ -966,10 +1025,10 @@
         .cal-day-cell.is-today::after {
             content: "";
             position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 4px;
-            height: 4px;
+            top: 3px;
+            right: 3px;
+            width: 3.5px;
+            height: 3.5px;
             border-radius: 50%;
             background: var(--primary);
         }
@@ -979,29 +1038,28 @@
             color: var(--primary-fg);
             border-color: var(--primary);
             font-weight: 700;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
         }
 
         .cal-day-cell.drag-over {
             background: var(--primary) !important;
             color: var(--primary-fg) !important;
-            transform: scale(1.08);
+            transform: scale(1.06);
             z-index: 5;
-            box-shadow: 0 0 0 2px var(--primary-fg);
+            box-shadow: 0 0 0 2px var(--border);
         }
 
         .cal-day-dots {
             display: flex;
-            gap: 2.5px;
+            gap: 2px;
             align-items: center;
             justify-content: center;
-            height: 5px;
-            margin-top: 2px;
+            height: 3.5px;
+            margin-top: 1.5px;
         }
 
         .cal-dot {
-            width: 4px;
-            height: 4px;
+            width: 3.5px;
+            height: 3.5px;
             border-radius: 50%;
             background: var(--p-med);
             border: none;
@@ -1014,25 +1072,15 @@
             box-shadow: none;
         }
 
-        .cal-dot.p-high {
-            background: var(--p-high);
-        }
+        .cal-dot.p-high { background: var(--p-high); }
+        .cal-dot.p-medium, .cal-dot.p-med { background: var(--p-med); }
+        .cal-dot.p-low { background: var(--p-low); }
 
-        .cal-dot.p-medium,
-        .cal-dot.p-med {
-            background: var(--p-med);
-        }
-
-        .cal-dot.p-low {
-            background: var(--p-low);
-        }
-
-        
         .calendar-agenda {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding-top: 14px;
+            gap: 8px;
+            padding-top: 12px;
             border-top: 1px solid var(--border);
         }
 
@@ -1043,15 +1091,16 @@
         }
 
         .agenda-header h3 {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-main);
+            margin: 0;
         }
 
         .agenda-count {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 600;
-            padding: 2px 8px;
+            padding: 1px 7px;
             border-radius: 999px;
             background: var(--bg-subtle);
             border: none;
@@ -1060,21 +1109,25 @@
 
         .agenda-task-list {
             list-style: none;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 6px;
+            max-height: 180px;
+            overflow-y: auto;
         }
 
         .agenda-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 9px 12px;
+            padding: 7px 10px;
             background: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-sm);
-            font-size: 12.8px;
-            gap: 10px;
+            font-size: 12px;
+            gap: 8px;
             transition: all var(--transition-fast);
         }
 
@@ -1094,7 +1147,7 @@
         .agenda-item-left {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 8px;
             flex: 1;
             min-width: 0;
         }
@@ -1109,12 +1162,12 @@
         .agenda-item-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
         }
 
         .agenda-time {
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-muted);
             font-weight: 500;
         }
@@ -1126,14 +1179,16 @@
         }
 
         .agenda-empty {
-            font-size: 12px;
+            font-size: 11.5px;
             color: var(--text-muted);
             text-align: center;
-            padding: 14px 8px;
+            padding: 10px 4px;
+            margin: 0;
         }
 
-        
-        /* Jendela Dialog Modal untuk Edit Tugas */
+        /* =========================================================================
+           MODALS & TOAST NOTIFICATIONS
+           ========================================================================= */
         .modal {
             border: none;
             background: transparent;
@@ -1147,7 +1202,7 @@
             place-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.16s ease;
         }
 
         .modal[open] {
@@ -1156,32 +1211,24 @@
         }
 
         .modal::backdrop {
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.35);
         }
 
         [data-theme="dark"] .modal::backdrop {
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.65);
         }
 
         .modal-card {
             width: 100%;
-            max-width: 440px;
+            max-width: 420px;
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-md);
             box-shadow: var(--shadow-modal);
-            padding: 22px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            animation: modalScaleIn 0.2s var(--ease);
-        }
-
-        @keyframes modalScaleIn {
-            from { transform: scale(0.96) translateY(6px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
+            gap: 14px;
         }
 
         .modal-header {
@@ -1194,14 +1241,15 @@
 
         .modal-header h3 {
             font-family: 'Outfit', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--text-main);
+            margin: 0;
         }
 
         .modal-close {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: var(--radius-xs);
             display: flex;
             align-items: center;
@@ -1210,6 +1258,7 @@
             background: transparent;
             border: none;
             cursor: pointer;
+            padding: 0;
         }
 
         .modal-close:hover {
@@ -1220,7 +1269,7 @@
         .modal-body {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .modal-field {
@@ -1236,24 +1285,24 @@
         }
 
         .modal-label {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
             color: var(--text-secondary);
         }
 
         .modal-char-counter {
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-muted);
         }
 
         .modal-input {
             width: 100%;
-            height: 38px;
+            height: 34px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 0 12px;
-            font-size: 13px;
+            padding: 0 10px;
+            font-size: 12.5px;
             color: var(--text-main);
             outline: none;
         }
@@ -1266,27 +1315,29 @@
 
         .modal-due-row {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
         .modal-due-input {
             flex: 1;
-            height: 36px;
+            height: 34px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 0 10px;
-            font-size: 12.5px;
+            padding: 0 8px;
+            font-size: 12px;
+            color: var(--text-main);
         }
 
         .btn-clear-due {
-            padding: 0 12px;
+            padding: 0 10px;
             background: var(--bg-subtle);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 500;
             color: var(--text-secondary);
+            cursor: pointer;
         }
 
         .btn-clear-due:hover {
@@ -1295,20 +1346,21 @@
 
         .modal-due-presets {
             display: flex;
-            gap: 5px;
-            margin-top: 3px;
+            gap: 4px;
+            margin-top: 2px;
         }
 
         .btn-preset {
             flex: 1;
-            padding: 5px 6px;
+            padding: 4px 6px;
             background: var(--bg-subtle);
             border: none;
             border-radius: var(--radius-xs);
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 500;
             color: var(--text-secondary);
             text-align: center;
+            cursor: pointer;
         }
 
         .btn-preset:hover {
@@ -1319,16 +1371,16 @@
         .modal-checkbox-label {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 8px;
             cursor: pointer;
-            font-size: 12.5px;
+            font-size: 12px;
             color: var(--text-secondary);
         }
 
         .modal-meta-info {
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-muted);
-            padding: 7px 10px;
+            padding: 6px 8px;
             background: var(--bg-subtle);
             border-radius: var(--radius-xs);
             border: none;
@@ -1338,25 +1390,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            padding-top: 12px;
+            gap: 8px;
+            padding-top: 10px;
             border-top: 1px solid var(--border);
         }
 
         .modal-actions-right {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn-secondary {
-            height: 34px;
-            padding: 0 14px;
+            height: 32px;
+            padding: 0 12px;
             background: var(--bg-subtle);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 500;
             color: var(--text-secondary);
+            cursor: pointer;
         }
 
         .btn-secondary:hover {
@@ -1365,342 +1418,33 @@
         }
 
         .btn-primary {
-            height: 34px;
-            padding: 0 16px;
+            height: 32px;
+            padding: 0 14px;
             background: var(--primary);
             color: var(--primary-fg);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
+            cursor: pointer;
         }
 
         .btn-danger-text {
             color: var(--text-muted);
-            font-size: 12px;
+            font-size: 11.5px;
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 6px;
+            padding: 4px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
         }
 
         .btn-danger-text:hover {
             color: #e53e3e;
         }
 
-        /* =========================================================================
-           KOMPONEN AUTENTIKASI (USER BADGE, HEADER TRIGGER & MODAL SIGN IN/UP)
-           ========================================================================= */
-        .user-badge {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xs);
-            height: 29px;
-            padding: 0 4px 0 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11.5px;
-            font-weight: 600;
-            color: var(--text-main);
-            transition: all var(--transition-fast);
-        }
-
-        .user-badge:hover {
-            border-color: var(--border-hover);
-        }
-
-        .user-badge-icon {
-            font-size: 15px;
-            color: var(--text-secondary);
-        }
-
-        .user-badge-name {
-            max-width: 105px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .btn-logout-icon {
-            width: 21px;
-            height: 21px;
-            border-radius: 3px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            padding: 0;
-        }
-
-        .btn-logout-icon:hover {
-            color: #ef4444;
-            background: rgba(239, 68, 68, 0.12);
-        }
-
-        .btn-auth-trigger {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            border-radius: var(--radius-xs);
-            height: 29px;
-            padding: 0 9px;
-            font-size: 11.5px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .btn-auth-trigger:hover {
-            color: var(--text-main);
-            border-color: var(--border-hover);
-            background: var(--item-hover);
-        }
-
-        /* Modal Autentikasi Modern & Terpadu */
-        .auth-modal-card {
-            max-width: 390px;
-            position: relative;
-            padding: 26px 24px 22px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .auth-modal-close {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-        }
-
-        .auth-card-top {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 4px;
-        }
-
-        .auth-brand-badge {
-            font-family: 'Outfit', sans-serif;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            background: var(--bg-subtle);
-            padding: 3px 10px;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            margin-bottom: 2px;
-        }
-
-        .auth-modal-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--text-main);
-            margin: 0;
-        }
-
-        .auth-modal-subtitle {
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.4;
-            margin: 0;
-            max-width: 290px;
-        }
-
-        .auth-tabs {
-            display: flex;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 3px;
-            gap: 3px;
-        }
-
-        .auth-tab {
-            flex: 1;
-            height: 31px;
-            border-radius: var(--radius-xs);
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-fast);
-        }
-
-        .auth-tab:hover {
-            color: var(--text-main);
-        }
-
-        .auth-tab.active {
-            background: var(--card-bg);
-            color: var(--text-main);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-        }
-
-        .auth-form-body {
-            display: flex;
-            flex-direction: column;
-            gap: 13px;
-        }
-
-        .auth-alert-error {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            background: var(--p-high-bg);
-            color: var(--p-high-text);
-            border: 1px solid var(--p-high-border);
-            line-height: 1.4;
-        }
-
-        .auth-input-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .auth-input-icon {
-            position: absolute;
-            left: 11px;
-            font-size: 16px;
-            color: var(--text-muted);
-            pointer-events: none;
-            transition: color var(--transition-fast);
-        }
-
-        .auth-input {
-            width: 100%;
-            height: 38px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 0 12px 0 35px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-main);
-            outline: none;
-            transition: all var(--transition-fast);
-        }
-
-        .auth-input.has-toggle {
-            padding-right: 36px;
-        }
-
-        .auth-input:focus {
-            border-color: var(--border-focus);
-            background: var(--card-bg);
-            box-shadow: 0 0 0 2px var(--ring);
-        }
-
-        .auth-input-box:focus-within .auth-input-icon {
-            color: var(--text-main);
-        }
-
-        .btn-toggle-pwd {
-            position: absolute;
-            right: 6px;
-            width: 26px;
-            height: 26px;
-            background: transparent;
-            border: none;
-            border-radius: var(--radius-xs);
-            color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-fast);
-            padding: 0;
-        }
-
-        .btn-toggle-pwd:hover {
-            color: var(--text-main);
-            background: var(--bg-subtle);
-        }
-
-        .btn-toggle-pwd span {
-            font-size: 16px;
-        }
-
-        .auth-field-hint {
-            font-size: 11px;
-            color: var(--text-muted);
-            line-height: 1.3;
-            padding-left: 2px;
-        }
-
-        .auth-submit-btn {
-            width: 100%;
-            height: 38px;
-            border-radius: var(--radius-sm);
-            background: var(--primary);
-            color: var(--primary-fg);
-            border: none;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.01em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            margin-top: 2px;
-        }
-
-        .auth-submit-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        .auth-bottom-switch {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .auth-switch-link {
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 0;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            transition: color var(--transition-fast);
-        }
-
-        .auth-switch-link:hover {
-            color: var(--text-secondary);
-        }
-
-        
-        /* Kontainer Notifikasi Pop-up (Toast) */
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -1717,54 +1461,137 @@
             pointer-events: auto;
             background: var(--primary);
             color: var(--primary-fg);
-            padding: 8px 14px;
+            padding: 7px 12px;
             border-radius: 999px;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: var(--shadow-modal);
-            animation: toastPop 0.22s var(--ease) forwards;
-        }
-
-        @keyframes toastPop {
-            from { opacity: 0; transform: translateY(12px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         }
 
         .toast-undo-btn {
             background: rgba(255, 255, 255, 0.2);
             color: var(--primary-fg);
-            padding: 2px 8px;
+            padding: 2px 7px;
             border-radius: 999px;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
+            border: none;
         }
 
         [data-theme="dark"] .toast-undo-btn {
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.3);
         }
 
-        .confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 9998;
+        /* =========================================================================
+           RESPONSIVE BREAKPOINTS (SIDE-BY-SIDE DESKTOP & TABLET, VERTICAL MOBILE)
+           ========================================================================= */
+        /* Tablet & Small Laptop (Keep 2 columns side-by-side) */
+        @media (max-width: 900px) and (min-width: 721px) {
+            .app-layout {
+                max-width: 100%;
+                padding: 18px 14px;
+                gap: 12px;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            }
+
+            .container {
+                padding: 16px 14px;
+                gap: 12px;
+            }
+
+            .tasks-compact-toolbar {
+                gap: 4px;
+            }
+
+            .filter-btn {
+                padding: 0 6px;
+                font-size: 10.5px;
+            }
+
+            .search-mini-input {
+                width: 90px;
+            }
+
+            .search-mini-input:focus {
+                width: 115px;
+            }
+
+            .cal-day-cell {
+                height: 30px;
+                font-size: 11px;
+            }
+        }
+
+        /* Mobile Phones (Stack vertically: To-Do first, Calendar second) */
+        @media (max-width: 720px) {
+            .app-layout {
+                grid-template-columns: minmax(0, 1fr);
+                max-width: 520px;
+                padding: 14px 12px 28px;
+                gap: 14px;
+            }
+
+            .container {
+                padding: 16px 14px;
+                gap: 14px;
+            }
+
+            .calendar-card {
+                position: static;
+            }
+
+            .tasks-compact-toolbar {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .toolbar-right-tools {
+                margin-left: auto;
+            }
+
+            .search-mini-input {
+                width: 110px;
+            }
+
+            .cal-day-cell {
+                height: 36px;
+                font-size: 12px;
+            }
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
         }
     </style>
 </head>
 
 <body>
-    
-    <!-- Animasi Selebrasi Confetti -->
-    <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
-
     
     <!-- Notifikasi Pop-up Toast -->
     <div id="toast-container" class="toast-container" aria-live="polite"></div>
@@ -1783,17 +1610,6 @@
                     </h1>
                 </div>
                 <div class="header-nav-group">
-                    <div id="user-profile-badge" class="user-badge" style="display:none;">
-                        <span class="material-symbols-outlined user-badge-icon">account_circle</span>
-                        <span id="user-display-name" class="user-badge-name"></span>
-                        <button id="btn-logout" class="btn-logout-icon" type="button" title="Keluar">
-                            <span class="material-symbols-outlined" style="font-size: 14px;">logout</span>
-                        </button>
-                    </div>
-                    <button id="btn-open-auth" class="btn-auth-trigger" type="button" title="Masuk atau Daftar" style="display:none;">
-                        <span class="material-symbols-outlined" style="font-size: 15px;">login</span>
-                        <span>Masuk</span>
-                    </button>
                     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle tema gelap/terang" title="Ganti Tema">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                     </button>
@@ -2028,133 +1844,37 @@
         </div>
     </dialog>
 
-    <!-- Modal Dialog: Autentikasi Pengguna (Sign In & Sign Up) -->
-    <dialog id="auth-modal" class="modal">
-        <div class="modal-card auth-modal-card">
-            <button type="button" id="auth-modal-close" class="modal-close auth-modal-close" aria-label="Tutup" title="Tutup">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-
-            <div class="auth-card-top">
-                <div class="auth-brand-badge">STASH</div>
-                <h3 class="auth-modal-title" id="auth-modal-title">Masuk ke Akun Anda</h3>
-                <p class="auth-modal-subtitle" id="auth-modal-subtitle">Profil dan tugas tersimpan hanya di browser ini pada perangkat Anda.</p>
-            </div>
-
-            <div class="auth-tabs" role="tablist">
-                <button type="button" class="auth-tab active" id="tab-login" role="tab">Masuk</button>
-                <button type="button" class="auth-tab" id="tab-register" role="tab">Daftar Baru</button>
-            </div>
-
-            <form id="auth-form" class="auth-form-body">
-                <div id="auth-error-alert" class="auth-alert-error" hidden>
-                    <span class="material-symbols-outlined" style="font-size: 16px; flex-shrink: 0;">error</span>
-                    <span id="auth-error-text"></span>
-                </div>
-
-                <div class="modal-field">
-                    <label for="auth-username" class="modal-label">Nama Pengguna</label>
-                    <div class="auth-input-box">
-                        <span class="material-symbols-outlined auth-input-icon">person</span>
-                        <input type="text" id="auth-username" class="modal-input auth-input" placeholder="contoh: budi_santoso" required autocomplete="username" maxlength="30">
-                    </div>
-                    <span class="auth-field-hint" id="auth-username-hint">3–30 karakter (huruf, angka, atau garis bawah)</span>
-                </div>
-
-                <div class="modal-field">
-                    <label for="auth-password" class="modal-label">Kata Sandi</label>
-                    <div class="auth-input-box">
-                        <span class="material-symbols-outlined auth-input-icon">lock</span>
-                        <input type="password" id="auth-password" class="modal-input auth-input has-toggle" placeholder="Minimal 6 karakter" required autocomplete="current-password">
-                        <button type="button" class="btn-toggle-pwd" id="btn-toggle-pwd" title="Tampilkan/sembunyikan kata sandi">
-                            <span class="material-symbols-outlined" id="toggle-pwd-icon">visibility</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="modal-field" id="auth-confirm-group" style="display: none;">
-                    <label for="auth-confirm-password" class="modal-label">Konfirmasi Kata Sandi</label>
-                    <div class="auth-input-box">
-                        <span class="material-symbols-outlined auth-input-icon">verified_user</span>
-                        <input type="password" id="auth-confirm-password" class="modal-input auth-input has-toggle" placeholder="Ulangi kata sandi" autocomplete="new-password">
-                    </div>
-                </div>
-
-                <button type="submit" id="auth-submit-btn" class="auth-submit-btn">
-                    <span id="auth-btn-text">Masuk</span>
-                </button>
-
-                <div class="auth-bottom-switch">
-                    <span id="auth-switch-prompt">Belum punya akun?</span>
-                    <button type="button" id="auth-switch-link" class="auth-switch-link">Daftar sekarang</button>
-                </div>
-            </form>
-        </div>
-    </dialog>
-
-    
     <script type="module">
-        import { openStashDB, dbRequest, saveUserTasks } from "./database.js";
+        import { openStashDB, dbRequest, saveAllTasks } from "./database.js";
         /**
          * Logika JavaScript Frontend:
          * Mengelola state aplikasi, penyimpanan IndexedDB, interaksi tema,
          * render daftar tugas, kalender interaktif, drag & drop, serta shortcut keyboard.
          */
         
-        // Kunci sesi lokal dan elemen-elemen DOM.
-        const AUTH_SESSION_KEY = "stash-local-user-id";
-
-        // Session hanya menyimpan ID profil lokal, tidak menyimpan kredensial.
-        let authToken = localStorage.getItem(AUTH_SESSION_KEY) || "";
-        let currentUser = null;
-
         let cachedPreferences = {};
         function savePreference(key, value) {
             cachedPreferences[key] = value;
-            const id = currentUser ? currentUser.id : "device-default";
-            dbRequest("settings", "readwrite", store => store.put({
-                id, userId: currentUser ? currentUser.id : null,
-                preferences: { ...cachedPreferences }, updatedAt: new Date().toISOString()
-            })).catch(error => console.error("Gagal menyimpan pengaturan lokal:", error));
+            return dbRequest("settings", "readwrite", store => store.put({
+                id: "global", preferences: { ...cachedPreferences }, updatedAt: new Date().toISOString()
+            })).catch(error => {
+                console.error("Gagal menyimpan pengaturan lokal:", error);
+                storageNotice.textContent = "Pengaturan gagal disimpan";
+            });
         }
 
         async function loadPreferences() {
-            const id = currentUser ? currentUser.id : "device-default";
-            const record = await dbRequest("settings", "readonly", store => store.get(id));
-            if (!record || !record.preferences) return;
+            const record = await dbRequest("settings", "readonly", store => store.get("global"));
+            if (!record || !record.preferences) return {};
             const prefs = record.preferences;
             cachedPreferences = { ...prefs };
             if (prefs.theme) applyTheme(prefs.theme === "dark", false);
-            if (prefs.view) {
+            if (prefs.view && ["list", "table"].includes(prefs.view)) {
                 currentView = prefs.view;
                 viewButtons.forEach(button => button.classList.toggle("active", button.dataset.view === currentView));
-                renderTasks();
             }
+            return prefs;
         }
-
-        const userProfileBadge = document.getElementById("user-profile-badge");
-        const userDisplayName = document.getElementById("user-display-name");
-        const btnLogout = document.getElementById("btn-logout");
-        const btnOpenAuth = document.getElementById("btn-open-auth");
-        const authModal = document.getElementById("auth-modal");
-        const authModalClose = document.getElementById("auth-modal-close");
-        const authModalTitle = document.getElementById("auth-modal-title");
-        const authModalSubtitle = document.getElementById("auth-modal-subtitle");
-        const tabLogin = document.getElementById("tab-login");
-        const tabRegister = document.getElementById("tab-register");
-        const authForm = document.getElementById("auth-form");
-        const authUsername = document.getElementById("auth-username");
-        const authPassword = document.getElementById("auth-password");
-        const authConfirmPassword = document.getElementById("auth-confirm-password");
-        const authConfirmGroup = document.getElementById("auth-confirm-group");
-        const authErrorAlert = document.getElementById("auth-error-alert");
-        const authErrorText = document.getElementById("auth-error-text");
-        const authSubmitBtn = document.getElementById("auth-submit-btn");
-        const authBtnText = document.getElementById("auth-btn-text");
-        const authSwitchPrompt = document.getElementById("auth-switch-prompt");
-        const authSwitchLink = document.getElementById("auth-switch-link");
-        const btnTogglePwd = document.getElementById("btn-toggle-pwd");
-        const togglePwdIcon = document.getElementById("toggle-pwd-icon");
 
         const taskForm = document.getElementById("task-form");
         const taskInput = document.getElementById("task-input");
@@ -2233,7 +1953,7 @@
         // Inisialisasi tema (terang/gelap) saat halaman pertama kali dimuat
         function initTheme() {
             const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            applyTheme(systemPrefersDark);
+            applyTheme(systemPrefersDark, false);
         }
 
         // Mengubah atribut data-theme dan ikon tombol tema
@@ -2336,6 +2056,7 @@
         
         function normalizeTask(task) {
             return {
+                ...task,
                 id: String(task.id || createId()),
                 title: String(task.title || ""),
                 completed: Boolean(task.completed),
@@ -2346,31 +2067,16 @@
             };
         }
 
-        // Semua tugas tersimpan di IndexedDB dan dipisahkan berdasarkan userId.
+        // Semua tugas dimuat dari satu daftar lokal di IndexedDB.
         async function loadTasks() {
-            if (!currentUser) {
-                tasks = [];
-                renderTasks();
-                return;
-            }
-            const db = await openStashDB();
-            tasks = await new Promise((resolve, reject) => {
-                const request = db.transaction("tasks", "readonly").objectStore("tasks")
-                    .index("userId").getAll(IDBKeyRange.only(currentUser.id));
-                request.onsuccess = () => resolve(request.result.map(normalizeTask));
-                request.onerror = () => reject(request.error);
-            });
+            tasks = (await dbRequest("tasks", "readonly", store => store.getAll())).map(normalizeTask);
             renderTasks();
         }
 
         async function saveTasks() {
-            if (!currentUser) return;
-            tasks.forEach(task => {
-                task.userId = currentUser.id;
-                task.updatedAt = new Date().toISOString();
-            });
+            tasks.forEach(task => { task.updatedAt = new Date().toISOString(); });
             try {
-                await saveUserTasks(currentUser.id, tasks);
+                await saveAllTasks(tasks);
                 storageNotice.textContent = "";
             } catch (error) {
                 console.error("Gagal menyimpan tugas lokal:", error);
@@ -2416,68 +2122,6 @@
                 capsule.style.transition = "all 0.2s ease";
                 setTimeout(() => { if (capsule.parentElement) capsule.remove(); }, 220);
             }, 3800);
-        }
-
-        
-        const canvas = document.getElementById("confetti-canvas");
-        const ctx = canvas.getContext("2d");
-        let confettiParticles = [];
-        let confettiAnimationId = null;
-
-        // Menjalankan animasi confetti saat seluruh tugas berhasil diselesaikan
-        function triggerConfetti() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            confettiParticles = [];
-
-            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-            const colors = isDark 
-                ? ["#ffffff", "#e0e0e0", "#aaaaaa", "#777777"]
-                : ["#111111", "#333333", "#666666", "#999999"];
-
-            for (let i = 0; i < 60; i++) {
-                confettiParticles.push({
-                    x: window.innerWidth / 2 + (Math.random() - 0.5) * 160,
-                    y: window.innerHeight / 3,
-                    vx: (Math.random() - 0.5) * 10,
-                    vy: (Math.random() - 0.7) * 12,
-                    size: Math.random() * 4 + 3,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    rot: Math.random() * 360,
-                    vRot: (Math.random() - 0.5) * 8,
-                    alpha: 1
-                });
-            }
-
-            if (confettiAnimationId) cancelAnimationFrame(confettiAnimationId);
-            runConfetti();
-        }
-
-        function runConfetti() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            let active = 0;
-
-            confettiParticles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.32;
-                p.rot += p.vRot;
-                p.alpha -= 0.014;
-
-                if (p.alpha > 0) {
-                    active++;
-                    ctx.save();
-                    ctx.translate(p.x, p.y);
-                    ctx.rotate((p.rot * Math.PI) / 180);
-                    ctx.globalAlpha = Math.max(0, p.alpha);
-                    ctx.fillStyle = p.color;
-                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.3);
-                    ctx.restore();
-                }
-            });
-
-            if (active > 0) confettiAnimationId = requestAnimationFrame(runConfetti);
-            else { ctx.clearRect(0, 0, canvas.width, canvas.height); confettiAnimationId = null; }
         }
 
         
@@ -2793,12 +2437,6 @@
         // Event submit form untuk menambahkan tugas baru
         taskForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            if (!currentUser || !authToken) {
-                showToast("Harap masuk terlebih dahulu.");
-                openAuthModal("login", true);
-                return;
-            }
-
             const title = taskInput.value.trim();
             if (!title) return;
 
@@ -2841,7 +2479,6 @@
             if (task.completed) {
                 const allDone = tasks.length > 0 && tasks.every(t => t.completed);
                 if (allDone) {
-                    triggerConfetti();
                     showToast("Semua tugas selesai!");
                 } else {
                     showToast(`Selesai: "${task.title}"`);
@@ -3298,221 +2935,23 @@
         });
 
         
-        /* =========================================================================
-           LOGIKA AUTENTIKASI PENGGUNA (SIGN IN & SIGN UP)
-           ========================================================================= */
-        let authMode = "login"; // "login" | "register"
-
-        function updateAuthUI() {
-            if (currentUser && authToken) {
-                userProfileBadge.style.display = "inline-flex";
-                btnOpenAuth.style.display = "none";
-                userDisplayName.textContent = currentUser.username;
-            } else {
-                userProfileBadge.style.display = "none";
-                btnOpenAuth.style.display = "inline-flex";
-                userDisplayName.textContent = "";
-            }
-        }
-
-        function setAuthError(msg) {
-            if (msg) {
-                if (authErrorText) authErrorText.textContent = msg;
-                authErrorAlert.hidden = false;
-            } else {
-                if (authErrorText) authErrorText.textContent = "";
-                authErrorAlert.hidden = true;
-            }
-        }
-
-        function setAuthMode(mode) {
-            authMode = mode;
-            setAuthError("");
-            if (mode === "login") {
-                tabLogin.classList.add("active");
-                tabRegister.classList.remove("active");
-                authConfirmGroup.style.display = "none";
-                authConfirmPassword.removeAttribute("required");
-                if (authModalTitle) authModalTitle.textContent = "Masuk ke Akun Anda";
-                if (authModalSubtitle) authModalSubtitle.textContent = "Profil dan tugas tersimpan hanya di browser ini pada perangkat Anda.";
-                authBtnText.textContent = "Masuk";
-                if (authSwitchPrompt) authSwitchPrompt.textContent = "Belum punya akun?";
-                if (authSwitchLink) authSwitchLink.textContent = "Daftar sekarang";
-                authPassword.setAttribute("autocomplete", "current-password");
-            } else {
-                tabRegister.classList.add("active");
-                tabLogin.classList.remove("active");
-                authConfirmGroup.style.display = "flex";
-                authConfirmPassword.setAttribute("required", "required");
-                if (authModalTitle) authModalTitle.textContent = "Buat Akun Baru";
-                if (authModalSubtitle) authModalSubtitle.textContent = "Profil lokal untuk penggunaan pribadi di browser dan perangkat ini.";
-                authBtnText.textContent = "Daftar Akun Baru";
-                if (authSwitchPrompt) authSwitchPrompt.textContent = "Sudah memiliki akun?";
-                if (authSwitchLink) authSwitchLink.textContent = "Masuk di sini";
-                authPassword.setAttribute("autocomplete", "new-password");
-            }
-        }
-
-        function openAuthModal(mode = "login", isForced = false) {
-            setAuthMode(mode);
-            authUsername.value = "";
-            authPassword.value = "";
-            authConfirmPassword.value = "";
-            setAuthError("");
-            if (isForced) {
-                authModalClose.style.display = currentUser ? "flex" : "none";
-            } else {
-                authModalClose.style.display = "flex";
-            }
-            if (!authModal.open) {
-                authModal.showModal();
-            }
-        }
-
-        async function checkAuthSession() {
+        async function initializeApp() {
             try {
                 await openStashDB();
-            } catch (error) {
-                console.error("IndexedDB tidak tersedia:", error);
-                updateAuthUI();
-                openAuthModal("login", true);
-                setAuthError("Penyimpanan lokal tidak tersedia. Aktifkan IndexedDB di browser Anda.");
-                return;
-            }
-            if (!authToken) {
-                updateAuthUI();
-                await loadPreferences();
-                openAuthModal("login", true);
-                return;
-            }
-            try {
-                currentUser = await dbRequest("users", "readonly", store => store.get(authToken));
-                if (!currentUser) throw new Error("Profil lokal tidak ditemukan");
-                currentUser = { id: currentUser.id, username: currentUser.username, createdAt: currentUser.createdAt };
-                updateAuthUI();
-                await loadPreferences();
+                const preferences = await loadPreferences();
+                if (!preferences.theme) {
+                    await savePreference("theme", document.documentElement.getAttribute("data-theme"));
+                }
                 await loadTasks();
-            } catch (_) {
-                authToken = "";
-                currentUser = null;
-                localStorage.removeItem(AUTH_SESSION_KEY);
-                updateAuthUI();
+            } catch (error) {
+                console.error("Gagal membuka database lokal:", error);
+                storageNotice.textContent = "Penyimpanan lokal tidak tersedia di browser ini.";
                 tasks = [];
                 renderTasks();
-                openAuthModal("login", true);
             }
         }
-
-        tabLogin.addEventListener("click", () => setAuthMode("login"));
-        tabRegister.addEventListener("click", () => setAuthMode("register"));
-
-        if (authSwitchLink) {
-            authSwitchLink.addEventListener("click", () => {
-                setAuthMode(authMode === "login" ? "register" : "login");
-            });
-        }
-
-        btnTogglePwd.addEventListener("click", () => {
-            const isPassword = authPassword.type === "password";
-            authPassword.type = isPassword ? "text" : "password";
-            authConfirmPassword.type = isPassword ? "text" : "password";
-            togglePwdIcon.textContent = isPassword ? "visibility_off" : "visibility";
-        });
-
-        btnOpenAuth.addEventListener("click", () => openAuthModal("login", false));
-        authModalClose.addEventListener("click", () => {
-            if (currentUser) {
-                authModal.close();
-            } else {
-                showToast("Harap masuk atau daftar untuk melanjutkan.");
-            }
-        });
-
-        btnLogout.addEventListener("click", () => {
-            authToken = "";
-            currentUser = null;
-            localStorage.removeItem(AUTH_SESSION_KEY);
-            tasks = [];
-            renderTasks();
-            updateAuthUI();
-            showToast("Berhasil keluar.");
-            openAuthModal("login", true);
-        });
-
-        async function hashPassword(password, salt) {
-            const encoder = new TextEncoder();
-            const key = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
-            const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations: 310000, hash: "SHA-256" }, key, 256);
-            return Array.from(new Uint8Array(bits), byte => byte.toString(16).padStart(2, "0")).join("");
-        }
-
-        function bytesToHex(bytes) {
-            return Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
-        }
-
-        authForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            setAuthError("");
-            const username = authUsername.value.trim();
-            const password = authPassword.value;
-            const confirmPassword = authConfirmPassword.value;
-            if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) {
-                setAuthError("Nama pengguna harus 3-30 karakter (hanya huruf, angka, _)."); return;
-            }
-            if (password.length < 6) {
-                setAuthError("Kata sandi minimal 6 karakter."); return;
-            }
-            if (authMode === "register" && password !== confirmPassword) {
-                setAuthError("Konfirmasi kata sandi tidak cocok."); return;
-            }
-            authSubmitBtn.disabled = true;
-            const originalBtnText = authBtnText.textContent;
-            authBtnText.textContent = "Memproses...";
-            try {
-                await openStashDB();
-                const users = await dbRequest("users", "readonly", store => store.getAll());
-                const existing = users.find(user => user.username.toLowerCase() === username.toLowerCase());
-                if (authMode === "register") {
-                    if (existing) { setAuthError("Nama pengguna sudah digunakan."); return; }
-                    const salt = crypto.getRandomValues(new Uint8Array(16));
-                    const user = {
-                        id: createId(), username, passwordHash: await hashPassword(password, salt),
-                        salt: bytesToHex(salt), createdAt: new Date().toISOString()
-                    };
-                    await dbRequest("users", "readwrite", store => store.add(user));
-                    currentUser = { id: user.id, username: user.username, createdAt: user.createdAt };
-                } else {
-                    if (!existing) { setAuthError("Profil lokal tidak ditemukan. Silakan daftar terlebih dahulu."); return; }
-                    const expected = await hashPassword(password, Uint8Array.from(existing.salt.match(/../g), byte => parseInt(byte, 16)));
-                    if (expected !== existing.passwordHash) { setAuthError("Kata sandi salah."); return; }
-                    currentUser = { id: existing.id, username: existing.username, createdAt: existing.createdAt };
-                }
-                authToken = currentUser.id;
-                localStorage.setItem(AUTH_SESSION_KEY, authToken);
-                updateAuthUI();
-                authModal.close();
-                await loadPreferences();
-                await loadTasks();
-                showToast(`Selamat datang, ${currentUser.username}!`);
-            } catch (error) {
-                console.error("Autentikasi lokal gagal:", error);
-                setAuthError("Tidak dapat membuka penyimpanan lokal. Coba gunakan browser modern dengan IndexedDB aktif.");
-            } finally {
-                authSubmitBtn.disabled = false;
-                authBtnText.textContent = originalBtnText;
-            }
-        });
 
         window.addEventListener("keydown", (e) => {
-            if (authModal && authModal.open) {
-                if (e.key === "Escape" && !currentUser) {
-                    e.preventDefault();
-                } else if (e.key === "Escape" && currentUser) {
-                    authModal.close();
-                }
-                return;
-            }
-
             if (editModal.open) {
                 if (e.key === "Escape") editModal.close();
                 if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
@@ -3551,7 +2990,7 @@
 
         
         initTheme();
-        checkAuthSession();
+        initializeApp();
     </script>
 </body>
 </html>
