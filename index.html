@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,200..300,0,0&display=swap">
     <style>
         /* =========================================================================
-           TOKEN WARNA & SISTEM DESAIN (MINIMALIST MONOCHROME)
+           1. DESIGN SYSTEM & TOKENS (UNIFIED MONOCHROME — VISUAL REF: c9c1099)
            ========================================================================= */
         :root {
             /* Warna Latar Belakang & Permukaan Kartu */
@@ -40,7 +40,7 @@
             --primary: #111418;
             --primary-fg: #ffffff;
             --primary-hover: #292e34;
-            --ring: rgba(17, 20, 24, 0.10);
+            --ring: rgba(17, 20, 24, 0.12);
 
             /* Indikator Prioritas Fungsional */
             --p-high: #ef4444;
@@ -62,10 +62,10 @@
             --radius-xs: 5px;
             --radius-sm: 8px;
             --radius-md: 12px;
-            --radius-lg: 14px;
+            --radius-lg: 18px;
             --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.03);
-            --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
-            --shadow-modal: 0 16px 40px rgba(0, 0, 0, 0.12);
+            --shadow-card: 0 3px 18px -2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+            --shadow-modal: 0 20px 50px -10px rgba(0, 0, 0, 0.16);
 
             /* Transisi Halus */
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -109,15 +109,18 @@
             --p-low-text: #7dd3fc;
             --p-low-border: rgba(56, 189, 248, 0.30);
 
-            --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(255, 255, 255, 0.04);
-            --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.60);
+            --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.04);
+            --shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.75);
         }
 
         /* =========================================================================
-           GLOBAL RESETS
+           2. BASE RESET & TYPOGRAPHY SYSTEM (EXACT INHERITANCE)
            ========================================================================= */
         *, *::before, *::after {
             box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
@@ -130,23 +133,39 @@
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: 13.5px;
             line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        button, input, select {
-            font-family: inherit;
+        button, input, select, textarea {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: inherit;
+            line-height: inherit;
             color: inherit;
         }
 
         button {
             cursor: pointer;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: inherit;
+            transition: all var(--transition-fast);
+            -webkit-tap-highlight-color: transparent;
         }
 
-        :focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
+        button:focus-visible, input:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--ring);
+        }
+
+        button:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.35;
         }
 
         .visually-hidden {
@@ -161,8 +180,27 @@
             border: 0;
         }
 
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined' !important;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 18px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            vertical-align: middle;
+        }
+
         /* =========================================================================
-           LAYOUT SYSTEM (SIDE BY SIDE 2-COLUMN DESKTOP & TABLET)
+           3. UNIFIED 2-COLUMN DASHBOARD LAYOUT (PRESERVED)
            ========================================================================= */
         .app-layout {
             width: 100%;
@@ -179,16 +217,16 @@
             width: 100%;
             min-width: 0;
             background: var(--card-bg);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-card);
-            padding: 20px 18px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
             position: relative;
             box-sizing: border-box;
-            transition: border-color var(--transition-fast);
+            transition: border-color 0.2s ease;
         }
 
         .container:hover {
@@ -198,7 +236,7 @@
         .calendar-card {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
         }
 
         @media (min-width: 721px) {
@@ -209,7 +247,7 @@
         }
 
         /* =========================================================================
-           CARD HEADERS & ALIGNMENT
+           4. UNIFIED CARD HEADERS (MATCHED 1:1)
            ========================================================================= */
         .section-header, .calendar-header {
             display: flex;
@@ -229,7 +267,7 @@
 
         .section-title, .calendar-month-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.01em;
             color: var(--text-main);
@@ -243,14 +281,15 @@
         .cal-month-name, .brand-name {
             font-family: 'Outfit', sans-serif;
             text-transform: uppercase;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 800;
             letter-spacing: 0.06em;
             color: var(--text-main);
         }
 
         .cal-year-num, .brand-count {
-            font-size: 11px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 12.5px;
             color: var(--text-muted);
             font-weight: 600;
             letter-spacing: 0.02em;
@@ -259,7 +298,7 @@
         .header-nav-group, .calendar-nav-group {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
 
         .header-progress-line {
@@ -284,7 +323,7 @@
             border: 1px solid var(--border);
             color: var(--text-secondary);
             border-radius: var(--radius-xs);
-            height: 27px;
+            height: 29px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -293,13 +332,14 @@
         }
 
         .cal-nav-btn.text-btn {
-            padding: 0 8px;
-            font-size: 11px;
+            padding: 0 9px;
+            font-size: 11.5px;
             font-weight: 600;
+            line-height: 1;
         }
 
         .cal-nav-btn.icon-btn, .theme-toggle {
-            width: 27px;
+            width: 29px;
         }
 
         .cal-nav-btn:hover, .theme-toggle:hover {
@@ -309,7 +349,7 @@
         }
 
         /* =========================================================================
-           FORM INPUT TAMBAH TUGAS
+           5. TASK INPUT FORM
            ========================================================================= */
         .task-form-minimal {
             display: flex;
@@ -323,7 +363,7 @@
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 3px 4px 3px 10px;
+            padding: 3px 5px 3px 12px;
             gap: 6px;
             transition: all var(--transition-fast);
         }
@@ -337,13 +377,15 @@
         .task-input-clean {
             flex: 1;
             min-width: 0;
-            height: 30px;
+            height: 32px;
+            line-height: 32px;
             border: none;
             outline: none;
             background: transparent;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 500;
             color: var(--text-main);
+            padding: 0;
         }
 
         .task-input-clean::placeholder {
@@ -366,18 +408,22 @@
             border: none;
             border-radius: var(--radius-xs);
             padding: 2px;
-            height: 24px;
+            height: 26px;
         }
 
         .mini-pill {
             height: 20px;
-            padding: 0 6px;
+            padding: 0 7px;
             border-radius: 3px;
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 600;
+            line-height: 1;
             color: var(--text-muted);
             background: transparent;
             border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all var(--transition-fast);
         }
 
@@ -429,8 +475,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: var(--radius-xs);
             background: transparent;
             border: none;
@@ -460,8 +506,8 @@
         }
 
         .btn-add-clean {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             border-radius: var(--radius-xs);
             background: var(--primary);
             color: var(--primary-fg);
@@ -476,11 +522,11 @@
 
         .btn-add-clean:hover {
             background: var(--primary-hover);
-            transform: scale(1.04);
+            transform: scale(1.05);
         }
 
         /* =========================================================================
-           TOOLBAR: FILTER, SEARCH, VIEW
+           6. COMPACT MINIMALIST TOOLBAR
            ========================================================================= */
         .tasks-compact-toolbar {
             display: flex;
@@ -503,13 +549,17 @@
         .filter-btn {
             background: transparent;
             border: none;
-            height: 23px;
-            padding: 0 8px;
+            height: 24px;
+            padding: 0 9px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 11.5px;
             font-weight: 500;
+            line-height: 1;
             color: var(--text-muted);
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all var(--transition-fast);
             white-space: nowrap;
         }
@@ -528,7 +578,7 @@
         .toolbar-right-tools {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             flex-shrink: 0;
         }
 
@@ -539,10 +589,12 @@
         }
 
         .search-mini-input {
-            width: 105px;
-            height: 25px;
-            padding: 0 18px 0 22px;
-            font-size: 11px;
+            width: 110px;
+            height: 26px;
+            line-height: 26px;
+            padding: 0 20px 0 24px;
+            font-size: 11.5px;
+            font-weight: 400;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-xs);
@@ -552,7 +604,7 @@
         }
 
         .search-mini-input:focus {
-            width: 130px;
+            width: 135px;
             border-color: var(--border-focus);
             background: var(--card-bg);
         }
@@ -560,21 +612,27 @@
         .search-mini-icon {
             position: absolute;
             left: 6px;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-muted);
             pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .search-clear-mini {
             position: absolute;
             right: 5px;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-muted);
             cursor: pointer;
             line-height: 1;
             background: transparent;
             border: none;
             padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .view-switcher-clean {
@@ -589,9 +647,9 @@
         }
 
         .view-btn {
-            width: 22px;
-            height: 21px;
-            border-radius: 3px;
+            width: 24px;
+            height: 22px;
+            border-radius: 4px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -614,7 +672,7 @@
         }
 
         /* =========================================================================
-           TASK LIST, ROWS & TABLE
+           7. TASK LIST & TABLE VIEW
            ========================================================================= */
         .task-list {
             list-style: none;
@@ -622,8 +680,8 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            max-height: min(420px, calc(100vh - 280px));
+            gap: 7px;
+            max-height: min(440px, calc(100vh - 280px));
             min-height: 0;
             overflow-y: auto;
             padding-right: 2px;
@@ -633,12 +691,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 10px;
+            padding: 9px 12px;
             background: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-sm);
-            font-size: 12.5px;
-            gap: 8px;
+            font-size: 12.8px;
+            line-height: 1.4;
+            gap: 10px;
             transition: all var(--transition-fast);
             position: relative;
             user-select: none;
@@ -674,7 +733,7 @@
         .task-left {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 9px;
             flex: 1;
             min-width: 0;
         }
@@ -702,10 +761,10 @@
         .task-checkbox {
             appearance: none;
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 17px;
+            height: 17px;
             border: 1.5px solid var(--border-hover);
-            border-radius: 4px;
+            border-radius: 5px;
             background: var(--card-bg);
             cursor: pointer;
             display: grid;
@@ -726,14 +785,16 @@
         .task-checkbox:checked::before {
             content: "";
             width: 4px;
-            height: 7px;
+            height: 8px;
             border: solid var(--primary-fg);
             border-width: 0 1.6px 1.6px 0;
             transform: rotate(45deg) translate(-0.5px, -1px);
         }
 
         .task-text {
+            font-size: 12.8px;
             font-weight: 500;
+            line-height: 1.4;
             color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
@@ -744,7 +805,7 @@
         .task-right {
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
             flex-shrink: 0;
         }
 
@@ -766,12 +827,12 @@
         .priority-pill-badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            font-size: 10.5px;
+            gap: 5px;
+            font-size: 11px;
             font-weight: 600;
-            padding: 1px 7px;
-            border-radius: 999px;
             line-height: 1.3;
+            padding: 2px 8px;
+            border-radius: 999px;
             border: none;
         }
 
@@ -794,6 +855,7 @@
             font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
+            line-height: 1.3;
         }
 
         .task-due-text.is-overdue {
@@ -820,8 +882,8 @@
         }
 
         .btn-action {
-            width: 24px;
-            height: 24px;
+            width: 25px;
+            height: 25px;
             border-radius: var(--radius-xs);
             display: inline-flex;
             align-items: center;
@@ -832,6 +894,7 @@
             cursor: pointer;
             transition: all var(--transition-fast);
             padding: 0;
+            line-height: 1;
         }
 
         .btn-action:hover {
@@ -846,7 +909,7 @@
 
         .tasks-table-wrapper {
             width: 100%;
-            max-height: min(420px, calc(100vh - 280px));
+            max-height: min(440px, calc(100vh - 280px));
             overflow-y: auto;
             overflow-x: auto;
             border: 1px solid var(--border);
@@ -856,14 +919,15 @@
         .tasks-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12px;
+            font-size: 12.5px;
+            line-height: 1.4;
             text-align: left;
         }
 
         .tasks-table th {
             background: var(--bg);
-            padding: 8px 10px;
-            font-size: 10.5px;
+            padding: 9px 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border);
@@ -872,7 +936,7 @@
         }
 
         .tasks-table td {
-            padding: 8px 10px;
+            padding: 10px 12px;
             border-bottom: 1px solid var(--border);
             color: var(--text-main);
             vertical-align: middle;
@@ -900,11 +964,15 @@
             cursor: pointer;
         }
 
+        /* =========================================================================
+           8. EMPTY STATE & FOOTER
+           ========================================================================= */
         .empty-state {
-            padding: 24px 12px;
+            padding: 28px 12px;
             text-align: center;
             color: var(--text-muted);
-            font-size: 12px;
+            font-size: 12.5px;
+            font-weight: 400;
             margin: 0;
         }
 
@@ -912,17 +980,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 10px;
+            padding-top: 12px;
             border-top: 1px solid var(--border);
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
         }
 
         .task-summary {
-            font-size: 11.5px;
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 500;
             margin: 0;
+            line-height: 1.4;
         }
 
         .footer-actions {
@@ -931,14 +1000,18 @@
         }
 
         .btn-footer {
-            font-size: 11px;
+            font-size: 11.5px;
             font-weight: 500;
+            line-height: 1;
             color: var(--text-secondary);
             background: var(--bg-subtle);
             border: none;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: var(--radius-xs);
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all var(--transition-fast);
         }
 
@@ -953,7 +1026,8 @@
         }
 
         .storage-notice {
-            font-size: 10.5px;
+            font-size: 11px;
+            font-weight: 400;
             color: var(--text-muted);
             width: 100%;
             text-align: right;
@@ -962,12 +1036,12 @@
         }
 
         /* =========================================================================
-           COMPACT CALENDAR & AGENDA
+           9. PERFECT SQUARE CALENDAR & AGENDA
            ========================================================================= */
         .calendar-weekdays {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 5px;
             text-align: center;
             font-size: 11px;
             font-weight: 700;
@@ -979,21 +1053,25 @@
 
         .calendar-days-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 5px;
         }
 
+        /* Perfect Square Calendar Day Cells (1:1 Aspect Ratio) */
         .cal-day-cell {
-            height: 32px;
-            min-height: 28px;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            min-width: 0;
+            min-height: 0;
+            height: auto;
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: var(--radius-xs);
+            border-radius: var(--radius-sm);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 11.5px;
+            font-size: 12.5px;
             font-weight: 500;
             color: var(--text-main);
             cursor: pointer;
@@ -1005,6 +1083,7 @@
 
         .cal-day-cell > span {
             line-height: 1;
+            pointer-events: none;
         }
 
         .cal-day-cell:hover:not(.is-selected) {
@@ -1013,7 +1092,7 @@
         }
 
         .cal-day-cell.other-month {
-            opacity: 0.28;
+            opacity: 0.3;
             color: var(--text-muted);
         }
 
@@ -1025,10 +1104,10 @@
         .cal-day-cell.is-today::after {
             content: "";
             position: absolute;
-            top: 3px;
-            right: 3px;
-            width: 3.5px;
-            height: 3.5px;
+            top: 4px;
+            right: 4px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             background: var(--primary);
         }
@@ -1038,28 +1117,33 @@
             color: var(--primary-fg);
             border-color: var(--primary);
             font-weight: 700;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
         }
 
         .cal-day-cell.drag-over {
             background: var(--primary) !important;
             color: var(--primary-fg) !important;
-            transform: scale(1.06);
+            transform: scale(1.08);
             z-index: 5;
-            box-shadow: 0 0 0 2px var(--border);
+            box-shadow: 0 0 0 2px var(--primary-fg);
         }
 
         .cal-day-dots {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
             display: flex;
-            gap: 2px;
+            gap: 2.5px;
             align-items: center;
             justify-content: center;
-            height: 3.5px;
-            margin-top: 1.5px;
+            height: 4px;
+            pointer-events: none;
         }
 
         .cal-dot {
-            width: 3.5px;
-            height: 3.5px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             background: var(--p-med);
             border: none;
@@ -1079,8 +1163,8 @@
         .calendar-agenda {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            padding-top: 12px;
+            gap: 10px;
+            padding-top: 14px;
             border-top: 1px solid var(--border);
         }
 
@@ -1091,16 +1175,18 @@
         }
 
         .agenda-header h3 {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-main);
             margin: 0;
+            line-height: 1.3;
         }
 
         .agenda-count {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 600;
-            padding: 1px 7px;
+            line-height: 1.2;
+            padding: 2px 8px;
             border-radius: 999px;
             background: var(--bg-subtle);
             border: none;
@@ -1113,7 +1199,7 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 7px;
             max-height: 180px;
             overflow-y: auto;
         }
@@ -1122,12 +1208,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 7px 10px;
+            padding: 9px 12px;
             background: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-sm);
-            font-size: 12px;
-            gap: 8px;
+            font-size: 12.8px;
+            line-height: 1.4;
+            gap: 10px;
             transition: all var(--transition-fast);
         }
 
@@ -1147,13 +1234,15 @@
         .agenda-item-left {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 9px;
             flex: 1;
             min-width: 0;
         }
 
         .agenda-title {
+            font-size: 12.8px;
             font-weight: 500;
+            line-height: 1.4;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -1162,14 +1251,15 @@
         .agenda-item-right {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-shrink: 0;
         }
 
         .agenda-time {
-            font-size: 10.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
+            line-height: 1;
         }
 
         .agenda-actions {
@@ -1179,15 +1269,16 @@
         }
 
         .agenda-empty {
-            font-size: 11.5px;
+            font-size: 12px;
+            font-weight: 400;
             color: var(--text-muted);
             text-align: center;
-            padding: 10px 4px;
+            padding: 14px 8px;
             margin: 0;
         }
 
         /* =========================================================================
-           MODALS & TOAST NOTIFICATIONS
+           10. EDIT MODAL DIALOG & TOAST NOTIFICATIONS
            ========================================================================= */
         .modal {
             border: none;
@@ -1202,7 +1293,7 @@
             place-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.16s ease;
+            transition: opacity 0.2s ease;
         }
 
         .modal[open] {
@@ -1211,24 +1302,24 @@
         }
 
         .modal::backdrop {
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.45);
         }
 
         [data-theme="dark"] .modal::backdrop {
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.75);
         }
 
         .modal-card {
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             box-shadow: var(--shadow-modal);
-            padding: 20px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
         }
 
         .modal-header {
@@ -1241,15 +1332,16 @@
 
         .modal-header h3 {
             font-family: 'Outfit', sans-serif;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-main);
             margin: 0;
+            line-height: 1.2;
         }
 
         .modal-close {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             border-radius: var(--radius-xs);
             display: flex;
             align-items: center;
@@ -1259,6 +1351,7 @@
             border: none;
             cursor: pointer;
             padding: 0;
+            line-height: 1;
         }
 
         .modal-close:hover {
@@ -1269,7 +1362,7 @@
         .modal-body {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .modal-field {
@@ -1285,24 +1378,29 @@
         }
 
         .modal-label {
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
+            line-height: 1.3;
         }
 
         .modal-char-counter {
-            font-size: 10.5px;
+            font-size: 11px;
+            font-weight: 400;
             color: var(--text-muted);
+            line-height: 1.3;
         }
 
         .modal-input {
             width: 100%;
-            height: 34px;
+            height: 38px;
+            line-height: 38px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 0 10px;
-            font-size: 12.5px;
+            padding: 0 12px;
+            font-size: 13px;
+            font-weight: 500;
             color: var(--text-main);
             outline: none;
         }
@@ -1315,29 +1413,35 @@
 
         .modal-due-row {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .modal-due-input {
             flex: 1;
-            height: 34px;
+            height: 36px;
+            line-height: 36px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 0 8px;
-            font-size: 12px;
+            padding: 0 10px;
+            font-size: 12.5px;
+            font-weight: 500;
             color: var(--text-main);
         }
 
         .btn-clear-due {
-            padding: 0 10px;
+            padding: 0 12px;
             background: var(--bg-subtle);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 500;
+            line-height: 1;
             color: var(--text-secondary);
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-clear-due:hover {
@@ -1346,21 +1450,25 @@
 
         .modal-due-presets {
             display: flex;
-            gap: 4px;
-            margin-top: 2px;
+            gap: 5px;
+            margin-top: 3px;
         }
 
         .btn-preset {
             flex: 1;
-            padding: 4px 6px;
+            padding: 5px 6px;
             background: var(--bg-subtle);
             border: none;
             border-radius: var(--radius-xs);
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 500;
+            line-height: 1;
             color: var(--text-secondary);
             text-align: center;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-preset:hover {
@@ -1371,45 +1479,53 @@
         .modal-checkbox-label {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 9px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 12.5px;
+            font-weight: 500;
+            line-height: 1.3;
             color: var(--text-secondary);
         }
 
         .modal-meta-info {
-            font-size: 10.5px;
+            font-size: 11px;
+            font-weight: 400;
             color: var(--text-muted);
-            padding: 6px 8px;
+            padding: 7px 10px;
             background: var(--bg-subtle);
             border-radius: var(--radius-xs);
             border: none;
+            line-height: 1.4;
         }
 
         .modal-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            padding-top: 10px;
+            gap: 10px;
+            padding-top: 12px;
             border-top: 1px solid var(--border);
         }
 
         .modal-actions-right {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .btn-secondary {
-            height: 32px;
-            padding: 0 12px;
+            height: 34px;
+            padding: 0 14px;
             background: var(--bg-subtle);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 500;
+            line-height: 1;
             color: var(--text-secondary);
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-secondary:hover {
@@ -1418,24 +1534,30 @@
         }
 
         .btn-primary {
-            height: 32px;
-            padding: 0 14px;
+            height: 34px;
+            padding: 0 16px;
             background: var(--primary);
             color: var(--primary-fg);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 600;
+            line-height: 1;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-danger-text {
             color: var(--text-muted);
-            font-size: 11.5px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1;
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 4px;
+            padding: 6px;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -1461,36 +1583,37 @@
             pointer-events: auto;
             background: var(--primary);
             color: var(--primary-fg);
-            padding: 7px 12px;
+            padding: 8px 14px;
             border-radius: 999px;
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 500;
+            line-height: 1.3;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            gap: 10px;
+            box-shadow: var(--shadow-modal);
         }
 
         .toast-undo-btn {
             background: rgba(255, 255, 255, 0.2);
             color: var(--primary-fg);
-            padding: 2px 7px;
+            padding: 2px 8px;
             border-radius: 999px;
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 700;
+            line-height: 1;
             text-transform: uppercase;
             cursor: pointer;
             border: none;
         }
 
         [data-theme="dark"] .toast-undo-btn {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.25);
         }
 
         /* =========================================================================
-           RESPONSIVE BREAKPOINTS (SIDE-BY-SIDE DESKTOP & TABLET, VERTICAL MOBILE)
+           11. RESPONSIVE MEDIA QUERIES (SQUARE CALENDAR CELLS PRESERVED)
            ========================================================================= */
-        /* Tablet & Small Laptop (Keep 2 columns side-by-side) */
         @media (max-width: 900px) and (min-width: 721px) {
             .app-layout {
                 max-width: 100%;
@@ -1500,8 +1623,8 @@
             }
 
             .container {
-                padding: 16px 14px;
-                gap: 12px;
+                padding: 18px 14px;
+                gap: 14px;
             }
 
             .tasks-compact-toolbar {
@@ -1509,25 +1632,19 @@
             }
 
             .filter-btn {
-                padding: 0 6px;
-                font-size: 10.5px;
+                padding: 0 7px;
+                font-size: 11px;
             }
 
             .search-mini-input {
-                width: 90px;
+                width: 95px;
             }
 
             .search-mini-input:focus {
-                width: 115px;
-            }
-
-            .cal-day-cell {
-                height: 30px;
-                font-size: 11px;
+                width: 120px;
             }
         }
 
-        /* Mobile Phones (Stack vertically: To-Do first, Calendar second) */
         @media (max-width: 720px) {
             .app-layout {
                 grid-template-columns: minmax(0, 1fr);
@@ -1537,7 +1654,7 @@
             }
 
             .container {
-                padding: 16px 14px;
+                padding: 18px 14px;
                 gap: 14px;
             }
 
@@ -1555,12 +1672,7 @@
             }
 
             .search-mini-input {
-                width: 110px;
-            }
-
-            .cal-day-cell {
-                height: 36px;
-                font-size: 12px;
+                width: 120px;
             }
         }
 
